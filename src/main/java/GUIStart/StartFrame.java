@@ -5,6 +5,11 @@
  */
 package GUIStart;
 
+import GUIEmployee.FrameEmployee;
+import GUIUser.FrameUser;
+import java.util.Arrays;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author user-ubunto
@@ -103,14 +108,39 @@ public class StartFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String user = this.TextFieldUser.getText();
+        char[] password = this.PasswordField.getPassword();        
         
-        
-        
-        
+        boolean enter = this.reviewAdminEnter(user, password);
+        if(enter){
+            FrameEmployee frameEmployee = new FrameEmployee();
+            frameEmployee.setVisible(true);
+        }else{
+            enter = this.reviewUserEnter(user, password);
+            if (enter) {
+                FrameUser frameUser = new FrameUser();
+                frameUser.setVisible(true);
+            }else{
+                JOptionPane.showMessageDialog(null, "Ingrese los datos correctos");
+            }
+        }                                                            
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private boolean reviewAdminEnter(String user, char[] password){        
+        char[] adminPassword = {'1','2','3','4'};
+        if (user.equals("admin") && Arrays.equals(adminPassword, password)) {
+            return true;
+        }
+        return false;
+    }
 
-
+    private boolean reviewUserEnter(String user, char[] password){
+        char[] userPassword = {'a','b','c','d'};
+        if (user.equals("user") && Arrays.equals(userPassword, password)) {
+            return true;
+        }
+        return false;
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPasswordField PasswordField;
     private javax.swing.JTextField TextFieldUser;
