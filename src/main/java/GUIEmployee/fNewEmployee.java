@@ -199,7 +199,7 @@ public class fNewEmployee extends javax.swing.JFrame {
         this.LabelCode.setForeground(Color.black);        
         this.LabelDPI.setForeground(Color.black);        
         this.LabelEMail.setForeground(Color.black);        
-        this.LabelAddress.setForeground(Color.black);        
+        this.LabelAddress.setForeground(Color.black);
     }
 
     /**

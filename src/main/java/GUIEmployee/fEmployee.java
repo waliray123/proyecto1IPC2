@@ -72,6 +72,11 @@ public class fEmployee extends javax.swing.JFrame {
 
         ButtonSell.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
         ButtonSell.setText("Vender");
+        ButtonSell.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonSellActionPerformed(evt);
+            }
+        });
 
         ButtonOrder.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
         ButtonOrder.setText("Realizar Pedido");
@@ -157,6 +162,11 @@ public class fEmployee extends javax.swing.JFrame {
         fNewEmployee newEmployee = new fNewEmployee();
         newEmployee.setVisible(true);
     }//GEN-LAST:event_ButtonNewEmployeeActionPerformed
+
+    private void ButtonSellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonSellActionPerformed
+        fSell newSell = new fSell();
+        newSell.setVisible(true);
+    }//GEN-LAST:event_ButtonSellActionPerformed
 
   
 
