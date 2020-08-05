@@ -9,12 +9,12 @@ package GUIUser;
  *
  * @author user-ubunto
  */
-public class FrameUser extends javax.swing.JFrame {
+public class fUser extends javax.swing.JFrame {
 
     /**
      * Creates new form FrameEmployee
      */
-    public FrameUser() {
+    public fUser() {
         initComponents();
     }
 

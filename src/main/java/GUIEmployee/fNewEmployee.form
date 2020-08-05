@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+  <Properties>
+    <Property name="defaultCloseOperation" type="int" value="3"/>
+  </Properties>
+  <SyntheticProperties>
+    <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
+  </SyntheticProperties>
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                      <Component id="LabelName" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="LabelDPI" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="LabelPhone" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="TextFieldName" alignment="0" pref="180" max="32767" attributes="0"/>
+                      <Component id="TextFieldDpi" alignment="0" max="32767" attributes="0"/>
+                      <Component id="TextFieldPhone" alignment="0" max="32767" attributes="0"/>
+                  </Group>
+                  <Component id="LabelCode" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="TextFieldCode" alignment="0" min="-2" pref="180" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="LabelAddress" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="LabelEMail" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="LabelNIT" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="TextFieldNit" alignment="0" max="32767" attributes="0"/>
+                  <Component id="TextFieldEMail" alignment="0" max="32767" attributes="0"/>
+                  <Component id="TextFieldAddress" alignment="0" max="32767" attributes="0"/>
+                  <Component id="ButtonSaveClient" alignment="0" pref="180" max="32767" attributes="0"/>
+              </Group>
+              <EmptySpace pref="36" max="32767" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace pref="55" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="LabelCode" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="TextFieldCode" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="LabelName" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="TextFieldName" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="LabelDPI" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="TextFieldDpi" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="LabelPhone" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="TextFieldPhone" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="LabelNIT" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="TextFieldNit" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="LabelEMail" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="TextFieldEMail" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="LabelAddress" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="TextFieldAddress" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="ButtonSaveClient" min="-2" pref="54" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+              <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Component class="javax.swing.JTextField" name="TextFieldName">
+    </Component>
+    <Component class="javax.swing.JLabel" name="LabelAddress">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Direccion*"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="TextFieldAddress">
+    </Component>
+    <Component class="javax.swing.JTextField" name="TextFieldDpi">
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="TextFieldDpiKeyTyped"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="ButtonSaveClient">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Guardar Cliente"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ButtonSaveClientActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="LabelPhone">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Telefono*"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="TextFieldPhone">
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="TextFieldPhoneKeyTyped"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="LabelNIT">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="NIT"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="TextFieldNit">
+    </Component>
+    <Component class="javax.swing.JLabel" name="LabelEMail">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Correo Electronico*"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="LabelName">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Nombre del cliente*"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="TextFieldEMail">
+    </Component>
+    <Component class="javax.swing.JLabel" name="LabelDPI">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="DPI*"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="TextFieldCode">
+    </Component>
+    <Component class="javax.swing.JLabel" name="LabelCode">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Codigo de empleado*"/>
+      </Properties>
+    </Component>
+  </SubComponents>
+</Form>

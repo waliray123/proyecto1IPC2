@@ -5,8 +5,8 @@
  */
 package GUIStart;
 
-import GUIEmployee.FrameEmployee;
-import GUIUser.FrameUser;
+import GUIEmployee.fEmployee;
+import GUIUser.fUser;
 import java.util.Arrays;
 import javax.swing.JOptionPane;
 
@@ -113,12 +113,12 @@ public class StartFrame extends javax.swing.JFrame {
         
         boolean enter = this.reviewAdminEnter(user, password);
         if(enter){
-            FrameEmployee frameEmployee = new FrameEmployee();
+            fEmployee frameEmployee = new fEmployee();
             frameEmployee.setVisible(true);
         }else{
             enter = this.reviewUserEnter(user, password);
             if (enter) {
-                FrameUser frameUser = new FrameUser();
+                fUser frameUser = new fUser();
                 frameUser.setVisible(true);
             }else{
                 JOptionPane.showMessageDialog(null, "Ingrese los datos correctos");
@@ -135,7 +135,7 @@ public class StartFrame extends javax.swing.JFrame {
     }
 
     private boolean reviewUserEnter(String user, char[] password){
-        char[] userPassword = {'a','b','c','d'};
+        char[] userPassword = {'a','s','d','f'};
         if (user.equals("user") && Arrays.equals(userPassword, password)) {
             return true;
         }
