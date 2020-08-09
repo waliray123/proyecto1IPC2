@@ -19,9 +19,17 @@ import javax.swing.table.TableRowSorter;
 public class fSell extends javax.swing.JFrame {
 
     private TableRowSorter tableRowSorter;
+    private TableRowSorter tableRowSorterClient;
     
-    private DefaultTableModel dtm;
+    private DefaultTableModel dtmProduct;
+    private DefaultTableModel dtmClient;
     
+    private String IDProduct;
+    private String IDClient;
+    private double priceProduct;
+    private int existence;
+    private double totalToPay;
+    private double creditClient;
     
     /**
      * Creates new form fSell
@@ -29,9 +37,19 @@ public class fSell extends javax.swing.JFrame {
     public fSell() {
         initComponents();
         
-        dtm = (DefaultTableModel) this.jTable1.getModel();
+        dtmProduct = (DefaultTableModel) this.TableProduct.getModel();                
+        dtmClient = (DefaultTableModel) this.TableClient.getModel();
+        
+        this.priceProduct = 0;
+        this.existence = 0;
+        this.totalToPay = 0;
+        this.IDClient = "";
+        this.IDProduct = "";
+        
+        setTextfieldNotEditables();
+        verifySelectedCheckBox();
     }
-
+        
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -41,18 +59,229 @@ public class fSell extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
+        CheckBoxCash = new javax.swing.JCheckBox();
+        CheckBoxCredit = new javax.swing.JCheckBox();
+        jLabel10 = new javax.swing.JLabel();
+        TextFieldPayCash = new javax.swing.JTextField();
+        TextFieldPayCredit = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        ButtonPay = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        TableClient = new javax.swing.JTable();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        TextFieldClientName = new javax.swing.JTextField();
+        TextFieldClientCredit = new javax.swing.JTextField();
+        TextFieldFilterClient = new javax.swing.JTextField();
+        jPanel3 = new javax.swing.JPanel();
+        TextFieldCodeProduct = new javax.swing.JTextField();
+        TextFieldQuantity = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        TableProduct = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         TextFieldFilter = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        TextFieldNameProduct = new javax.swing.JTextField();
+        TextFieldTotal = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabel7.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        jLabel7.setText("Tipo de Pago");
+
+        CheckBoxCash.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        CheckBoxCash.setText("Efectivo");
+        CheckBoxCash.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CheckBoxCashActionPerformed(evt);
+            }
+        });
+
+        CheckBoxCredit.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        CheckBoxCredit.setText("Credito");
+        CheckBoxCredit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CheckBoxCreditActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel7)
+                    .addComponent(CheckBoxCash)
+                    .addComponent(CheckBoxCredit))
+                .addContainerGap(23, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel7)
+                .addGap(16, 16, 16)
+                .addComponent(CheckBoxCash)
+                .addGap(7, 7, 7)
+                .addComponent(CheckBoxCredit)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jLabel10.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        jLabel10.setText("Pago en efectivo");
+
+        TextFieldPayCash.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        TextFieldPayCash.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TextFieldPayCashKeyTyped(evt);
+            }
+        });
+
+        TextFieldPayCredit.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        TextFieldPayCredit.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TextFieldPayCreditKeyTyped(evt);
+            }
+        });
+
+        jLabel11.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        jLabel11.setText("Pago en credito");
+
+        ButtonPay.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        ButtonPay.setText("Pagar");
+        ButtonPay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonPayActionPerformed(evt);
+            }
+        });
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabel6.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        jLabel6.setText("Cliente");
+
+        jLabel9.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        jLabel9.setText("Filtrar");
+
+        TableClient.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        TableClient.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {"Juan", "11111", "0101", "800"},
+                {"MAria", "22222", "9817", "0"},
+                {"Pedro", "3333", "7871", "1000"}
+            },
+            new String [] {
+                "Nombre", "NIT", "DPI", "Credito"
+            }
+        ));
+        TableClient.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TableClientMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(TableClient);
+
+        jLabel12.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        jLabel12.setText("Nombre del Cliente");
+
+        jLabel13.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        jLabel13.setText("Credito del Cliente");
+
+        TextFieldClientName.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+
+        TextFieldClientCredit.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+
+        TextFieldFilterClient.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        TextFieldFilterClient.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TextFieldFilterClientKeyTyped(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addGap(199, 199, 199)
+                                .addComponent(jLabel9)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(TextFieldFilterClient))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel13)
+                            .addComponent(jLabel12)
+                            .addComponent(TextFieldClientName, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(TextFieldClientCredit, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel9)
+                    .addComponent(TextFieldFilterClient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel12)
+                .addGap(5, 5, 5)
+                .addComponent(TextFieldClientName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel13)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(TextFieldClientCredit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(25, Short.MAX_VALUE))
+        );
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        TextFieldCodeProduct.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+
+        TextFieldQuantity.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        TextFieldQuantity.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                TextFieldQuantityFocusLost(evt);
+            }
+        });
+        TextFieldQuantity.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TextFieldQuantityKeyTyped(evt);
+            }
+        });
+
+        TableProduct.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        TableProduct.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"1234", "papas", "fritoLAy", "89", "1", "0"},
-                {"5478", "dulces", "candy", "100", "0.5", null}
+                {"5478", "dulces", "candy", "100", "0.5", "7"},
+                {"2343234", "afeas", "hdtrh", "34", "5", "8"},
+                {"46456", "ryrrt", "jtyj", "76", "6", "8"},
+                {"34534", "dsfgs", "sdfg", "98", "8", "9"}
             },
             new String [] {
                 "Codigo", "Nombre", "Fabricante", "Existencia", "Precio", "Garantia"
@@ -66,17 +295,102 @@ public class fSell extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        TableProduct.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TableProductMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(TableProduct);
 
+        jLabel1.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
         jLabel1.setText("Producto");
 
+        jLabel2.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
         jLabel2.setText("Filtrar");
 
+        TextFieldFilter.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
         TextFieldFilter.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 TextFieldFilterKeyTyped(evt);
             }
         });
+
+        jLabel3.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        jLabel3.setText("Nombre del Producto");
+
+        jLabel4.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        jLabel4.setText("Codigo del Producto");
+
+        jLabel5.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        jLabel5.setText("Cantidad");
+
+        jLabel8.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        jLabel8.setText("Total a Pagar");
+
+        TextFieldNameProduct.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+
+        TextFieldTotal.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(153, 153, 153)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(TextFieldFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(TextFieldNameProduct)
+                            .addComponent(TextFieldCodeProduct)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(26, 26, 26)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(TextFieldTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8)
+                            .addComponent(TextFieldQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(jLabel2))
+                    .addComponent(TextFieldFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(TextFieldQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TextFieldNameProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(TextFieldCodeProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TextFieldTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -84,27 +398,50 @@ public class fSell extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(TextFieldFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(65, Short.MAX_VALUE))
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(TextFieldPayCredit, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel10)
+                                    .addComponent(TextFieldPayCash, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel11))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(ButtonPay, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(TextFieldFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(187, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(ButtonPay, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel10)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(TextFieldPayCash, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(15, 15, 15))
+                            .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(TextFieldPayCredit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(2, 2, 2))
         );
 
         pack();
@@ -112,7 +449,9 @@ public class fSell extends javax.swing.JFrame {
 
     private void TextFieldFilterKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextFieldFilterKeyTyped
                      
-        
+        /*This is the filter of the rows of the table that 
+         *contains the products, you can filter the column 0, 1 and 2
+        */
         this.TextFieldFilter.addKeyListener(new KeyAdapter(){            
             @Override
             public void keyReleased(KeyEvent ke){
@@ -120,18 +459,275 @@ public class fSell extends javax.swing.JFrame {
             }            
         });
         
-        tableRowSorter = new TableRowSorter(dtm);
-        this.jTable1.setRowSorter(tableRowSorter);
+        tableRowSorter = new TableRowSorter(dtmProduct);
+        this.TableProduct.setRowSorter(tableRowSorter);
         
     }//GEN-LAST:event_TextFieldFilterKeyTyped
 
+    private void TableProductMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableProductMouseClicked
+        resetTextFieldsAndCheckbox();
+        int select = this.TableProduct.rowAtPoint(evt.getPoint());        
+        this.TextFieldCodeProduct.setText(String.valueOf(this.TableProduct.getValueAt(select,0)));
+        this.TextFieldNameProduct.setText(String.valueOf(this.TableProduct.getValueAt(select,1)));
+        
+        this.IDProduct = this.TextFieldCodeProduct.getText();
+        this.existence = Integer.parseInt(String.valueOf(this.TableProduct.getValueAt(select,3)));
+        this.priceProduct = Double.parseDouble(String.valueOf(this.TableProduct.getValueAt(select,4)));        
+    }//GEN-LAST:event_TableProductMouseClicked
 
+    private void CheckBoxCashActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CheckBoxCashActionPerformed
+        verifySelectedCheckBox();
+    }//GEN-LAST:event_CheckBoxCashActionPerformed
 
+    private void TextFieldQuantityKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextFieldQuantityKeyTyped
+        validateOnlyNumbers(evt);        
+        validateQuantity(evt);
+        validateZerosOnlyInRight();
+    }//GEN-LAST:event_TextFieldQuantityKeyTyped
+
+    private void CheckBoxCreditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CheckBoxCreditActionPerformed
+        verifySelectedCheckBox();
+    }//GEN-LAST:event_CheckBoxCreditActionPerformed
+
+    private void TextFieldQuantityFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_TextFieldQuantityFocusLost
+        validateTextFieldQuantity();
+        if (this.TextFieldQuantity.getText().equals("")) {
+            this.TextFieldTotal.setText("");
+            this.totalToPay = 0;
+        }else{
+            obtainTotalToPay();            
+        }
+    }//GEN-LAST:event_TextFieldQuantityFocusLost
+
+    private void TextFieldFilterClientKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextFieldFilterClientKeyTyped
+       /*This is the filter of the rows of the table that 
+         *contains the Client, you can filter the column 0and 1
+        */
+        this.TextFieldFilterClient.addKeyListener(new KeyAdapter(){            
+            @Override
+            public void keyReleased(KeyEvent ke){
+                tableRowSorterClient.setRowFilter(RowFilter.regexFilter("(?i)"+TextFieldFilterClient.getText(), 0,1));
+            }            
+        });
+        
+        tableRowSorterClient = new TableRowSorter(dtmClient);
+        this.TableClient.setRowSorter(tableRowSorterClient);
+    }//GEN-LAST:event_TextFieldFilterClientKeyTyped
+
+    private void TableClientMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableClientMouseClicked
+        int select = this.TableClient.rowAtPoint(evt.getPoint());
+        this.TextFieldClientName.setText(String.valueOf(this.TableClient.getValueAt(select,0)));
+        this.TextFieldClientCredit.setText(String.valueOf(this.TableClient.getValueAt(select,3)));
+        this.IDClient = String.valueOf(this.TableClient.getValueAt(select,2));
+        try{
+            this.creditClient = Integer.parseInt(this.TextFieldClientCredit.getText()); 
+        }catch(NumberFormatException e){
+            System.out.println("El credito no tiene formato double");
+        }        
+    }//GEN-LAST:event_TableClientMouseClicked
+
+    private void ButtonPayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonPayActionPerformed
+        validatePay();        
+    }//GEN-LAST:event_ButtonPayActionPerformed
+
+    private void TextFieldPayCashKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextFieldPayCashKeyTyped
+        validateOnlyNumbers(evt);
+    }//GEN-LAST:event_TextFieldPayCashKeyTyped
+
+    private void TextFieldPayCreditKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextFieldPayCreditKeyTyped
+        validateOnlyNumbers(evt);
+    }//GEN-LAST:event_TextFieldPayCreditKeyTyped
+
+    /**
+     * This method is used by textfields so that the user does 
+     * not enter any character that is not a digit.
+     *
+     * @param evt
+    */
+    public void validateOnlyNumbers(java.awt.event.KeyEvent evt){
+        char validate = evt.getKeyChar();
+        if (Character.isDigit(validate) == false) {
+            evt.consume();
+        }        
+    }
+    
+    private void setTextfieldNotEditables(){
+        this.TextFieldNameProduct.setEditable(false);
+        this.TextFieldCodeProduct.setEditable(false);
+        this.TextFieldTotal.setEditable(false);
+        this.TextFieldClientCredit.setEditable(false);
+        this.TextFieldClientName.setEditable(false);
+    }        
+            
+    private void validateQuantity(java.awt.event.KeyEvent evt){
+        if (this.TextFieldQuantity.getText().length() > 0) {
+            try{
+                String quantityStr = (this.TextFieldQuantity.getText())+evt.getKeyChar();
+                int quantity = Integer.parseInt(quantityStr);
+                if (quantity > this.existence) { 
+                    evt.consume();
+                }
+            }catch(NumberFormatException e){
+                
+            }            
+        }
+    }
+    
+    private void validateZerosOnlyInRight(){
+        if (this.TextFieldQuantity.getText().length() > 0) {                        
+            String quantityStr = (this.TextFieldQuantity.getText());
+            String quantity1Char = String.valueOf(quantityStr.charAt(0));
+            if (quantity1Char.equals("0")) {
+                quantityStr = quantityStr.replace("0","");
+                this.TextFieldQuantity.setText(quantityStr);
+            }
+        }
+    }
+    
+    private void validateTextFieldQuantity(){        
+        try{
+            String quantityStr = (this.TextFieldQuantity.getText());
+            int quantity = Integer.parseInt(quantityStr);
+            if (quantity > this.existence) {
+                this.TextFieldQuantity.setText("");            
+            }
+        }catch(NumberFormatException e){
+                
+        }  
+    }
+    
+    private void obtainTotalToPay(){
+        try{
+            String quantityStr = (this.TextFieldQuantity.getText());
+            int quantity = Integer.parseInt(quantityStr);
+            double totalToPay = this.priceProduct * quantity;
+            this.TextFieldTotal.setText(String.valueOf(totalToPay));
+            this.totalToPay = totalToPay;
+        }catch(NumberFormatException e){
+            
+        }
+    }
+    
+    private void verifySelectedCheckBox(){
+        this.TextFieldPayCash.setEditable(false);
+        this.TextFieldPayCredit.setEditable(false);
+        if (this.CheckBoxCash.isSelected()){            
+            if (this.CheckBoxCredit.isSelected()){
+                this.TextFieldPayCash.setEditable(true);
+                this.TextFieldPayCredit.setEditable(true);
+                this.TextFieldPayCash.setText("");
+                this.TextFieldPayCredit.setText("");
+            }else{
+                this.TextFieldPayCash.setText(String.valueOf(this.totalToPay));
+            }
+        }else{
+            if (this.CheckBoxCredit.isSelected()){
+                validateIsCredit();                               
+            }else{
+                this.TextFieldPayCash.setText("");
+                this.TextFieldPayCredit.setText("");
+            }
+        }
+        
+        
+    }
+    
+    private void validateIsCredit(){
+        if (this.creditClient >= this.totalToPay) {
+            this.TextFieldPayCredit.setText(String.valueOf(this.totalToPay));
+        }else{
+            //Enviar mensaje que no tiene suficiente credito
+            this.CheckBoxCredit.setSelected(false);
+        }
+    }    
+    
+    private void resetTextFieldsAndCheckbox(){
+        this.TextFieldQuantity.setText("");
+        this.TextFieldTotal.setText("");
+        this.TextFieldPayCash.setText("");
+        this.TextFieldPayCredit.setText("");
+        this.CheckBoxCash.setSelected(false);
+        this.CheckBoxCredit.setSelected(false);
+    }
+    
+    public void validatePay(){
+        boolean isReadyToPay = false;
+        if (this.CheckBoxCash.isSelected() && this.CheckBoxCredit.isSelected()) {
+            int quantityCash = 0;
+            int quantityCredit = 0;
+            
+            if (this.TextFieldPayCash.getText().length() == 0)
+                quantityCash = 0;
+            else
+                quantityCash = Integer.parseInt(this.TextFieldPayCash.getText());
+            
+            if (this.TextFieldPayCredit.getText().length() == 0)
+                quantityCredit = 0;
+            else
+                quantityCredit = Integer.parseInt(this.TextFieldPayCredit.getText());                                    
+            
+            if (quantityCredit <= this.creditClient) {
+                if ((quantityCash+quantityCredit) == this.totalToPay) {
+                    isReadyToPay = true;
+                }
+            }            
+        }else{
+            isReadyToPay = validateParameters();
+        }
+        if (isReadyToPay) {
+            System.out.println("Se puede pagar");
+            System.out.println("El Id del producto es: " + this.IDProduct);
+            System.out.println("El Id del Cliente es: " + this.IDClient);
+            System.out.println("Tiene que pagar: " + this.totalToPay);
+            //Envair a base pagar y descontartatatatata
+            //Enviar mensaje de se pago correctamente
+            //Reiniciar el frame
+        }else{
+            System.out.println("No se puede pagar");
+        }
+    }
+    
+    private boolean validateParameters(){
+        boolean isReadyToPay = true;
+        if (this.IDClient.equals("") || this.IDProduct.equals("") || this.totalToPay == 0) {
+            isReadyToPay = false;
+        }        
+        return isReadyToPay;
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton ButtonPay;
+    private javax.swing.JCheckBox CheckBoxCash;
+    private javax.swing.JCheckBox CheckBoxCredit;
+    private javax.swing.JTable TableClient;
+    private javax.swing.JTable TableProduct;
+    private javax.swing.JTextField TextFieldClientCredit;
+    private javax.swing.JTextField TextFieldClientName;
+    private javax.swing.JTextField TextFieldCodeProduct;
     private javax.swing.JTextField TextFieldFilter;
+    private javax.swing.JTextField TextFieldFilterClient;
+    private javax.swing.JTextField TextFieldNameProduct;
+    private javax.swing.JTextField TextFieldPayCash;
+    private javax.swing.JTextField TextFieldPayCredit;
+    private javax.swing.JTextField TextFieldQuantity;
+    private javax.swing.JTextField TextFieldTotal;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 }
