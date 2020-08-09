@@ -27,48 +27,14 @@ public class fEmployee extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        ButtonNewStore = new javax.swing.JButton();
-        ButtonNewProduct = new javax.swing.JButton();
-        ButtonNewTime = new javax.swing.JButton();
-        ButtonNewClient = new javax.swing.JButton();
         ButtonSell = new javax.swing.JButton();
         ButtonOrder = new javax.swing.JButton();
         ButtonReports = new javax.swing.JButton();
-        ButtonNewEmployee = new javax.swing.JButton();
+        ButtonNew = new javax.swing.JButton();
+        ButtonNew1 = new javax.swing.JButton();
+        ButtonNew2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        ButtonNewStore.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
-        ButtonNewStore.setText("Ingresar Nueva Tienda");
-        ButtonNewStore.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonNewStoreActionPerformed(evt);
-            }
-        });
-
-        ButtonNewProduct.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
-        ButtonNewProduct.setText("Ingresar Nuevo Producto");
-        ButtonNewProduct.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonNewProductActionPerformed(evt);
-            }
-        });
-
-        ButtonNewTime.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
-        ButtonNewTime.setText("Ingresar Nueva Tiempo");
-        ButtonNewTime.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonNewTimeActionPerformed(evt);
-            }
-        });
-
-        ButtonNewClient.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
-        ButtonNewClient.setText("Ingresar Nuevo Cliente");
-        ButtonNewClient.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonNewClientActionPerformed(evt);
-            }
-        });
 
         ButtonSell.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
         ButtonSell.setText("Vender");
@@ -80,15 +46,36 @@ public class fEmployee extends javax.swing.JFrame {
 
         ButtonOrder.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
         ButtonOrder.setText("Realizar Pedido");
+        ButtonOrder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonOrderActionPerformed(evt);
+            }
+        });
 
         ButtonReports.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
         ButtonReports.setText("Reportes");
 
-        ButtonNewEmployee.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
-        ButtonNewEmployee.setText("Ingresar Nuevo Empleado");
-        ButtonNewEmployee.addActionListener(new java.awt.event.ActionListener() {
+        ButtonNew.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
+        ButtonNew.setText("Agregar Nuevos Datos");
+        ButtonNew.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonNewEmployeeActionPerformed(evt);
+                ButtonNewActionPerformed(evt);
+            }
+        });
+
+        ButtonNew1.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
+        ButtonNew1.setText("Actualizar Datos");
+        ButtonNew1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonNew1ActionPerformed(evt);
+            }
+        });
+
+        ButtonNew2.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
+        ButtonNew2.setText("Cambiar fecha");
+        ButtonNew2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonNew2ActionPerformed(evt);
             }
         });
 
@@ -96,86 +83,71 @@ public class fEmployee extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(ButtonNewClient, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(ButtonNewStore, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(ButtonNewTime, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(ButtonNewProduct, javax.swing.GroupLayout.Alignment.LEADING))
-                .addGap(46, 46, 46)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(ButtonOrder, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(ButtonSell, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(ButtonReports, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(ButtonNewEmployee, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addComponent(ButtonOrder, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(ButtonReports, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(ButtonNew1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(ButtonNew, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(ButtonNew2, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(88, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addContainerGap(97, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(ButtonNewEmployee, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ButtonSell, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ButtonOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ButtonReports, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(ButtonSell, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ButtonNew, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(120, 120, 120))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(ButtonNewStore, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(ButtonOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ButtonNew1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ButtonNewTime, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ButtonNewProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ButtonNewClient, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(ButtonReports, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ButtonNew2, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void ButtonNewStoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonNewStoreActionPerformed
-        fNewStore newStore = new fNewStore();
-        newStore.setVisible(true);
-    }//GEN-LAST:event_ButtonNewStoreActionPerformed
-
-    private void ButtonNewProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonNewProductActionPerformed
-        fNewProduct newProduct = new fNewProduct();
-        newProduct.setVisible(true);
-    }//GEN-LAST:event_ButtonNewProductActionPerformed
-
-    private void ButtonNewClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonNewClientActionPerformed
-        fNewClient newClient = new fNewClient();
-        newClient.setVisible(true);
-    }//GEN-LAST:event_ButtonNewClientActionPerformed
-
-    private void ButtonNewTimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonNewTimeActionPerformed
-        fNewTime newTime = new fNewTime();
-        newTime.setVisible(true);
-    }//GEN-LAST:event_ButtonNewTimeActionPerformed
-
-    private void ButtonNewEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonNewEmployeeActionPerformed
-        fNewEmployee newEmployee = new fNewEmployee();
-        newEmployee.setVisible(true);
-    }//GEN-LAST:event_ButtonNewEmployeeActionPerformed
-
     private void ButtonSellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonSellActionPerformed
         fSell newSell = new fSell();
         newSell.setVisible(true);
     }//GEN-LAST:event_ButtonSellActionPerformed
 
+    private void ButtonOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonOrderActionPerformed
+        fOrder newOrder = new fOrder();
+        newOrder.setVisible(true);
+    }//GEN-LAST:event_ButtonOrderActionPerformed
+
+    private void ButtonNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonNewActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ButtonNewActionPerformed
+
+    private void ButtonNew1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonNew1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ButtonNew1ActionPerformed
+
+    private void ButtonNew2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonNew2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ButtonNew2ActionPerformed
+
   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton ButtonNewClient;
-    private javax.swing.JButton ButtonNewEmployee;
-    private javax.swing.JButton ButtonNewProduct;
-    private javax.swing.JButton ButtonNewStore;
-    private javax.swing.JButton ButtonNewTime;
+    private javax.swing.JButton ButtonNew;
+    private javax.swing.JButton ButtonNew1;
+    private javax.swing.JButton ButtonNew2;
     private javax.swing.JButton ButtonOrder;
     private javax.swing.JButton ButtonReports;
     private javax.swing.JButton ButtonSell;
