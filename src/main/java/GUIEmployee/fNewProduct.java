@@ -47,7 +47,7 @@ public class fNewProduct extends javax.swing.JFrame {
         jButtonSaveProduct = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         LabelName.setText("Nombre del Producto*");
 

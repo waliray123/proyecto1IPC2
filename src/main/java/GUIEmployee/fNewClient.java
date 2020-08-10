@@ -45,7 +45,7 @@ public class fNewClient extends javax.swing.JFrame {
         TextFieldAddress = new javax.swing.JTextField();
         ButtonSaveClient = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         LabelName.setText("Nombre del cliente*");
 

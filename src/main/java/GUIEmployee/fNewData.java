@@ -33,10 +33,10 @@ public class fNewData extends javax.swing.JFrame {
         ButtonNewStore = new javax.swing.JButton();
         ButtonNewProduct = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         ButtonNewTime.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
-        ButtonNewTime.setText("Ingresar Nueva Tiempo");
+        ButtonNewTime.setText("Ingresar Nuevo Tiempo");
         ButtonNewTime.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ButtonNewTimeActionPerformed(evt);
@@ -44,7 +44,7 @@ public class fNewData extends javax.swing.JFrame {
         });
 
         ButtonNewClient.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
-        ButtonNewClient.setText("Ingresar Nuevo Cliente");
+        ButtonNewClient.setText("Clientes");
         ButtonNewClient.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ButtonNewClientActionPerformed(evt);
@@ -52,7 +52,7 @@ public class fNewData extends javax.swing.JFrame {
         });
 
         ButtonNewEmployee.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
-        ButtonNewEmployee.setText("Ingresar Nuevo Empleado");
+        ButtonNewEmployee.setText("Empleados");
         ButtonNewEmployee.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ButtonNewEmployeeActionPerformed(evt);
@@ -60,7 +60,7 @@ public class fNewData extends javax.swing.JFrame {
         });
 
         ButtonNewStore.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
-        ButtonNewStore.setText("Ingresar Nueva Tienda");
+        ButtonNewStore.setText("Tiendas");
         ButtonNewStore.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ButtonNewStoreActionPerformed(evt);
@@ -68,7 +68,7 @@ public class fNewData extends javax.swing.JFrame {
         });
 
         ButtonNewProduct.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
-        ButtonNewProduct.setText("Ingresar Nuevo Producto");
+        ButtonNewProduct.setText("Productos");
         ButtonNewProduct.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ButtonNewProductActionPerformed(evt);
@@ -81,12 +81,12 @@ public class fNewData extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(65, 65, 65)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(ButtonNewTime, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ButtonNewProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ButtonNewClient, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ButtonNewEmployee)
-                    .addComponent(ButtonNewStore, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(ButtonNewTime, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE)
+                    .addComponent(ButtonNewProduct, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE)
+                    .addComponent(ButtonNewClient, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE)
+                    .addComponent(ButtonNewStore, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE)
+                    .addComponent(ButtonNewEmployee, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(73, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -133,40 +133,6 @@ public class fNewData extends javax.swing.JFrame {
         newProduct.setVisible(true);
     }//GEN-LAST:event_ButtonNewProductActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(fNewData.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(fNewData.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(fNewData.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(fNewData.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new fNewData().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonNewClient;

@@ -31,10 +31,10 @@ public class fEmployee extends javax.swing.JFrame {
         ButtonOrder = new javax.swing.JButton();
         ButtonReports = new javax.swing.JButton();
         ButtonNew = new javax.swing.JButton();
-        ButtonNew1 = new javax.swing.JButton();
-        ButtonNew2 = new javax.swing.JButton();
+        ButtonUpdateData = new javax.swing.JButton();
+        ButtonChangeDate = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         ButtonSell.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
         ButtonSell.setText("Vender");
@@ -56,26 +56,26 @@ public class fEmployee extends javax.swing.JFrame {
         ButtonReports.setText("Reportes");
 
         ButtonNew.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
-        ButtonNew.setText("Agregar Nuevos Datos");
+        ButtonNew.setText("Ingresar y Modificar Datos");
         ButtonNew.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ButtonNewActionPerformed(evt);
             }
         });
 
-        ButtonNew1.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
-        ButtonNew1.setText("Actualizar Datos");
-        ButtonNew1.addActionListener(new java.awt.event.ActionListener() {
+        ButtonUpdateData.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
+        ButtonUpdateData.setText("Actualizar Datos");
+        ButtonUpdateData.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonNew1ActionPerformed(evt);
+                ButtonUpdateDataActionPerformed(evt);
             }
         });
 
-        ButtonNew2.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
-        ButtonNew2.setText("Cambiar fecha");
-        ButtonNew2.addActionListener(new java.awt.event.ActionListener() {
+        ButtonChangeDate.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
+        ButtonChangeDate.setText("Cambiar fecha");
+        ButtonChangeDate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonNew2ActionPerformed(evt);
+                ButtonChangeDateActionPerformed(evt);
             }
         });
 
@@ -87,33 +87,36 @@ public class fEmployee extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(ButtonSell, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(ButtonOrder, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(ButtonReports, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(ButtonOrder, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
+                    .addComponent(ButtonReports, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(ButtonNew1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(ButtonNew, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(ButtonNew2, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ButtonUpdateData, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(ButtonChangeDate, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(ButtonNew, javax.swing.GroupLayout.Alignment.LEADING))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(97, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(ButtonNew, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(120, 120, 120))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(ButtonUpdateData, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(ButtonChangeDate, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createSequentialGroup()
                             .addComponent(ButtonSell, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(ButtonNew, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(120, 120, 120))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addGap(120, 120, 120))
+                        .addGroup(layout.createSequentialGroup()
                             .addComponent(ButtonOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(ButtonNew1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(ButtonReports, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(ButtonNew2, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(ButtonReports, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
 
@@ -131,25 +134,26 @@ public class fEmployee extends javax.swing.JFrame {
     }//GEN-LAST:event_ButtonOrderActionPerformed
 
     private void ButtonNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonNewActionPerformed
-        // TODO add your handling code here:
+        fNewData newNewData = new fNewData();
+        newNewData.setVisible(true);
     }//GEN-LAST:event_ButtonNewActionPerformed
 
-    private void ButtonNew1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonNew1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ButtonNew1ActionPerformed
+    private void ButtonUpdateDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonUpdateDataActionPerformed
+        
+    }//GEN-LAST:event_ButtonUpdateDataActionPerformed
 
-    private void ButtonNew2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonNew2ActionPerformed
+    private void ButtonChangeDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonChangeDateActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_ButtonNew2ActionPerformed
+    }//GEN-LAST:event_ButtonChangeDateActionPerformed
 
   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton ButtonChangeDate;
     private javax.swing.JButton ButtonNew;
-    private javax.swing.JButton ButtonNew1;
-    private javax.swing.JButton ButtonNew2;
     private javax.swing.JButton ButtonOrder;
     private javax.swing.JButton ButtonReports;
     private javax.swing.JButton ButtonSell;
+    private javax.swing.JButton ButtonUpdateData;
     // End of variables declaration//GEN-END:variables
 }

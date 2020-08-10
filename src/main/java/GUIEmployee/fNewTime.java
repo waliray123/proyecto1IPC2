@@ -34,7 +34,7 @@ public class fNewTime extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         ButtonSaveTime = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("Tienda 1");
 
