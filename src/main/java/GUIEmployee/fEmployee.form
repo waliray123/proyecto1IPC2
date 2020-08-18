@@ -32,7 +32,6 @@
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                  <Component id="ButtonUpdateData" max="32767" attributes="0"/>
                   <Component id="ButtonChangeDate" alignment="0" max="32767" attributes="0"/>
                   <Component id="ButtonNew" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
@@ -45,24 +44,17 @@
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace pref="97" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="103" groupAlignment="1" attributes="0">
-                      <Group type="102" alignment="1" attributes="0">
-                          <Component id="ButtonNew" min="-2" pref="54" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="120" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="1" attributes="0">
-                          <Component id="ButtonUpdateData" min="-2" pref="54" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="ButtonChangeDate" min="-2" pref="54" max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
+                  <Component id="ButtonNew" min="-2" pref="54" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
                           <Component id="ButtonSell" min="-2" pref="54" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="120" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
-                          <Component id="ButtonOrder" min="-2" pref="54" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="ButtonOrder" alignment="3" min="-2" pref="54" max="-2" attributes="0"/>
+                              <Component id="ButtonChangeDate" alignment="3" min="-2" pref="54" max="-2" attributes="0"/>
+                          </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="ButtonReports" min="-2" pref="54" max="-2" attributes="0"/>
                       </Group>
@@ -113,17 +105,6 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ButtonNewActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JButton" name="ButtonUpdateData">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="SansSerif" size="18" style="0"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Actualizar Datos"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ButtonUpdateDataActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="ButtonChangeDate">

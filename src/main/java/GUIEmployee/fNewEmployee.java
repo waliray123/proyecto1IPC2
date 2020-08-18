@@ -13,12 +13,14 @@ import java.awt.Color;
  */
 public class fNewEmployee extends javax.swing.JFrame {
 
+    private String codeEmployee;
+    
     /**
      * Creates new form fNewEmployee
      */
     public fNewEmployee() {
         initComponents();        
-        
+        codeEmployee = "";
     }
 
     /**
@@ -34,7 +36,7 @@ public class fNewEmployee extends javax.swing.JFrame {
         LabelAddress = new javax.swing.JLabel();
         TextFieldAddress = new javax.swing.JTextField();
         TextFieldDpi = new javax.swing.JTextField();
-        ButtonSaveClient = new javax.swing.JButton();
+        ButtonSaveEmployee = new javax.swing.JButton();
         LabelPhone = new javax.swing.JLabel();
         TextFieldPhone = new javax.swing.JTextField();
         LabelNIT = new javax.swing.JLabel();
@@ -48,6 +50,7 @@ public class fNewEmployee extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         TableEmployee = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
+        ButtonDelete = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -59,10 +62,10 @@ public class fNewEmployee extends javax.swing.JFrame {
             }
         });
 
-        ButtonSaveClient.setText("Guardar Cliente");
-        ButtonSaveClient.addActionListener(new java.awt.event.ActionListener() {
+        ButtonSaveEmployee.setText("Guardar Empleado");
+        ButtonSaveEmployee.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonSaveClientActionPerformed(evt);
+                ButtonSaveEmployeeActionPerformed(evt);
             }
         });
 
@@ -86,15 +89,28 @@ public class fNewEmployee extends javax.swing.JFrame {
 
         TableEmployee.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {"123123", "afasdf", "12313", "asdfsa", "1432", "234", "dfads"},
+                {"4343", "gr", "4342", "bdfs", "34324", "7868", null}
             },
             new String [] {
-                "Codigo", "Nombre", "DPI", "Direccion", "Telefono"
+                "Codigo", "Nombre", "DPI", "Direccion", "Telefono", "NIT", "Correo"
             }
         ));
+        TableEmployee.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TableEmployeeMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(TableEmployee);
 
         jLabel1.setText("Empleados");
+
+        ButtonDelete.setText("Eliminar Empleado");
+        ButtonDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonDeleteActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -120,43 +136,41 @@ public class fNewEmployee extends javax.swing.JFrame {
                     .addComponent(TextFieldNit)
                     .addComponent(TextFieldEMail)
                     .addComponent(TextFieldAddress)
-                    .addComponent(ButtonSaveClient, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE))
+                    .addComponent(ButtonSaveEmployee, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                    .addComponent(ButtonDelete, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 684, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(41, 41, 41)
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(11, 11, 11)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(LabelCode)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(TextFieldCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(LabelName)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(TextFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(LabelDPI)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(TextFieldDpi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(LabelPhone)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(TextFieldPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(LabelNIT)
-                            .addComponent(jLabel1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
+                                .addComponent(LabelCode)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(TextFieldCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(LabelName)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(TextFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(LabelDPI)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(TextFieldDpi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(LabelNIT)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(TextFieldNit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(LabelEMail)
@@ -165,10 +179,15 @@ public class fNewEmployee extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(LabelAddress)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(TextFieldAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(ButtonSaveClient, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))
+                                .addComponent(TextFieldAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(LabelPhone)
+                            .addComponent(ButtonSaveEmployee))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(TextFieldPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ButtonDelete))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -183,11 +202,38 @@ public class fNewEmployee extends javax.swing.JFrame {
         validateOnlyNumbers(evt);
     }//GEN-LAST:event_TextFieldPhoneKeyTyped
 
-    private void ButtonSaveClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonSaveClientActionPerformed
+    private void ButtonSaveEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonSaveEmployeeActionPerformed
         if (this.reviewRequiredFields() == true ) {
-            
+            if (this.codeEmployee.equals("")) {
+                //TODO Guardar Empleado
+                System.out.println("guardar Empleado");
+            }else{
+                //TODO Editar Empleado
+                System.out.println("editar Empleado");
+            }
+            clearTextBox();
         }
-    }//GEN-LAST:event_ButtonSaveClientActionPerformed
+    }//GEN-LAST:event_ButtonSaveEmployeeActionPerformed
+
+    private void ButtonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonDeleteActionPerformed
+        // TODO eliminar empleado si hay codigo de empleado
+        
+        
+    }//GEN-LAST:event_ButtonDeleteActionPerformed
+
+    private void TableEmployeeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableEmployeeMouseClicked
+        int select = this.TableEmployee.rowAtPoint(evt.getPoint());
+        
+        this.TextFieldCode.setText(String.valueOf(this.TableEmployee.getValueAt(select,0)));
+        this.TextFieldName.setText(String.valueOf(this.TableEmployee.getValueAt(select,1)));
+        this.TextFieldDpi.setText(String.valueOf(this.TableEmployee.getValueAt(select,2)));
+        this.TextFieldAddress.setText(String.valueOf(this.TableEmployee.getValueAt(select,3)));
+        this.TextFieldPhone.setText(String.valueOf(this.TableEmployee.getValueAt(select,4)));
+        this.TextFieldNit.setText(String.valueOf(this.TableEmployee.getValueAt(select,5)));
+        this.TextFieldEMail.setText(String.valueOf(this.TableEmployee.getValueAt(select,6)));
+        
+        this.codeEmployee = this.TextFieldCode.getText();
+    }//GEN-LAST:event_TableEmployeeMouseClicked
 
     private boolean reviewRequiredFields(){
         this.setColorsLabels();
@@ -227,6 +273,7 @@ public class fNewEmployee extends javax.swing.JFrame {
         this.LabelDPI.setForeground(Color.black);        
         this.LabelEMail.setForeground(Color.black);        
         this.LabelAddress.setForeground(Color.black);
+        this.LabelNIT.setForeground(Color.black);
     }
 
     /**
@@ -242,8 +289,20 @@ public class fNewEmployee extends javax.swing.JFrame {
         }        
     }
     
+    public void clearTextBox(){
+        this.TextFieldCode.setText("");
+        this.TextFieldAddress.setText("");
+        this.TextFieldName.setText("");
+        this.TextFieldNit.setText("");
+        this.TextFieldDpi.setText("");
+        this.TextFieldEMail.setText("");
+        this.TextFieldPhone.setText("");
+        this.codeEmployee = "";
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton ButtonSaveClient;
+    private javax.swing.JButton ButtonDelete;
+    private javax.swing.JButton ButtonSaveEmployee;
     private javax.swing.JLabel LabelAddress;
     private javax.swing.JLabel LabelCode;
     private javax.swing.JLabel LabelDPI;

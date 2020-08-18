@@ -45,7 +45,8 @@
                   <Component id="TextFieldNit" alignment="0" max="32767" attributes="0"/>
                   <Component id="TextFieldEMail" alignment="0" max="32767" attributes="0"/>
                   <Component id="TextFieldAddress" alignment="0" max="32767" attributes="0"/>
-                  <Component id="ButtonSaveClient" alignment="0" pref="180" max="32767" attributes="0"/>
+                  <Component id="ButtonSaveEmployee" alignment="0" pref="180" max="32767" attributes="0"/>
+                  <Component id="ButtonDelete" alignment="1" pref="180" max="32767" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -53,7 +54,7 @@
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
-                  <Component id="jScrollPane1" pref="477" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" pref="684" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -62,33 +63,29 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
-              <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
-                      <Component id="LabelCode" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="TextFieldCode" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="LabelName" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="TextFieldName" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="LabelDPI" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="TextFieldDpi" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="LabelPhone" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="TextFieldPhone" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="1" attributes="0">
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="LabelNIT" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="jScrollPane1" min="-2" pref="222" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="1" attributes="0">
                           <Group type="102" attributes="0">
+                              <Component id="LabelCode" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="TextFieldCode" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="LabelName" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="TextFieldName" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="LabelDPI" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="TextFieldDpi" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="LabelNIT" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                               <Component id="TextFieldNit" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="LabelEMail" min="-2" max="-2" attributes="0"/>
@@ -98,12 +95,19 @@
                               <Component id="LabelAddress" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="TextFieldAddress" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="ButtonSaveClient" min="-2" pref="54" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="jScrollPane1" pref="0" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="LabelPhone" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="ButtonSaveEmployee" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="TextFieldPhone" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="ButtonDelete" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
@@ -125,12 +129,12 @@
         <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="TextFieldDpiKeyTyped"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="ButtonSaveClient">
+    <Component class="javax.swing.JButton" name="ButtonSaveEmployee">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Guardar Cliente"/>
+        <Property name="text" type="java.lang.String" value="Guardar Empleado"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ButtonSaveClientActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ButtonSaveEmployeeActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="LabelPhone">
@@ -184,15 +188,41 @@
         <Component class="javax.swing.JTable" name="TableEmployee">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="5" rowCount="0">
-                <Column editable="true" title="Codigo" type="java.lang.Object"/>
-                <Column editable="true" title="Nombre" type="java.lang.Object"/>
-                <Column editable="true" title="DPI" type="java.lang.Object"/>
-                <Column editable="true" title="Direccion" type="java.lang.Object"/>
-                <Column editable="true" title="Telefono" type="java.lang.Object"/>
+              <Table columnCount="7" rowCount="2">
+                <Column editable="true" title="Codigo" type="java.lang.Object">
+                  <Data value="123123"/>
+                  <Data value="4343"/>
+                </Column>
+                <Column editable="true" title="Nombre" type="java.lang.Object">
+                  <Data value="afasdf"/>
+                  <Data value="gr"/>
+                </Column>
+                <Column editable="true" title="DPI" type="java.lang.Object">
+                  <Data value="12313"/>
+                  <Data value="4342"/>
+                </Column>
+                <Column editable="true" title="Direccion" type="java.lang.Object">
+                  <Data value="asdfsa"/>
+                  <Data value="bdfs"/>
+                </Column>
+                <Column editable="true" title="Telefono" type="java.lang.Object">
+                  <Data value="1432"/>
+                  <Data value="34324"/>
+                </Column>
+                <Column editable="true" title="NIT" type="java.lang.Object">
+                  <Data value="234"/>
+                  <Data value="7868"/>
+                </Column>
+                <Column editable="true" title="Correo" type="java.lang.Object">
+                  <Data value="dfads"/>
+                  <Data value="null"/>
+                </Column>
               </Table>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="TableEmployeeMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -200,6 +230,14 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Empleados"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="ButtonDelete">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Eliminar Empleado"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ButtonDeleteActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

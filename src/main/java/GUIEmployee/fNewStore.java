@@ -13,12 +13,15 @@ import javax.swing.JOptionPane;
  * @author user-ubunto
  */
 public class fNewStore extends javax.swing.JFrame {
-
+    
+    private String codeStore;
+    
     /**
      * Creates new form fNewStore
      */
     public fNewStore() {
         initComponents();
+        this.codeStore = "";
     }
 
     /**
@@ -47,6 +50,11 @@ public class fNewStore extends javax.swing.JFrame {
         LabelShedule = new javax.swing.JLabel();
         TextFieldShedule = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TableStore = new javax.swing.JTable();
+        ButtonDelete = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -94,90 +102,144 @@ public class fNewStore extends javax.swing.JFrame {
 
         jLabel9.setText("* Campos Obligatorios");
 
+        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabel2.setText("Tiendas Existentes");
+
+        TableStore.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {"asdfasf", "greg", "234", "dgh", "234", "5445", "sfd"},
+                {"gsdfg", "hyrrh", "4545", "nyghn", "6546", "36434", null}
+            },
+            new String [] {
+                "Nombre", "Direccion", "Codigo", "E-mail", "Telefono 1", "Telefono 2", "Horario"
+            }
+        ));
+        TableStore.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TableStoreMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(TableStore);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 732, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        ButtonDelete.setText("Guardar Tienda");
+        ButtonDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonDeleteActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel9)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addContainerGap()
+                        .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(TextFieldName)
-                            .addComponent(LabelStore, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(LabelEMail)
-                            .addComponent(LabelCode)
-                            .addComponent(LabelAddress)
-                            .addComponent(TextFieldAddress)
-                            .addComponent(TextFieldCode)
-                            .addComponent(TextFieldEMail))
-                        .addGap(39, 39, 39)
+                        .addGap(22, 22, 22)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel9)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(ButtonSave, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
-                                    .addComponent(TextFieldShedule, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(TextFieldPhone2, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(LabelPhone1, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(TextFieldPhone1, javax.swing.GroupLayout.Alignment.LEADING))
-                                .addContainerGap(22, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(TextFieldName)
+                                    .addComponent(LabelStore, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(LabelEMail)
+                                    .addComponent(LabelCode)
+                                    .addComponent(LabelAddress)
+                                    .addComponent(TextFieldAddress)
+                                    .addComponent(TextFieldCode)
+                                    .addComponent(TextFieldEMail))
+                                .addGap(39, 39, 39)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(ButtonSave, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
+                                        .addComponent(TextFieldShedule, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(TextFieldPhone2, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(LabelPhone1, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(TextFieldPhone1, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(ButtonDelete, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE))
                                     .addComponent(LabelPhone2)
                                     .addComponent(LabelShedule))
-                                .addGap(0, 0, Short.MAX_VALUE))))))
+                                .addGap(40, 40, 40)
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(30, 30, 30)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(LabelStore)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(TextFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(TextFieldPhone1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(LabelPhone1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(LabelAddress)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(TextFieldAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(LabelPhone2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(TextFieldPhone2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(12, 12, 12)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(LabelCode)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(TextFieldCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(LabelShedule)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(TextFieldShedule, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(LabelEMail)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(TextFieldEMail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(ButtonSave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabel1)
+                        .addGap(30, 30, 30)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(LabelStore)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(TextFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(TextFieldPhone1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(LabelPhone1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(LabelAddress)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(TextFieldAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(LabelPhone2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(TextFieldPhone2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(12, 12, 12)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(LabelCode)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(TextFieldCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(LabelShedule)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(TextFieldShedule, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(LabelEMail)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(TextFieldEMail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(ButtonSave)
+                                .addGap(1, 1, 1)
+                                .addComponent(ButtonDelete))))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel9)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -185,7 +247,14 @@ public class fNewStore extends javax.swing.JFrame {
 
     private void ButtonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonSaveActionPerformed
         if (this.reviewRequiredFields() == true) {
-            //guardar en base de datos
+            if (this.codeStore.equals("")) {
+                //TODO Guardar Tienda
+                System.out.println("Guardar Tienda");
+            }else{
+                //TODO Editar Tienda
+                System.out.println("Editar Tienda");
+            }
+            clearTextBox();
         }            
     }//GEN-LAST:event_ButtonSaveActionPerformed
 
@@ -196,6 +265,24 @@ public class fNewStore extends javax.swing.JFrame {
     private void TextFieldPhone2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextFieldPhone2KeyTyped
         validateOnlyNumbers(evt);
     }//GEN-LAST:event_TextFieldPhone2KeyTyped
+
+    private void TableStoreMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableStoreMouseClicked
+        int select = this.TableStore.rowAtPoint(evt.getPoint());
+        
+        this.TextFieldName.setText(String.valueOf(this.TableStore.getValueAt(select,0)));
+        this.TextFieldAddress.setText(String.valueOf(this.TableStore.getValueAt(select,1)));
+        this.TextFieldCode.setText(String.valueOf(this.TableStore.getValueAt(select,2)));
+        this.TextFieldEMail.setText(String.valueOf(this.TableStore.getValueAt(select,3)));
+        this.TextFieldPhone1.setText(String.valueOf(this.TableStore.getValueAt(select,4)));
+        this.TextFieldPhone2.setText(String.valueOf(this.TableStore.getValueAt(select,5)));
+        this.TextFieldShedule.setText(String.valueOf(this.TableStore.getValueAt(select,6)));
+
+        this.codeStore = this.TextFieldCode.getText();
+    }//GEN-LAST:event_TableStoreMouseClicked
+
+    private void ButtonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonDeleteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ButtonDeleteActionPerformed
       
     private boolean reviewRequiredFields(){
         this.setColorsLabels();
@@ -238,8 +325,21 @@ public class fNewStore extends javax.swing.JFrame {
             evt.consume();
         }        
     }
+    
+    public void clearTextBox(){
+        this.TextFieldAddress.setText("");
+        this.TextFieldName.setText("");
+        this.TextFieldCode.setText("");        
+        this.TextFieldEMail.setText("");
+        this.TextFieldPhone1.setText("");
+        this.TextFieldPhone2.setText("");
+        this.TextFieldShedule.setText("");
+        
+        this.codeStore = "";
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton ButtonDelete;
     private javax.swing.JButton ButtonSave;
     private javax.swing.JLabel LabelAddress;
     private javax.swing.JLabel LabelCode;
@@ -248,6 +348,7 @@ public class fNewStore extends javax.swing.JFrame {
     private javax.swing.JLabel LabelPhone2;
     private javax.swing.JLabel LabelShedule;
     private javax.swing.JLabel LabelStore;
+    private javax.swing.JTable TableStore;
     private javax.swing.JTextField TextFieldAddress;
     private javax.swing.JTextField TextFieldCode;
     private javax.swing.JTextField TextFieldEMail;
@@ -256,6 +357,9 @@ public class fNewStore extends javax.swing.JFrame {
     private javax.swing.JTextField TextFieldPhone2;
     private javax.swing.JTextField TextFieldShedule;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

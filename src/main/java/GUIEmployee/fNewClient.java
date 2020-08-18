@@ -6,6 +6,11 @@
 package GUIEmployee;
 
 import java.awt.Color;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -13,11 +18,17 @@ import java.awt.Color;
  */
 public class fNewClient extends javax.swing.JFrame {
 
+    private DefaultTableModel dtmClient;
+    private TableRowSorter tableRowSorterClient;
+    private String NITClientChange;
+    
     /**
      * Creates new form fNewClient
      */
     public fNewClient() {
         initComponents();
+        dtmClient = (DefaultTableModel) this.TableClient.getModel();
+        cleanTextBox();
     }
 
     /**
@@ -44,6 +55,13 @@ public class fNewClient extends javax.swing.JFrame {
         LabelDiretion = new javax.swing.JLabel();
         TextFieldAddress = new javax.swing.JTextField();
         ButtonSaveClient = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        TableClient = new javax.swing.JTable();
+        TextFieldFilterClient = new javax.swing.JTextField();
+        ButtonDelete = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -86,6 +104,83 @@ public class fNewClient extends javax.swing.JFrame {
             }
         });
 
+        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabel6.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        jLabel6.setText("Clientes Guardados");
+
+        jLabel9.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        jLabel9.setText("Filtrar");
+
+        TableClient.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        TableClient.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {"Juan", "11111", "0101", "800", "3424324", "adfa", "11saa"},
+                {"MAria", "22222", "9817", "0", "5453543", "fdfd", "22sss"},
+                {"Pedro", "3333", "7871", "1000", "6546465", "fhgfh", null}
+            },
+            new String [] {
+                "Nombre", "NIT", "DPI", "Credito", "Telefono", "Correo", "Direccion"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        TableClient.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TableClientMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(TableClient);
+
+        TextFieldFilterClient.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        TextFieldFilterClient.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TextFieldFilterClientKeyTyped(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 721, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel9)
+                        .addGap(18, 18, 18)
+                        .addComponent(TextFieldFilterClient, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel9)
+                    .addComponent(TextFieldFilterClient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        ButtonDelete.setText("Eliminar");
+        ButtonDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonDeleteActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -110,50 +205,59 @@ public class fNewClient extends javax.swing.JFrame {
                     .addComponent(TextFieldNit)
                     .addComponent(TextFieldEMail)
                     .addComponent(TextFieldAddress)
-                    .addComponent(ButtonSaveClient, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE))
-                .addContainerGap(55, Short.MAX_VALUE))
+                    .addComponent(ButtonSaveClient, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                    .addComponent(ButtonDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(43, 43, 43)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(LabelName)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(TextFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(LabelNIT)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(TextFieldNit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(LabelDPI)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(TextFieldDpi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(LabelEMail)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(TextFieldEMail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(LabelPhone)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(TextFieldPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(LabelDiretion)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(TextFieldAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(LabelCredit)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(TextFieldCredit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(ButtonSaveClient, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(38, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(LabelName)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(TextFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(LabelNIT)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(TextFieldNit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(LabelDPI)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(TextFieldDpi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(LabelEMail)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(TextFieldEMail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(LabelPhone)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(TextFieldPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(LabelDiretion)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(TextFieldAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(LabelCredit)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(TextFieldCredit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(ButtonSaveClient)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(ButtonDelete)))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -173,9 +277,52 @@ public class fNewClient extends javax.swing.JFrame {
 
     private void ButtonSaveClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonSaveClientActionPerformed
         if (this.reviewRequiredFields() == true ) {
-            
+            if (this.NITClientChange.equals("")) {
+                //TODO Guardar Cliente
+                System.out.println("guardar cliente");
+            }else{
+                //TODO Editar cliente                
+                System.out.println("Editar cliente");
+            }
+            cleanTextBox();
         }
     }//GEN-LAST:event_ButtonSaveClientActionPerformed
+
+    private void TableClientMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableClientMouseClicked
+        int select = this.TableClient.rowAtPoint(evt.getPoint());
+        
+        this.TextFieldName.setText(String.valueOf(this.TableClient.getValueAt(select,0)));
+        this.TextFieldNit.setText(String.valueOf(this.TableClient.getValueAt(select,1)));
+        this.TextFieldDpi.setText(String.valueOf(this.TableClient.getValueAt(select,2)));
+        this.TextFieldCredit.setText(String.valueOf(this.TableClient.getValueAt(select,3)));
+        this.TextFieldPhone.setText(String.valueOf(this.TableClient.getValueAt(select,4)));
+        this.TextFieldEMail.setText(String.valueOf(this.TableClient.getValueAt(select,5)));
+        this.TextFieldAddress.setText(String.valueOf(this.TableClient.getValueAt(select,6)));        
+        
+        this.NITClientChange = this.TextFieldNit.getText();
+    }//GEN-LAST:event_TableClientMouseClicked
+
+    private void TextFieldFilterClientKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextFieldFilterClientKeyTyped
+        /*This is the filter of the rows of the table that
+        *contains the Client, you can filter the column 0and 1
+        */
+        this.TextFieldFilterClient.addKeyListener(new KeyAdapter(){
+            @Override
+            public void keyReleased(KeyEvent ke){
+                tableRowSorterClient.setRowFilter(RowFilter.regexFilter("(?i)"+TextFieldFilterClient.getText(), 0,1));
+            }
+        });
+
+        tableRowSorterClient = new TableRowSorter(dtmClient);
+        this.TableClient.setRowSorter(tableRowSorterClient);
+    }//GEN-LAST:event_TextFieldFilterClientKeyTyped
+
+    private void ButtonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonDeleteActionPerformed
+        //TODO Delete client with the NIT.
+        
+        
+        this.NITClientChange = "";
+    }//GEN-LAST:event_ButtonDeleteActionPerformed
 
     private boolean reviewRequiredFields(){
         this.setColorsLabels();
@@ -214,7 +361,20 @@ public class fNewClient extends javax.swing.JFrame {
         }        
     }
     
+    public void cleanTextBox(){
+        this.TextFieldAddress.setText("");
+        this.TextFieldName.setText("");
+        this.TextFieldNit.setText("");
+        this.TextFieldDpi.setText("");
+        this.TextFieldEMail.setText("");
+        this.TextFieldPhone.setText("");
+        this.TextFieldCredit.setText("");
+        this.NITClientChange = "";
+        
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton ButtonDelete;
     private javax.swing.JButton ButtonSaveClient;
     private javax.swing.JLabel LabelCredit;
     private javax.swing.JLabel LabelDPI;
@@ -223,12 +383,18 @@ public class fNewClient extends javax.swing.JFrame {
     private javax.swing.JLabel LabelNIT;
     private javax.swing.JLabel LabelName;
     private javax.swing.JLabel LabelPhone;
+    private javax.swing.JTable TableClient;
     private javax.swing.JTextField TextFieldAddress;
     private javax.swing.JTextField TextFieldCredit;
     private javax.swing.JTextField TextFieldDpi;
     private javax.swing.JTextField TextFieldEMail;
+    private javax.swing.JTextField TextFieldFilterClient;
     private javax.swing.JTextField TextFieldName;
     private javax.swing.JTextField TextFieldNit;
     private javax.swing.JTextField TextFieldPhone;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 }
