@@ -5,12 +5,15 @@
  */
 package GUIStart;
 
+import ConnectionDB.ControlDB;
+import ConnectionDB.connectionToDB;
 import Controlers.ControlCodes;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.sql.Connection;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -37,8 +40,10 @@ public class FileManager {
     private ControlCodes controlCodesEmployee = new ControlCodes();
     private ControlCodes controlCodesProduct = new ControlCodes();
     private ControlCodes controlCodesStore = new ControlCodes();
+    private ControlCodes controlCodesOrder = new ControlCodes();
+    private ControlDB control;
     
-    public void loadControlData(String path , DefaultTableModel tableModel){
+    public void loadControlData(String path , DefaultTableModel tableModel, ControlDB control1){
         this.countLine = 1;
         this.tableModel = tableModel;
         try {            
@@ -46,12 +51,15 @@ public class FileManager {
             BufferedReader br = new BufferedReader(fileReader);
             String line;
             
+            this.control = control1;
+            
+            
             while((line=br.readLine())!=null){
                 System.out.println(line);
                 verifyTable(line);
                 this.countLine++;
             }
-            System.out.println("termino");
+            System.out.println("termino");            
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -110,7 +118,17 @@ public class FileManager {
     public void verifyProduct(){
         if (this.components.length == this.LENGTHPRODUCT) {            
             if (verifyName(this.components[1])) {
-                insertProduct();
+                if (this.controlCodesStore.verifyExistenceCode(this.components[6])) {
+                    if (this.controlCodesProduct.verifyExistenceCode(this.components[3])) {
+                        if (this.control.existRelationStoreCode(this.components[6] , this.components[3])) {
+                            this.tableModel.addRow(new Object[]{this.countLine, "El producto ya existe en esa tienda"});
+                        }else{
+                            insertRelationStoreProduct();
+                        }
+                    }else{
+                        insertProduct();// en la tienda y la relacion
+                    }
+                }                               
             }            
         }else if (this.components.length < this.LENGTHPRODUCT)
             addRowMissingData();
@@ -156,7 +174,12 @@ public class FileManager {
                     this.controlCodesStore.verifyExistenceCode(this.components[3])) {
                     if(this.controlCodesClient.verifyExistenceCode(this.components[5])&&
                             this.controlCodesProduct.verifyExistenceCode(this.components[6])){
-                        insertOrder();
+                        if (this.controlCodesOrder.verifyExistenceCode(this.components[1])) {
+                            //existe orden
+                            insertOrderProduct();
+                            addTotalOrder();
+                        }else
+                            insertOrder();
                     }else
                         this.tableModel.addRow(new Object[]{this.countLine, "El codigo no existe"});         
             }else
@@ -170,29 +193,55 @@ public class FileManager {
     public void insertStore(){
         this.controlCodesStore.addCode(this.components[3]);
         //Insertar en base de datos
+        this.control.insertStore(this.components[3], this.components[1],this.components[2],this.components[4], null, null,null);
     }
     
     public void insertTime(){        
         //Insertar en base de datos
+        this.control.insertShippingTime(this.components[1], this.components[2],Integer.parseInt(this.components[3]));
     }
     
     public void insertProduct(){
         this.controlCodesProduct.addCode(this.components[3]);
+        this.control.insertProduct(this.components[3],this.components[1], this.components[2], Double.parseDouble(this.components[5]), null, 0);
+        insertRelationStoreProduct();
         //Insertar en base de datos
+    }
+    
+    public void insertRelationStoreProduct(){
+        //Inserta en la base de datos la relacion producto tienda
+        this.control.insertRelationStoreProduct(this.components[6],this.components[3], Integer.parseInt(this.components[4]));
     }
     
     public void insertEmployee(){
         this.controlCodesEmployee.addCode(this.components[2]);
         //Insertar en base de datos
+        this.control.insertEmployee(this.components[2], this.components[1],this.components[3],null,this.components[4], null,null);
     }
     
     public void insertClient(){
         this.controlCodesClient.addCode(this.components[2]);
         //Insertar en base de datos
+        this.control.insertClient(this.components[2], this.components[1],this.components[3],null, this.components[4], null,null);
     }
     
-    public void insertOrder(){        
-        //Insertar en base de datos
+    public void insertOrder(){
+        int codeShipping = 0;
+        codeShipping = this.control.existRelationShippingTime(this.components[2], this.components[3]);
+        if (codeShipping != 0) {
+            this.controlCodesOrder.addCode(this.components[1]);
+            this.control.insertOrder(this.components[1], this.components[4], Double.parseDouble(this.components[8]) , Double.parseDouble(this.components[9]), this.components[5], codeShipping);
+            insertOrderProduct();            
+        }else
+            this.tableModel.addRow(new Object[]{this.countLine, "No hay tiempo de Pedido"});
+    }
+    
+    public void insertOrderProduct(){
+        this.control.insertOrderProduct(Integer.parseInt(this.components[7]), this.components[1], this.components[6]);        
+    }
+    
+    public void addTotalOrder(){
+        this.control.addTotalOrder(this.components[1], Double.parseDouble(this.components[8]));
     }
     
     public boolean verifyName(String name){

@@ -5,9 +5,12 @@
  */
 package GUIStart;
 
+import ConnectionDB.ControlDB;
 import GUIEmployee.fEmployee;
+import GUIUser.fClient;
 import GUIUser.fUser;
 import java.util.Arrays;
+import java.util.Date;
 import javax.swing.JOptionPane;
 
 /**
@@ -15,13 +18,18 @@ import javax.swing.JOptionPane;
  * @author user-ubunto
  */
 public class StartFrame extends javax.swing.JFrame {
-
+    private ControlDB control;
+    private Date dateActual;
+    private String codeStoreActual;
     /**
      * Creates new form StartFrame
      */
-    public StartFrame() {
+    public StartFrame(ControlDB control1, Date dateActual, String codeStoreActual) {
         initComponents();
         this.setLocationRelativeTo(null);
+        this.control = control1;
+        this.dateActual = dateActual;
+        this.codeStoreActual = codeStoreActual;
     }
 
     /**
@@ -118,7 +126,7 @@ public class StartFrame extends javax.swing.JFrame {
         }else{
             enter = this.reviewUserEnter(user, password);
             if (enter) {
-                fUser frameUser = new fUser();
+                fClient frameUser = new fClient(this.control);
                 frameUser.setVisible(true);
             }else{
                 JOptionPane.showMessageDialog(null, "Ingrese los datos correctos");

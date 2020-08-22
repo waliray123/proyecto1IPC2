@@ -191,8 +191,8 @@ public class fUser extends javax.swing.JFrame {
         if (this.IDClient.equals("")) {
             System.out.println("tiene que ingresar un cliente");
         }else{
-            fClient fclient = new fClient(this.IDClient);
-            fclient.setVisible(true);
+//            fClient fclient = new fClient();
+//            fclient.setVisible(true);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
     

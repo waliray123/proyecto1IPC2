@@ -5,18 +5,32 @@
  */
 package GUIUser;
 
+import ConnectionDB.ControlDB;
+import ObjectsDB.Order;
+import ObjectsDB.Product;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author user-ubunto
  */
 public class fOrdersClient extends javax.swing.JFrame {
-
+    ControlDB control;
+    ArrayList<Product> products;
+    Order order;
     /**
      * Creates new form fOrdersClient
      */
-    public fOrdersClient() {
+    public fOrdersClient(ControlDB control1, String codeOrder) {
         initComponents();
         setEditableTextfields();
+        this.control = control1;
+        
+        this.order = this.control.searchAndSetByCodeOrder(codeOrder);
+        this.products = this.control.setProductsByOrder(order.getCode());
+        
+        setProducts();
     }
 
     /**
@@ -45,7 +59,6 @@ public class fOrdersClient extends javax.swing.JFrame {
         TextFieldAdvance = new javax.swing.JTextField();
         TextFieldMoneyToPay = new javax.swing.JTextField();
         TextFieldTotal = new javax.swing.JTextField();
-        ButtonReview = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -97,14 +110,6 @@ public class fOrdersClient extends javax.swing.JFrame {
 
         TextFieldTotal.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
 
-        ButtonReview.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
-        ButtonReview.setText("Revisar Pedido");
-        ButtonReview.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonReviewActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -126,39 +131,42 @@ public class fOrdersClient extends javax.swing.JFrame {
                                     .addComponent(TextFieldCode, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel2)
-                                    .addComponent(TextFieldDays)
-                                    .addComponent(ButtonReview, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jLabel3)
-                                    .addComponent(jLabel6)
-                                    .addComponent(TextFieldStore1)
-                                    .addComponent(TextFieldAdvance, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
+                                    .addComponent(TextFieldStore1))
+                                .addGap(38, 38, 38)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel7)
                                     .addComponent(jLabel4)
-                                    .addComponent(TextFieldStore2)
-                                    .addComponent(TextFieldMoneyToPay, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                    .addComponent(TextFieldStore2))
+                                .addGap(191, 191, 191)))))
                 .addGap(29, 29, 29))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(TextFieldDays, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6)
+                    .addComponent(TextFieldAdvance, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel7)
+                    .addComponent(TextFieldMoneyToPay, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(TextFieldCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(TextFieldStore1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(TextFieldStore2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(ButtonReview, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(TextFieldCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TextFieldStore1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TextFieldStore2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -198,11 +206,6 @@ public class fOrdersClient extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void ButtonReviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonReviewActionPerformed
-        String codeOrder = this.TextFieldCode.getText();
-                
-    }//GEN-LAST:event_ButtonReviewActionPerformed
-
     public void setEditableTextfields(){
         this.TextFieldAdvance.setEditable(false);
         this.TextFieldMoneyToPay.setEditable(false);
@@ -212,9 +215,29 @@ public class fOrdersClient extends javax.swing.JFrame {
         this.TextFieldAdvance.setEditable(false);
         this.TextFieldTotal.setEditable(false);
     }
-
+    
+    public void setProducts(){
+        String name = "";
+        int quantity = 0;
+        double price = 0;
+        double total =0;
+        
+        DefaultTableModel model = new DefaultTableModel();
+        model = (DefaultTableModel)this.jTable1.getModel();
+        
+        int sizeProducts = this.products.size();
+        for (int i = 0; i < sizeProducts; i++) {
+            name = this.products.get(i).getName();
+            quantity = this.products.get(i).getQuantity();
+            price = this.products.get(i).getPrice();            
+            total = price * quantity;
+            model.addRow(new Object[]{name, quantity, price, total});
+        }                
+        
+        this.jTable1.setModel(model);
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton ButtonReview;
     private javax.swing.JTextField TextFieldAdvance;
     private javax.swing.JTextField TextFieldCode;
     private javax.swing.JTextField TextFieldDays;

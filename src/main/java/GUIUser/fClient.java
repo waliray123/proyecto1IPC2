@@ -5,20 +5,23 @@
  */
 package GUIUser;
 
+import ConnectionDB.ControlDB;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author user-ubunto
  */
 public class fClient extends javax.swing.JFrame {
-
-    private String IDClient;
+    
+    private ControlDB control;
     
     /**
      * Creates new form fClient
      */
-    public fClient(String IdClient) {
+    public fClient(ControlDB control1) {
         initComponents();
-        this.IDClient = IdClient;
+        this.control = control1;
                 
     }
 
@@ -75,8 +78,13 @@ public class fClient extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ButtonOrdersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonOrdersActionPerformed
-        fOrdersClient fordersClient = new fOrdersClient();
-        fordersClient.setVisible(true);
+
+        String input =JOptionPane.showInputDialog(null, "Ingrese al codigo de pedido") ; //what should go here
+        if (this.control.existCodeOrder(input)) {
+            fOrdersClient fordersClient = new fOrdersClient(this.control,input);
+            fordersClient.setVisible(true);
+        }else
+            JOptionPane.showMessageDialog(this, "No existe ese codigo");
     }//GEN-LAST:event_ButtonOrdersActionPerformed
 
     private void ButtonCatalogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonCatalogActionPerformed

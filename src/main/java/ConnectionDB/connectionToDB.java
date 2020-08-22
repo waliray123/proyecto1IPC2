@@ -21,9 +21,8 @@ public class connectionToDB {
     public Connection getConnection() {
         Connection connection = null;//initialize
         try {
-            Class.forName("com.mysql.jdbc.Driver");//declare a driver
-            connection = (Connection) DriverManager.getConnection(URL, USER, PASSWORD);//we connect with the info
-            JOptionPane.showMessageDialog(null, "Se conecto con exito");
+            Class.forName("com.mysql.cj.jdbc.Driver");//declare a driver
+            connection = (Connection) DriverManager.getConnection(URL, USER, PASSWORD);//we connect with the info            
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "ERROR, " + e.getMessage(), "X", JOptionPane.ERROR_MESSAGE);
         }
