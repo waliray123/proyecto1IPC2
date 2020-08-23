@@ -21,7 +21,34 @@ public class Order {
     private String ClientNIT;
     private int ShippingTime;
     private Date dateReceipt;
+    private String codeOrderOut;
+    private String codeOrderEnter;
+    private boolean delivered;
 
+    public boolean isDelivered() {
+        return delivered;
+    }
+
+    public void setDelivered(boolean delivered) {
+        this.delivered = delivered;
+    }   
+    
+    public String getCodeOrderOut() {
+        return codeOrderOut;
+    }
+
+    public void setCodeOrderOut(String codeOrderOut) {
+        this.codeOrderOut = codeOrderOut;
+    }
+
+    public String getCodeOrderEnter() {
+        return codeOrderEnter;
+    }
+
+    public void setCodeOrderEnter(String codeOrderEnter) {
+        this.codeOrderEnter = codeOrderEnter;
+    }        
+    
     public String getCode() {
         return code;
     }
@@ -31,7 +58,7 @@ public class Order {
     }
 
     public void setDateStr(String dateStr) {
-        try{            
+        try{
             java.util.Date dateParse= new SimpleDateFormat("yyyy-MM-dd").parse(dateStr);
             this.dateOrder = dateParse;
             setDateReciept();

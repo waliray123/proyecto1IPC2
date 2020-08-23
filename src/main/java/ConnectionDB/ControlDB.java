@@ -149,22 +149,63 @@ public class ControlDB {
         }
     }
     
-    public void insertOrder(String code, String dateOrder, double total , double advance, String clientNit, int codeShippingTime){        
+    public void insertOrder(String code, String dateOrder, double total , double advance, String clientNit, int codeShippingTime ,String storeEnter, String storeOut, boolean delivered){        
         try {
-            ps = connection.prepareStatement("INSERT INTO ORDER_CLIENT VALUES (?,?,?,?,?,?)");
+            ps = connection.prepareStatement("INSERT INTO ORDER_CLIENT VALUES (?,?,?,?,?,?,?,?,?)");
             ps.setString(1, code);
             ps.setString(2, dateOrder);
             ps.setDouble(3, total);
-            ps.setDouble(4, advance);
+            ps.setDouble(4, advance);                                              
             ps.setString(5, clientNit);
             ps.setInt(6, codeShippingTime);
-           
+            ps.setString(7, storeEnter);
+            ps.setString(8, storeOut);
+            ps.setBoolean(9, delivered); 
+                       
+            ps.executeUpdate();//action done
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }
+    
+    public void quitQuantityProduct(String codeStoreOut, String codeProduct, int quantityToQuit){
+        int quantity = takeQuantityProduct(codeStoreOut,codeProduct)-quantityToQuit;
+        
+        try {
+            ps = connection.prepareStatement("UPDATE STORE_PRODUCT SET quantity = ? WHERE STORE_code = ? AND PRODUCT_code = ?");
+            ps.setInt(1, quantity);
+            ps.setString(2, codeStoreOut);
+            ps.setString(3, codeProduct);
             
             ps.executeUpdate();//action done
             
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
+        
+    }
+    
+    public int takeQuantityProduct(String codeStore, String codeProduct){
+        int quantity = 0;
+        String query = "SELECT quantity FROM STORE_PRODUCT WHERE STORE_code = ? AND PRODUCT_code = ?"; 
+        
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {
+            preSt.setString(1, codeStore);
+            preSt.setString(2, codeProduct);
+            
+            ResultSet result = preSt.executeQuery();                        
+            
+            
+            if (result.next())
+                quantity = result.getInt(1);
+                
+            result.close();
+            preSt.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return quantity;
     }
     
     public void insertOrderProduct(int quantity ,String orderCode, String productCode){        
@@ -309,12 +350,15 @@ public class ControlDB {
             
             ResultSet result = preSt.executeQuery();            
             if (result.next()){
-                order.setCode(result.getString(1));
-                order.setDateStr(result.getString(2));
+                order.setCode(result.getString(1));                
                 order.setTotal(Double.parseDouble(result.getString(3)));
                 order.setAdvance(Double.parseDouble(result.getString(4)));                
                 order.setClientNIT(result.getString(5));
-                order.setShippingTime(searchDaysShipping(result.getString(6)));                
+                order.setShippingTime(searchDaysShipping(result.getString(6)));
+                order.setDateStr(result.getString(2));
+                order.setCodeOrderOut(result.getString(7));
+                order.setCodeOrderEnter(result.getString(8));
+                order.setDelivered(Boolean.getBoolean(result.getString(9)));
             }    
             result.close();
             preSt.close();
@@ -362,6 +406,36 @@ public class ControlDB {
                 product.setDescription(result.getString(5));
                 product.setGuarantee(Integer.parseInt(result.getString(6)));
                 product.setQuantity(Integer.parseInt(result.getString(7)));
+                products.add(product);
+            }
+                
+            result.close();
+            preSt.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        
+        return products;
+    }
+    
+    public ArrayList<Product> setProductsByStore(String codeStore){
+        ArrayList<Product> products = new ArrayList<Product>();
+        
+        String query = "SELECT * FROM PRODUCT AS P INNER JOIN STORE_PRODUCT AS SP ON SP.PRODUCT_code = P.code AND SP.STORE_code = ?"; 
+        
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {            
+            preSt.setString(1, codeStore);
+            
+            ResultSet result = preSt.executeQuery();            
+            while(result.next()){
+                Product product = new Product();
+                product.setCode(result.getString(1));
+                product.setName(result.getString(2));
+                product.setMaker(result.getString(3));
+                product.setPrice(Double.parseDouble(result.getString(4)));
+                product.setDescription(result.getString(5));
+                product.setGuarantee(Integer.parseInt(result.getString(6)));
+                product.setQuantity(Integer.parseInt(result.getString(9)));
                 products.add(product);
             }
                 

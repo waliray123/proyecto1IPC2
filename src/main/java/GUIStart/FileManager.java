@@ -230,14 +230,15 @@ public class FileManager {
         codeShipping = this.control.existRelationShippingTime(this.components[2], this.components[3]);
         if (codeShipping != 0) {
             this.controlCodesOrder.addCode(this.components[1]);
-            this.control.insertOrder(this.components[1], this.components[4], Double.parseDouble(this.components[8]) , Double.parseDouble(this.components[9]), this.components[5], codeShipping);
-            insertOrderProduct();            
+            this.control.insertOrder(this.components[1], this.components[4], Double.parseDouble(this.components[8]) , Double.parseDouble(this.components[9]), this.components[5], codeShipping,this.components[2],this.components[3],false);
+            insertOrderProduct();          
         }else
             this.tableModel.addRow(new Object[]{this.countLine, "No hay tiempo de Pedido"});
     }
     
     public void insertOrderProduct(){
-        this.control.insertOrderProduct(Integer.parseInt(this.components[7]), this.components[1], this.components[6]);        
+        this.control.insertOrderProduct(Integer.parseInt(this.components[7]), this.components[1], this.components[6]);
+        this.control.quitQuantityProduct(this.components[2], this.components[6], Integer.parseInt(this.components[7]));
     }
     
     public void addTotalOrder(){

@@ -31,6 +31,7 @@ public class fOrdersClient extends javax.swing.JFrame {
         this.products = this.control.setProductsByOrder(order.getCode());
         
         setProducts();
+        setOrder();
     }
 
     /**
@@ -46,7 +47,6 @@ public class fOrdersClient extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         TextFieldCode = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        TextFieldDays = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
@@ -59,6 +59,7 @@ public class fOrdersClient extends javax.swing.JFrame {
         TextFieldAdvance = new javax.swing.JTextField();
         TextFieldMoneyToPay = new javax.swing.JTextField();
         TextFieldTotal = new javax.swing.JTextField();
+        DateChooserReceipt = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -70,9 +71,7 @@ public class fOrdersClient extends javax.swing.JFrame {
         TextFieldCode.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
 
         jLabel2.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
-        jLabel2.setText("Dias Restantes ");
-
-        TextFieldDays.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        jLabel2.setText("Fecha de Entrega");
 
         jTable1.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -143,8 +142,8 @@ public class fOrdersClient extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
-                    .addComponent(TextFieldDays, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(DateChooserReceipt, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6)
                     .addComponent(TextFieldAdvance, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -173,10 +172,11 @@ public class fOrdersClient extends javax.swing.JFrame {
                     .addComponent(jLabel6)
                     .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(TextFieldDays, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TextFieldAdvance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TextFieldMoneyToPay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(TextFieldAdvance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(TextFieldMoneyToPay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(DateChooserReceipt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -207,11 +207,11 @@ public class fOrdersClient extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     public void setEditableTextfields(){
+        this.TextFieldCode.setEditable(false);
         this.TextFieldAdvance.setEditable(false);
         this.TextFieldMoneyToPay.setEditable(false);
         this.TextFieldStore1.setEditable(false);
         this.TextFieldStore2.setEditable(false);
-        this.TextFieldDays.setEditable(false);
         this.TextFieldAdvance.setEditable(false);
         this.TextFieldTotal.setEditable(false);
     }
@@ -237,10 +237,23 @@ public class fOrdersClient extends javax.swing.JFrame {
         this.jTable1.setModel(model);
     }
     
+    public void setOrder(){
+        this.TextFieldCode.setText(this.order.getCode()); 
+        this.TextFieldAdvance.setText(String.valueOf(this.order.getAdvance()));
+        this.TextFieldTotal.setText(String.valueOf(this.order.getTotal()));
+        double payToReceipt = (this.order.getTotal()-this.order.getAdvance());
+        this.TextFieldMoneyToPay.setText(String.format("%.2f", payToReceipt));
+        
+        this.DateChooserReceipt.setDate(this.order.getDateReceipt());
+        
+        this.TextFieldStore1.setText(String.valueOf(this.order.getCodeOrderOut()));
+        this.TextFieldStore2.setText(String.valueOf(this.order.getCodeOrderEnter()));
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.toedter.calendar.JDateChooser DateChooserReceipt;
     private javax.swing.JTextField TextFieldAdvance;
     private javax.swing.JTextField TextFieldCode;
-    private javax.swing.JTextField TextFieldDays;
     private javax.swing.JTextField TextFieldMoneyToPay;
     private javax.swing.JTextField TextFieldStore1;
     private javax.swing.JTextField TextFieldStore2;

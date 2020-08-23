@@ -88,7 +88,7 @@ public class fClient extends javax.swing.JFrame {
     }//GEN-LAST:event_ButtonOrdersActionPerformed
 
     private void ButtonCatalogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonCatalogActionPerformed
-        fCatalogClient fcatalogClient = new fCatalogClient();
+        fCatalogClient fcatalogClient = new fCatalogClient(this.control);
         fcatalogClient.setVisible(true);
     }//GEN-LAST:event_ButtonCatalogActionPerformed
 
