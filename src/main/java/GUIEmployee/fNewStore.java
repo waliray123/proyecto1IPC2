@@ -5,23 +5,33 @@
  */
 package GUIEmployee;
 
+import ConnectionDB.ControlDB;
+import ObjectsDB.Store;
 import java.awt.Color;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author user-ubunto
  */
 public class fNewStore extends javax.swing.JFrame {
-    
+    private ControlDB control;
     private String codeStore;
+    private DefaultTableModel dtmStore;
+    private ArrayList<Store> stores;
     
     /**
      * Creates new form fNewStore
      */
-    public fNewStore() {
+    public fNewStore(ControlDB control1) {
         initComponents();
+        this.dtmStore = (DefaultTableModel)this.TableStore.getModel();
         this.codeStore = "";
+        this.control = control1;
+        stores =  this.control.setStores();
+        setStores();
     }
 
     /**
@@ -54,7 +64,6 @@ public class fNewStore extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TableStore = new javax.swing.JTable();
-        ButtonDelete = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -108,8 +117,7 @@ public class fNewStore extends javax.swing.JFrame {
 
         TableStore.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"asdfasf", "greg", "234", "dgh", "234", "5445", "sfd"},
-                {"gsdfg", "hyrrh", "4545", "nyghn", "6546", "36434", null}
+
             },
             new String [] {
                 "Nombre", "Direccion", "Codigo", "E-mail", "Telefono 1", "Telefono 2", "Horario"
@@ -145,13 +153,6 @@ public class fNewStore extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        ButtonDelete.setText("Guardar Tienda");
-        ButtonDelete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonDeleteActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -182,8 +183,7 @@ public class fNewStore extends javax.swing.JFrame {
                                         .addComponent(TextFieldShedule, javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(TextFieldPhone2, javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(LabelPhone1, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(TextFieldPhone1, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(ButtonDelete, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE))
+                                        .addComponent(TextFieldPhone1, javax.swing.GroupLayout.Alignment.LEADING))
                                     .addComponent(LabelPhone2)
                                     .addComponent(LabelShedule))
                                 .addGap(40, 40, 40)
@@ -194,7 +194,7 @@ public class fNewStore extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(30, 30, 30)
@@ -232,12 +232,11 @@ public class fNewStore extends javax.swing.JFrame {
                                 .addComponent(LabelEMail)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(TextFieldEMail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(ButtonSave)
-                                .addGap(1, 1, 1)
-                                .addComponent(ButtonDelete))))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(ButtonSave))
+                        .addGap(21, 21, 21))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                 .addComponent(jLabel9)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -247,14 +246,33 @@ public class fNewStore extends javax.swing.JFrame {
 
     private void ButtonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonSaveActionPerformed
         if (this.reviewRequiredFields() == true) {
-            if (this.codeStore.equals("")) {
-                //TODO Guardar Tienda
-                System.out.println("Guardar Tienda");
-            }else{
-                //TODO Editar Tienda
-                System.out.println("Editar Tienda");
-            }
+            String code = this.TextFieldCode.getText();
+                String name = this.TextFieldName.getText();
+                String address = this.TextFieldAddress.getText();
+                String phone1 = this.TextFieldPhone1.getText();
+                String phone2 = "";
+                String email = "";                                
+                String shedule = "";
+                if (this.TextFieldPhone2.equals("") == false)
+                    phone2 = this.TextFieldPhone2.getText();
+                else
+                    phone2 = null;                
+                if (this.TextFieldEMail.equals("") == false)
+                    email = this.TextFieldEMail.getText();
+                else
+                    email = null;                
+                if (this.TextFieldShedule.equals("") == false)
+                    shedule = this.TextFieldShedule.getText();
+                else
+                    shedule = null;
+            if (this.codeStore.equals(""))                                                                                                 
+                this.control.insertStore(code, name, address, phone1, phone2, email, shedule);                                
+            else                                
+                this.control.updateStore(this.codeStore, name, address, phone1, phone2, email, shedule);                
+            
             clearTextBox();
+            stores =  this.control.setStores();
+            setStores();
         }            
     }//GEN-LAST:event_ButtonSaveActionPerformed
 
@@ -279,10 +297,6 @@ public class fNewStore extends javax.swing.JFrame {
 
         this.codeStore = this.TextFieldCode.getText();
     }//GEN-LAST:event_TableStoreMouseClicked
-
-    private void ButtonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonDeleteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ButtonDeleteActionPerformed
       
     private boolean reviewRequiredFields(){
         this.setColorsLabels();
@@ -337,9 +351,40 @@ public class fNewStore extends javax.swing.JFrame {
         
         this.codeStore = "";
     }
-
+    
+    public void setStores(){
+        cleanTable();
+        String code = "";
+        String name = "";
+        String address = "";
+        String phone1 = "";
+        String phone2 = "";
+        String email = "";
+        String shedule = "";
+        
+        int sizeStores = this.stores.size();
+        for (int i = 0; i < sizeStores; i++) {
+            code = this.stores.get(i).getCode();
+            name = this.stores.get(i).getName();
+            address = this.stores.get(i).getAddress();
+            phone1 = this.stores.get(i).getPhone1();
+            phone2 = this.stores.get(i).getPhone2();
+            email = this.stores.get(i).getEmail();
+            shedule = this.stores.get(i).getShedule();
+                       
+            this.dtmStore.addRow(new Object[]{name,address, code, email,phone1,phone2, shedule});
+        }                
+        
+        this.TableStore.setModel(dtmStore);
+    }
+    
+    public void cleanTable(){
+        int filas=this.TableStore.getRowCount();
+        for (int i = 0;filas>i; i++) {
+            this.dtmStore.removeRow(0);
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton ButtonDelete;
     private javax.swing.JButton ButtonSave;
     private javax.swing.JLabel LabelAddress;
     private javax.swing.JLabel LabelCode;

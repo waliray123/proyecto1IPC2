@@ -5,22 +5,32 @@
  */
 package GUIEmployee;
 
+import ConnectionDB.ControlDB;
+import ObjectsDB.Employee;
 import java.awt.Color;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author user-ubunto
  */
 public class fNewEmployee extends javax.swing.JFrame {
-
+    private ControlDB control;
     private String codeEmployee;
+    private ArrayList<Employee> employees;
+    private DefaultTableModel dtmEmployee;
     
     /**
      * Creates new form fNewEmployee
      */
-    public fNewEmployee() {
+    public fNewEmployee(ControlDB control1) {
         initComponents();        
         codeEmployee = "";
+        this.control = control1;
+        this.dtmEmployee = (DefaultTableModel)this.TableEmployee.getModel();
+        this.employees = this.control.setEmployee();
+        setEmployees();
     }
 
     /**
@@ -50,7 +60,6 @@ public class fNewEmployee extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         TableEmployee = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        ButtonDelete = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -89,8 +98,7 @@ public class fNewEmployee extends javax.swing.JFrame {
 
         TableEmployee.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"123123", "afasdf", "12313", "asdfsa", "1432", "234", "dfads"},
-                {"4343", "gr", "4342", "bdfs", "34324", "7868", null}
+
             },
             new String [] {
                 "Codigo", "Nombre", "DPI", "Direccion", "Telefono", "NIT", "Correo"
@@ -104,13 +112,6 @@ public class fNewEmployee extends javax.swing.JFrame {
         jScrollPane1.setViewportView(TableEmployee);
 
         jLabel1.setText("Empleados");
-
-        ButtonDelete.setText("Eliminar Empleado");
-        ButtonDelete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonDeleteActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -136,8 +137,7 @@ public class fNewEmployee extends javax.swing.JFrame {
                     .addComponent(TextFieldNit)
                     .addComponent(TextFieldEMail)
                     .addComponent(TextFieldAddress)
-                    .addComponent(ButtonSaveEmployee, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
-                    .addComponent(ButtonDelete, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE))
+                    .addComponent(ButtonSaveEmployee, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -149,11 +149,12 @@ public class fNewEmployee extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(11, 11, 11)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(41, 41, 41)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(11, 11, 11)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
@@ -183,12 +184,10 @@ public class fNewEmployee extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(LabelPhone)
-                            .addComponent(ButtonSaveEmployee))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(TextFieldPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ButtonDelete))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(ButtonSaveEmployee))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(TextFieldPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         pack();
@@ -204,22 +203,23 @@ public class fNewEmployee extends javax.swing.JFrame {
 
     private void ButtonSaveEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonSaveEmployeeActionPerformed
         if (this.reviewRequiredFields() == true ) {
-            if (this.codeEmployee.equals("")) {
-                //TODO Guardar Empleado
-                System.out.println("guardar Empleado");
-            }else{
-                //TODO Editar Empleado
-                System.out.println("editar Empleado");
-            }
+            String code = this.TextFieldCode.getText();
+            String name = this.TextFieldName.getText();
+            String phone = this.TextFieldPhone.getText();                
+            String NIT = this.TextFieldNit.getText();
+            String DPI = this.TextFieldDpi.getText();
+            String email = this.TextFieldEMail.getText();
+            String address = this.TextFieldAddress.getText();
+            if (this.codeEmployee.equals("")) 
+                this.control.insertEmployee(code, name, phone, NIT, DPI, email, address);
+            else
+                this.control.updateEmployee(this.codeEmployee, name, phone, NIT, DPI, email, address);
+            
+            this.employees = this.control.setEmployee();
+            setEmployees();            
             clearTextBox();
         }
     }//GEN-LAST:event_ButtonSaveEmployeeActionPerformed
-
-    private void ButtonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonDeleteActionPerformed
-        // TODO eliminar empleado si hay codigo de empleado
-        
-        
-    }//GEN-LAST:event_ButtonDeleteActionPerformed
 
     private void TableEmployeeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableEmployeeMouseClicked
         int select = this.TableEmployee.rowAtPoint(evt.getPoint());
@@ -300,8 +300,40 @@ public class fNewEmployee extends javax.swing.JFrame {
         this.codeEmployee = "";
     }
     
+    public void setEmployees(){
+        cleanTable();
+        int code = 0;
+        String name = "";
+        String phone = "";                
+        String NIT = "";
+        String DPI = "";
+        String email = "";
+        String address = "";
+        
+        int sizeStores = this.employees.size();
+        for (int i = 0; i < sizeStores; i++) {
+            code = this.employees.get(i).getCode();
+            name = this.employees.get(i).getName();            
+            phone = this.employees.get(i).getPhone();
+            NIT = this.employees.get(i).getNIT();            
+            DPI = this.employees.get(i).getDPI();
+            email = this.employees.get(i).getEmail();
+            address = this.employees.get(i).getAddress();
+                       
+            this.dtmEmployee.addRow(new Object[]{code,name,DPI,address,phone,NIT,email});
+        }                
+        
+        this.TableEmployee.setModel(dtmEmployee);
+    }
+    
+    public void cleanTable(){
+        int filas=this.TableEmployee.getRowCount();
+        for (int i = 0;filas>i; i++) {
+            this.dtmEmployee.removeRow(0);
+        }
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton ButtonDelete;
     private javax.swing.JButton ButtonSaveEmployee;
     private javax.swing.JLabel LabelAddress;
     private javax.swing.JLabel LabelCode;

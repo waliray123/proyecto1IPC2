@@ -5,9 +5,12 @@
  */
 package GUIEmployee;
 
+import ConnectionDB.ControlDB;
+import ObjectsDB.Client;
 import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -21,14 +24,19 @@ public class fNewClient extends javax.swing.JFrame {
     private DefaultTableModel dtmClient;
     private TableRowSorter tableRowSorterClient;
     private String NITClientChange;
+    private ControlDB control;
+    ArrayList<Client> clients;
     
     /**
      * Creates new form fNewClient
      */
-    public fNewClient() {
+    public fNewClient(ControlDB control1) {
         initComponents();
+        this.control = control1;
         dtmClient = (DefaultTableModel) this.TableClient.getModel();
         cleanTextBox();
+        this.clients = this.control.setClients();
+        setClients();
     }
 
     /**
@@ -277,13 +285,33 @@ public class fNewClient extends javax.swing.JFrame {
 
     private void ButtonSaveClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonSaveClientActionPerformed
         if (this.reviewRequiredFields() == true ) {
+            String NIT = this.TextFieldNit.getText();
+            String name = this.TextFieldName.getText();
+            String phone = this.TextFieldPhone.getText();
+            String DPI = null;
+            String credit = "0";
+            String email = null;
+            String address = null;
+            if (this.TextFieldDpi.getText().equals("") == false)
+                DPI = this.TextFieldDpi.getText();            
+            if (this.TextFieldCredit.getText().equals("") == false)
+                credit = this.TextFieldCredit.getText();
+            if (this.TextFieldEMail.getText().equals("") == false)
+                email= this.TextFieldEMail.getText();
+            if (this.TextFieldAddress.getText().equals("") == false)
+                address = this.TextFieldAddress.getText();
+            
             if (this.NITClientChange.equals("")) {
                 //TODO Guardar Cliente
+                this.control.insertClient(NIT, name, phone, DPI, credit, email, address);
                 System.out.println("guardar cliente");
             }else{
-                //TODO Editar cliente                
+                //TODO Editar cliente
+                this.control.updateClient(this.NITClientChange, name, phone, DPI, credit, email, address);
                 System.out.println("Editar cliente");
             }
+            this.clients = this.control.setClients();
+            setClients();            
             cleanTextBox();
         }
     }//GEN-LAST:event_ButtonSaveClientActionPerformed
@@ -372,6 +400,40 @@ public class fNewClient extends javax.swing.JFrame {
         this.NITClientChange = "";
         
     }
+    
+    public void setClients(){
+        cleanTable();
+        String NIT = "";
+        String name = "";
+        String phone = "";
+        String DPI = "";
+        double credit = 0;
+        String email = "";
+        String address = "";
+        
+        int sizeClients = this.clients.size();
+        for (int i = 0; i < sizeClients; i++) {
+            NIT = this.clients.get(i).getNIT();
+            name = this.clients.get(i).getName();
+            phone = this.clients.get(i).getPhone();
+            DPI = this.clients.get(i).getDPI();
+            credit = this.clients.get(i).getCredit();
+            email = this.clients.get(i).getEmail();
+            address = this.clients.get(i).getAddress();
+                       
+            this.dtmClient.addRow(new Object[]{name, NIT, DPI, credit, phone , email, address});
+        }                
+        
+        this.TableClient.setModel(dtmClient);
+    }
+    
+    public void cleanTable(){
+        int filas=this.TableClient.getRowCount();
+        for (int i = 0;filas>i; i++) {
+            this.dtmClient.removeRow(0);
+        }
+    }
+    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonDelete;

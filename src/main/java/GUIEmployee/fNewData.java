@@ -5,17 +5,23 @@
  */
 package GUIEmployee;
 
+import ConnectionDB.ControlDB;
+
 /**
  *
  * @author user-ubunto
  */
 public class fNewData extends javax.swing.JFrame {
-
+    
+    private ControlDB control;
+    private String codeStore;
     /**
      * Creates new form fNewData
      */
-    public fNewData() {
+    public fNewData(ControlDB control1,String codeStore) {
         initComponents();
+        this.control = control1;
+        this.codeStore = codeStore;
     }
 
     /**
@@ -109,27 +115,27 @@ public class fNewData extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ButtonNewTimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonNewTimeActionPerformed
-        fNewTime newTime = new fNewTime();
+        fNewTime newTime = new fNewTime(this.control);
         newTime.setVisible(true);
     }//GEN-LAST:event_ButtonNewTimeActionPerformed
 
     private void ButtonNewClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonNewClientActionPerformed
-        fNewClient newClient = new fNewClient();
+        fNewClient newClient = new fNewClient(this.control);
         newClient.setVisible(true);
     }//GEN-LAST:event_ButtonNewClientActionPerformed
 
     private void ButtonNewEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonNewEmployeeActionPerformed
-        fNewEmployee newEmployee = new fNewEmployee();
+        fNewEmployee newEmployee = new fNewEmployee(this.control);
         newEmployee.setVisible(true);
     }//GEN-LAST:event_ButtonNewEmployeeActionPerformed
 
     private void ButtonNewStoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonNewStoreActionPerformed
-        fNewStore newStore = new fNewStore();
+        fNewStore newStore = new fNewStore(this.control);
         newStore.setVisible(true);
     }//GEN-LAST:event_ButtonNewStoreActionPerformed
 
     private void ButtonNewProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonNewProductActionPerformed
-        fNewProduct newProduct = new fNewProduct();
+        fNewProduct newProduct = new fNewProduct(this.control,this.codeStore);
         newProduct.setVisible(true);
     }//GEN-LAST:event_ButtonNewProductActionPerformed
 

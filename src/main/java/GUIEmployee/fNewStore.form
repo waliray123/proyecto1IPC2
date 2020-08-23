@@ -52,7 +52,6 @@
                                       <Component id="TextFieldPhone2" alignment="0" max="32767" attributes="0"/>
                                       <Component id="LabelPhone1" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Component id="TextFieldPhone1" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="ButtonDelete" alignment="0" pref="143" max="32767" attributes="0"/>
                                   </Group>
                                   <Component id="LabelPhone2" min="-2" max="-2" attributes="0"/>
                                   <Component id="LabelShedule" min="-2" max="-2" attributes="0"/>
@@ -71,7 +70,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+              <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
@@ -119,16 +118,15 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="TextFieldEMail" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="ButtonSave" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
-                              <Component id="ButtonDelete" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="ButtonSave" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
+                      <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="jPanel1" max="32767" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Component id="jPanel1" max="32767" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  </Group>
               </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
@@ -269,35 +267,14 @@
             <Component class="javax.swing.JTable" name="TableStore">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="7" rowCount="2">
-                    <Column editable="true" title="Nombre" type="java.lang.Object">
-                      <Data value="asdfasf"/>
-                      <Data value="gsdfg"/>
-                    </Column>
-                    <Column editable="true" title="Direccion" type="java.lang.Object">
-                      <Data value="greg"/>
-                      <Data value="hyrrh"/>
-                    </Column>
-                    <Column editable="true" title="Codigo" type="java.lang.Object">
-                      <Data value="234"/>
-                      <Data value="4545"/>
-                    </Column>
-                    <Column editable="true" title="E-mail" type="java.lang.Object">
-                      <Data value="dgh"/>
-                      <Data value="nyghn"/>
-                    </Column>
-                    <Column editable="true" title="Telefono 1" type="java.lang.Object">
-                      <Data value="234"/>
-                      <Data value="6546"/>
-                    </Column>
-                    <Column editable="true" title="Telefono 2" type="java.lang.Object">
-                      <Data value="5445"/>
-                      <Data value="36434"/>
-                    </Column>
-                    <Column editable="true" title="Horario" type="java.lang.Object">
-                      <Data value="sfd"/>
-                      <Data value="null"/>
-                    </Column>
+                  <Table columnCount="7" rowCount="0">
+                    <Column editable="true" title="Nombre" type="java.lang.Object"/>
+                    <Column editable="true" title="Direccion" type="java.lang.Object"/>
+                    <Column editable="true" title="Codigo" type="java.lang.Object"/>
+                    <Column editable="true" title="E-mail" type="java.lang.Object"/>
+                    <Column editable="true" title="Telefono 1" type="java.lang.Object"/>
+                    <Column editable="true" title="Telefono 2" type="java.lang.Object"/>
+                    <Column editable="true" title="Horario" type="java.lang.Object"/>
                   </Table>
                 </Property>
               </Properties>
@@ -309,13 +286,5 @@
         </Container>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="ButtonDelete">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Guardar Tienda"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ButtonDeleteActionPerformed"/>
-      </Events>
-    </Component>
   </SubComponents>
 </Form>

@@ -24,7 +24,7 @@ public class Main {
                 FirstEnterFrame firstEnter = new FirstEnterFrame(control);
                 firstEnter.setVisible(true);
             }else{
-                fChooseDateStore chooseDate = new fChooseDateStore(control);
+                fChooseDateStore chooseDate = new fChooseDateStore(control, null,null);
                 chooseDate.setVisible(true);
             }                    
             

@@ -5,8 +5,11 @@
  */
 package ConnectionDB;
 
+import ObjectsDB.Client;
+import ObjectsDB.Employee;
 import ObjectsDB.Order;
 import ObjectsDB.Product;
+import ObjectsDB.Store;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -447,4 +450,236 @@ public class ControlDB {
         
         return products;
     }
+    
+    public ArrayList<Store> setStores(){
+        ArrayList<Store> stores = new ArrayList<Store>();
+        
+        String query = "SELECT * FROM STORE"; 
+        
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {            
+            
+            ResultSet result = preSt.executeQuery();            
+            while(result.next()){
+                Store store = new Store();
+                store.setCode(result.getString(1));
+                store.setName(result.getString(2));
+                store.setAddress(result.getString(3));
+                store.setPhone1(result.getString(4));
+                if (result.getString(5) == null)
+                    store.setPhone2("");
+                else
+                    store.setPhone2(result.getString(5));
+                if(result.getString(6) == null)
+                    store.setEmail("");
+                else
+                    store.setEmail(result.getString(6));
+                if(result.getString(7) == null)
+                    store.setShedule("");
+                else
+                    store.setShedule(result.getString(7));
+                
+                stores.add(store);
+            }
+                
+            result.close();
+            preSt.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        
+        return stores;
+    }
+    
+    public void updateStore(String code,String name, String address, String phone1,
+            String phone2, String email, String shedule){
+        try {
+            ps = connection.prepareStatement("UPDATE STORE SET name = ?,address = ?, phone1 = ?, phone2 = ?, email = ?, shedule = ? WHERE code = ?;");
+            ps.setString(7, code);
+            ps.setString(1, name);
+            ps.setString(2, address);
+            ps.setString(3, phone1);
+            ps.setString(4, phone2);
+            ps.setString(5, email);
+            ps.setString(6, shedule);
+            
+            ps.executeUpdate();//action done
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }
+    
+    public ArrayList<Employee> setEmployee(){
+        ArrayList<Employee> employees = new ArrayList<Employee>();
+        
+        String query = "SELECT * FROM EMPLOYEE"; 
+        
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {            
+            
+            ResultSet result = preSt.executeQuery();            
+            while(result.next()){
+                Employee employee = new Employee();
+                employee.setCode(Integer.parseInt(result.getString(1)));
+                employee.setName(result.getString(2));
+                
+                employee.setPhone(result.getString(3));
+                employee.setDPI(result.getString(5));
+                
+                if (result.getString(4) == null)
+                    employee.setNIT("");
+                else
+                    employee.setNIT(result.getString(4));
+                if(result.getString(6) == null)
+                    employee.setEmail("");
+                else
+                    employee.setEmail(result.getString(6));
+                if(result.getString(7) == null)
+                    employee.setAddress("");
+                else
+                    employee.setAddress(result.getString(7));
+                
+                employees.add(employee);
+            }
+                
+            result.close();
+            preSt.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        
+        return employees;
+    }        
+    
+    public void updateEmployee(String code, String name, String phone, String NIT, 
+            String DPI, String email, String address){
+        try {
+            ps = connection.prepareStatement("UPDATE EMPLOYEE SET name = ?,address = ?,phone = ?, NIT = ?, DPI = ?, email = ? WHERE code = ?");
+            ps.setString(7, code);
+            ps.setString(1, name);
+            ps.setString(2, address);
+            ps.setString(3, phone);
+            ps.setString(4, NIT);
+            ps.setString(5, DPI);
+            ps.setString(6, email);
+            
+            ps.executeUpdate();//action done
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }
+    
+    public ArrayList<Client> setClients(){
+        ArrayList<Client> clients = new ArrayList<Client>();
+        
+        String query = "SELECT * FROM CLIENT"; 
+        
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {            
+            
+            ResultSet result = preSt.executeQuery();            
+            while(result.next()){
+                Client client = new Client();
+                client.setNIT(result.getString(1));
+                client.setName(result.getString(2));                
+                client.setPhone(result.getString(3));                
+                
+                
+                if (result.getString(4) == null)
+                    client.setDPI("");
+                else
+                    client.setDPI(result.getString(4));
+                
+                if(result.getString(5) == null)
+                    client.setCredit(0);
+                else
+                    client.setCredit(Double.parseDouble(result.getString(5)));
+                
+                if(result.getString(6) == null)
+                    client.setEmail("");
+                else
+                    client.setEmail(result.getString(6));
+                
+                if(result.getString(7) == null)
+                    client.setAddress("");
+                else
+                    client.setAddress(result.getString(7));
+                
+                clients.add(client);
+            }
+                
+            result.close();
+            preSt.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        
+        return clients;
+    }
+    
+    public void updateClient(String NIT, String name, String phone, String DPI, 
+            String credit, String email, String address){
+        try {
+            ps = connection.prepareStatement("UPDATE CLIENT SET name = ?,phone = ?,DPI = ?, credit = ?, email = ?, address = ? WHERE NIT = ?");
+            ps.setString(7, NIT);
+            ps.setString(1, name);
+            ps.setString(2, phone);
+            ps.setString(3, DPI);
+            ps.setString(4, credit);
+            ps.setString(5, email);
+            ps.setString(6, address);
+            
+            ps.executeUpdate();//action done
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }
+    
+    public void updateProduct(String code,String name, String maker, double price, String description, int guarantee){
+        try {
+            ps = connection.prepareStatement("UPDATE PRODUCT SET name = ?,maker = ?,price = ?, description = ?, guarantee = ? WHERE code = ?");
+            ps.setString(6, code);
+            ps.setString(1, name);
+            ps.setString(2, maker);
+            ps.setDouble(3, price);
+            ps.setString(4, description);
+            ps.setInt(5, guarantee);
+            
+            ps.executeUpdate();//action done
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }
+    
+    public void updateRelationStoreProduct(String codeStore,String codeProduct, int quantity){
+        try {
+            ps = connection.prepareStatement("UPDATE STORE_PRODUCT SET quantity = ? WHERE STORE_code = ? AND PRODUCT_code = ?");
+            ps.setInt(1, quantity);
+            ps.setString(2, codeStore);
+            ps.setString(3, codeProduct);
+            
+            ps.executeUpdate();//action done
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }
+    
+    public void updateShippingTime(String codeStore1,String codeStore2, int days){
+        try {
+            ps = connection.prepareStatement("UPDATE SHIPPINGTIME SET days_Time = ? WHERE (STORE_code_out = ? AND STORE_code_enter = ?) OR (STORE_code_out = ? AND STORE_code_enter = ?)");
+            ps.setInt(1, days);
+            ps.setString(2, codeStore1);
+            ps.setString(3, codeStore2);
+            ps.setString(4, codeStore2);
+            ps.setString(5, codeStore1);
+            
+            ps.executeUpdate();//action done
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }
+   
 }

@@ -5,17 +5,23 @@
  */
 package GUIEmployee;
 
+import ConnectionDB.ControlDB;
+
 /**
  *
  * @author user-ubunto
  */
 public class fNewTime extends javax.swing.JFrame {
-
+    private ControlDB control;
     /**
      * Creates new form fNewTime
      */
-    public fNewTime() {
+    public fNewTime(ControlDB control1) {
         initComponents();
+        this.control = control1;
+        this.control.setCodeStoreCombobox(this.ComboBoxStore1);
+        this.control.setCodeStoreCombobox(this.ComboBoxStore2); 
+        setTime();
     }
 
     /**
@@ -33,16 +39,34 @@ public class fNewTime extends javax.swing.JFrame {
         ComboBoxStore2 = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         ButtonSaveTime = new javax.swing.JButton();
+        TextFieldDays = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("Tienda 1");
 
+        ComboBoxStore1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ComboBoxStore1ActionPerformed(evt);
+            }
+        });
+
         jLabel2.setText("Tienda 2");
+
+        ComboBoxStore2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ComboBoxStore2ActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Tiempo");
 
         ButtonSaveTime.setText("Guardar Tiempo");
+        ButtonSaveTime.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonSaveTimeActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -58,9 +82,10 @@ public class fNewTime extends javax.swing.JFrame {
                             .addComponent(jLabel1)
                             .addComponent(ComboBoxStore1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel3)
-                            .addComponent(ButtonSaveTime, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(ButtonSaveTime, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+                            .addComponent(TextFieldDays))))
                 .addContainerGap(30, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -71,7 +96,9 @@ public class fNewTime extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ComboBoxStore1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ComboBoxStore1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TextFieldDays, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -84,12 +111,60 @@ public class fNewTime extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void ButtonSaveTimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonSaveTimeActionPerformed
+        String store1 = String.valueOf(this.ComboBoxStore1.getSelectedItem());
+        String store2 = String.valueOf(this.ComboBoxStore2.getSelectedItem());
+        int timeInsert = 0;
+        if (this.TextFieldDays.getText().equals("") == false){
+            timeInsert = Integer.parseInt(this.TextFieldDays.getText());        
+            if (verifyStores() == true) {
+                int time =0;
+                time = this.control.existRelationShippingTime(store1, store2);
+                if (time == 0) 
+                    this.control.insertShippingTime(store1, store2, timeInsert);
+                else
+                    this.control.updateShippingTime(store1, store2, timeInsert);
+            }
+        }
+        setTime();
+    }//GEN-LAST:event_ButtonSaveTimeActionPerformed
+
+    private void ComboBoxStore1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboBoxStore1ActionPerformed
+        setTime();
+    }//GEN-LAST:event_ComboBoxStore1ActionPerformed
+
+    private void ComboBoxStore2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboBoxStore2ActionPerformed
+        setTime();
+    }//GEN-LAST:event_ComboBoxStore2ActionPerformed
     
+    public boolean verifyStores(){
+        boolean isReady = true;
+        String store1 = String.valueOf(this.ComboBoxStore1.getSelectedItem());
+        String store2 = String.valueOf(this.ComboBoxStore2.getSelectedItem());
+        
+        if (store1.equalsIgnoreCase(store2))
+            isReady = false;
+            
+        return isReady;
+    }
+    
+    public void setTime(){
+        String store1 = String.valueOf(this.ComboBoxStore1.getSelectedItem());
+        String store2 = String.valueOf(this.ComboBoxStore2.getSelectedItem());
+        int time =0;
+        time = this.control.existRelationShippingTime(store1, store2);
+        if (time != 0) {
+            time = this.control.searchDaysShipping(String.valueOf(time));
+            this.TextFieldDays.setText(String.valueOf(time));
+        }else
+            this.TextFieldDays.setText("");
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonSaveTime;
     private javax.swing.JComboBox<String> ComboBoxStore1;
     private javax.swing.JComboBox<String> ComboBoxStore2;
+    private javax.swing.JTextField TextFieldDays;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

@@ -46,7 +46,6 @@
                   <Component id="TextFieldEMail" alignment="0" max="32767" attributes="0"/>
                   <Component id="TextFieldAddress" alignment="0" max="32767" attributes="0"/>
                   <Component id="ButtonSaveEmployee" alignment="0" pref="180" max="32767" attributes="0"/>
-                  <Component id="ButtonDelete" alignment="1" pref="180" max="32767" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -62,12 +61,14 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="jScrollPane1" min="-2" pref="222" max="-2" attributes="0"/>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
+                      <Component id="jScrollPane1" min="-2" pref="222" max="-2" attributes="0"/>
+                  </Group>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Group type="102" attributes="0">
@@ -102,14 +103,11 @@
                           <Component id="LabelPhone" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="ButtonSaveEmployee" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="TextFieldPhone" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="TextFieldPhone" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="ButtonDelete" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace pref="14" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -188,35 +186,14 @@
         <Component class="javax.swing.JTable" name="TableEmployee">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="7" rowCount="2">
-                <Column editable="true" title="Codigo" type="java.lang.Object">
-                  <Data value="123123"/>
-                  <Data value="4343"/>
-                </Column>
-                <Column editable="true" title="Nombre" type="java.lang.Object">
-                  <Data value="afasdf"/>
-                  <Data value="gr"/>
-                </Column>
-                <Column editable="true" title="DPI" type="java.lang.Object">
-                  <Data value="12313"/>
-                  <Data value="4342"/>
-                </Column>
-                <Column editable="true" title="Direccion" type="java.lang.Object">
-                  <Data value="asdfsa"/>
-                  <Data value="bdfs"/>
-                </Column>
-                <Column editable="true" title="Telefono" type="java.lang.Object">
-                  <Data value="1432"/>
-                  <Data value="34324"/>
-                </Column>
-                <Column editable="true" title="NIT" type="java.lang.Object">
-                  <Data value="234"/>
-                  <Data value="7868"/>
-                </Column>
-                <Column editable="true" title="Correo" type="java.lang.Object">
-                  <Data value="dfads"/>
-                  <Data value="null"/>
-                </Column>
+              <Table columnCount="7" rowCount="0">
+                <Column editable="true" title="Codigo" type="java.lang.Object"/>
+                <Column editable="true" title="Nombre" type="java.lang.Object"/>
+                <Column editable="true" title="DPI" type="java.lang.Object"/>
+                <Column editable="true" title="Direccion" type="java.lang.Object"/>
+                <Column editable="true" title="Telefono" type="java.lang.Object"/>
+                <Column editable="true" title="NIT" type="java.lang.Object"/>
+                <Column editable="true" title="Correo" type="java.lang.Object"/>
               </Table>
             </Property>
           </Properties>
@@ -230,14 +207,6 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Empleados"/>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JButton" name="ButtonDelete">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Eliminar Empleado"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ButtonDeleteActionPerformed"/>
-      </Events>
     </Component>
   </SubComponents>
 </Form>

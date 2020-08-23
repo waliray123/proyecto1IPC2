@@ -212,7 +212,7 @@ public class FirstEnterFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        fChooseDateStore chooseDate = new fChooseDateStore(this.control);
+        fChooseDateStore chooseDate = new fChooseDateStore(this.control,null,null);
         chooseDate.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed

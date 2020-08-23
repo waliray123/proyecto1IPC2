@@ -5,9 +5,12 @@
  */
 package GUIEmployee;
 
+import ConnectionDB.ControlDB;
+import ObjectsDB.Product;
 import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -21,14 +24,21 @@ public class fNewProduct extends javax.swing.JFrame {
     private String IDProduct;
     private DefaultTableModel dtmProduct;
     private TableRowSorter tableRowSorter;
+    private ArrayList<Product> products;
+    private ControlDB control;
+    private String codeStore;
     
     /**
      * Creates new form fNewProduct
      */
-    public fNewProduct() {
+    public fNewProduct(ControlDB control1, String codeStore) {
         initComponents();
         this.IDProduct = "";
-        dtmProduct = (DefaultTableModel) this.TableProduct.getModel();
+        this.codeStore = codeStore;
+        this.control = control1;
+        this.dtmProduct = (DefaultTableModel) this.TableProduct.getModel();
+        this.products = this.control.setProductsByStore(this.codeStore);
+        setProductsTable();
     }
 
     /**
@@ -116,11 +126,7 @@ public class fNewProduct extends javax.swing.JFrame {
         TableProduct.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
         TableProduct.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"1234", "papas", "fritoLAy", "89", "1", "0", "Store1", "este producto sirve para comer"},
-                {"5478", "dulces", "candy", "100", "0.5", "7", "Store2", "asdfgregregesrg"},
-                {"2343234", "afeas", "hdtrh", "34", "5", "8", "Store3", "sbhtsbrtbtrdbbtb"},
-                {"46456", "ryrrt", "jtyj", "76", "6", "8", "Store1", "fgndyksrks45am4tn"},
-                {"34534", "dsfgs", "sdfg", "98", "8", "9", "Store1", null}
+
             },
             new String [] {
                 "Codigo", "Nombre", "Fabricante", "Existencia", "Precio", "Garantia", "Tienda", "Descripcion"
@@ -275,11 +281,30 @@ public class fNewProduct extends javax.swing.JFrame {
 
     private void jButtonSaveProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveProductActionPerformed
         if (this.reviewRequiredFields() == true) {
+            String code = this.TextFieldCode.getText();
+            String name = this.TextFieldName.getText();
+            String maker = this.TextFieldMaker.getText();
+            int quantity = Integer.parseInt(this.TextFieldQuantity.getText());
+            double price = Double.parseDouble(this.TextFieldPrice.getText());
+            int guarantee = 0;
+            if (this.TextFieldGuaranty.getText().equals("") == false)
+                guarantee = Integer.parseInt(this.TextFieldGuaranty.getText());
+                        
+            String Description = "";
+            if (this.TextAreaDescription.getText().equals("") == false)
+                Description = this.TextAreaDescription.getText();
+            
             if (this.IDProduct.equalsIgnoreCase("")) {
                 System.out.println("Guardar Producto");
+                this.control.insertProduct(code, name, maker, price, Description, guarantee);
+                this.control.insertRelationStoreProduct(codeStore, code, quantity);
             }else{
-                System.out.println("Editar Producto");
+                this.control.updateProduct(this.IDProduct, name, maker, price, Description, guarantee);
+                this.control.updateRelationStoreProduct(this.codeStore, this.IDProduct, quantity);
+                System.out.println("Editar Producto");                
             }
+            this.products = this.control.setProductsByStore(this.codeStore);
+            setProductsTable();
             cleanTextBox();
         }
     }//GEN-LAST:event_jButtonSaveProductActionPerformed
@@ -304,10 +329,8 @@ public class fNewProduct extends javax.swing.JFrame {
         this.TextFieldQuantity.setText(String.valueOf(this.TableProduct.getValueAt(select,3)));
         this.TextFieldPrice.setText(String.valueOf(this.TableProduct.getValueAt(select,4)));
         this.TextFieldGuaranty.setText(String.valueOf(this.TableProduct.getValueAt(select,5)));
-        this.TextAreaDescription.setText(String.valueOf(this.TableProduct.getValueAt(select,6)));
-        
-        this.IDProduct = this.TextFieldCode.getText();
-        
+        this.TextAreaDescription.setText(String.valueOf(this.TableProduct.getValueAt(select,7)));        
+        this.IDProduct = this.TextFieldCode.getText();        
     }//GEN-LAST:event_TableProductMouseClicked
 
     private void TextFieldFilterKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextFieldFilterKeyTyped
@@ -383,6 +406,41 @@ public class fNewProduct extends javax.swing.JFrame {
         this.TextFieldGuaranty.setText("");
         this.TextFieldPrice.setText("");
         this.IDProduct = "";
+    }
+    
+    public void setProductsTable(){
+        cleanTable();
+        String code = "";
+        String name = "";
+        String maker = "";
+        int quantity = 0;
+        double price = 0;
+        int guarantee = 0;
+        String Store = "";
+        String Description = "";
+        
+        int sizeProducts = this.products.size();
+        for (int i = 0; i < sizeProducts; i++) {
+            code = this.products.get(i).getCode();
+            name = this.products.get(i).getName();
+            maker = this.products.get(i).getMaker();
+            quantity = this.products.get(i).getQuantity();
+            price = this.products.get(i).getPrice();
+            guarantee = this.products.get(i).getGuarantee();
+            Store = this.codeStore;
+            Description = this.products.get(i).getDescription();
+                       
+            this.dtmProduct.addRow(new Object[]{code, name, maker,quantity,price,guarantee,Store,Description});
+        }                
+        
+        this.TableProduct.setModel(dtmProduct);
+    }
+    
+    public void cleanTable(){
+        int filas=this.TableProduct.getRowCount();
+        for (int i = 0;filas>i; i++) {
+            this.dtmProduct.removeRow(0);
+        }
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

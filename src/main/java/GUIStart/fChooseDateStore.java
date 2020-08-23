@@ -6,6 +6,8 @@
 package GUIStart;
 
 import ConnectionDB.ControlDB;
+import GUIEmployee.fEmployee;
+import ObjectsDB.Employee;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -17,20 +19,23 @@ import javax.swing.JComboBox;
  */
 public class fChooseDateStore extends javax.swing.JFrame {
     private ControlDB control;
+    private boolean isFirstEntry;
     /**
      * Creates new form fChooseDate
      */
-    public fChooseDateStore(ControlDB control1) {
-        initComponents();
-        this.control = control1;
-        try{            
-            String firstDate = "2020-01-01";
-            java.util.Date dateParse= new SimpleDateFormat("yyyy-MM-dd").parse(firstDate);
-            this.jDateChooser1.setDate(dateParse);
-        }catch(Exception e){
-            System.out.println("error al cargar la fecha");
-        }
+    public fChooseDateStore(ControlDB control1, Date dateUse, String codeStoreUse) {
+        initComponents();        
+        this.control = control1;                
         this.control.setCodeStoreCombobox(this.jComboBox1);
+        if (dateUse == null){
+            setFirstDateStore();
+            this.isFirstEntry = true;
+        }else{
+            setDate(dateUse);
+            setStore(codeStoreUse);
+            this.isFirstEntry = false;
+        }
+        
     }
 
     /**
@@ -113,9 +118,16 @@ public class fChooseDateStore extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String codeStoreActual = String.valueOf(this.jComboBox1.getSelectedItem());
-        Date dateActual = this.jDateChooser1.getDate();        
-        StartFrame startFrame = new StartFrame(control, dateActual, codeStoreActual);
-        startFrame.setVisible(true);
+        Date dateActual = this.jDateChooser1.getDate();
+        if (this.isFirstEntry == true) {
+            StartFrame startFrame = new StartFrame(control, dateActual, codeStoreActual);
+            startFrame.setVisible(true);
+        }else{
+            fEmployee frameEmployee = new fEmployee(this.control,codeStoreActual, dateActual);
+            frameEmployee.setVisible(true);
+        }
+        this.dispose();
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -132,7 +144,27 @@ public class fChooseDateStore extends javax.swing.JFrame {
         System.out.println("dia mas 10: " + (calendar.get(Calendar.DAY_OF_MONTH)));
         
     }//GEN-LAST:event_jButton2ActionPerformed
-
+    
+    public void setFirstDateStore(){
+        try{            
+            String firstDate = "2020-01-01";
+            java.util.Date dateParse= new SimpleDateFormat("yyyy-MM-dd").parse(firstDate);
+            this.jDateChooser1.setDate(dateParse);
+        }catch(Exception e){
+            System.out.println("error al cargar la fecha");
+        }
+    }
+    public void setDate(Date dateActual){
+        try{
+            this.jDateChooser1.setDate(dateActual);
+        }catch(Exception e){
+            System.out.println("error al cargar la fecha");
+        }
+    }
+    
+    public void setStore(String codeStore){
+        this.jComboBox1.setSelectedItem(codeStore);
+    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

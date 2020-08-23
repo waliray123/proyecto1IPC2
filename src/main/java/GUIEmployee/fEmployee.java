@@ -5,17 +5,26 @@
  */
 package GUIEmployee;
 
+import ConnectionDB.ControlDB;
+import GUIStart.fChooseDateStore;
+import java.util.Date;
+
 /**
  *
  * @author user-ubunto
  */
 public class fEmployee extends javax.swing.JFrame {
-
+    private Date actualDate;
+    private ControlDB control;
+    private String codeStore;
     /**
      * Creates new form FrameEmployee
      */
-    public fEmployee() {
+    public fEmployee(ControlDB control1, String codeStore, Date actualDate) {
         initComponents();
+        this.control = control1;
+        this.codeStore = codeStore;
+        this.actualDate = actualDate;
     }
 
     /**
@@ -63,7 +72,7 @@ public class fEmployee extends javax.swing.JFrame {
         });
 
         ButtonChangeDate.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
-        ButtonChangeDate.setText("Cambiar fecha");
+        ButtonChangeDate.setText("Cambiar fecha o tienda");
         ButtonChangeDate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ButtonChangeDateActionPerformed(evt);
@@ -119,12 +128,15 @@ public class fEmployee extends javax.swing.JFrame {
     }//GEN-LAST:event_ButtonOrderActionPerformed
 
     private void ButtonNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonNewActionPerformed
-        fNewData newNewData = new fNewData();
+        fNewData newNewData = new fNewData(this.control, this.codeStore);
         newNewData.setVisible(true);
+        
     }//GEN-LAST:event_ButtonNewActionPerformed
 
     private void ButtonChangeDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonChangeDateActionPerformed
-        // TODO add your handling code here:
+        fChooseDateStore chooseDate = new fChooseDateStore(this.control,this.actualDate,this.codeStore);
+        chooseDate.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_ButtonChangeDateActionPerformed
 
   

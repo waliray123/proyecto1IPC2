@@ -121,7 +121,7 @@ public class StartFrame extends javax.swing.JFrame {
         
         boolean enter = this.reviewAdminEnter(user, password);
         if(enter){
-            fEmployee frameEmployee = new fEmployee();
+            fEmployee frameEmployee = new fEmployee(this.control,this.codeStoreActual, this.dateActual);
             frameEmployee.setVisible(true);
         }else{
             enter = this.reviewUserEnter(user, password);
