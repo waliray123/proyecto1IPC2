@@ -7,6 +7,7 @@ package GUIEmployee;
 
 import ConnectionDB.ControlDB;
 import GUIStart.fChooseDateStore;
+import Reports.fReports;
 import java.util.Date;
 
 /**
@@ -145,7 +146,8 @@ public class fEmployee extends javax.swing.JFrame {
     }//GEN-LAST:event_ButtonChangeDateActionPerformed
 
     private void ButtonReportsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonReportsActionPerformed
-        // TODO add your handling code here:
+        fReports frameReports = new fReports(this.control);
+        frameReports.setVisible(true);
     }//GEN-LAST:event_ButtonReportsActionPerformed
 
   

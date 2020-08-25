@@ -6,6 +6,7 @@
 package GUIStart;
 
 import ConnectionDB.ControlDB;
+import Controlers.controlOrders;
 import GUIEmployee.fEmployee;
 import ObjectsDB.Employee;
 import java.text.SimpleDateFormat;
@@ -34,8 +35,7 @@ public class fChooseDateStore extends javax.swing.JFrame {
             setDate(dateUse);
             setStore(codeStoreUse);
             this.isFirstEntry = false;
-        }
-        
+        }        
     }
 
     /**
@@ -123,11 +123,12 @@ public class fChooseDateStore extends javax.swing.JFrame {
             StartFrame startFrame = new StartFrame(control, dateActual, codeStoreActual);
             startFrame.setVisible(true);
         }else{
+            controlOrders controlOrder = new controlOrders(dateActual,this.control);
+            controlOrder.setOrders();
             fEmployee frameEmployee = new fEmployee(this.control,codeStoreActual, dateActual);
             frameEmployee.setVisible(true);
         }
-        this.dispose();
-        
+        this.dispose();        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -138,10 +139,13 @@ public class fChooseDateStore extends javax.swing.JFrame {
         Calendar calendar = Calendar.getInstance();	
         calendar.setTime(this.jDateChooser1.getDate()); // Configuramos la fecha que se recibe	
         calendar.add(Calendar.DAY_OF_YEAR, 10);
+        Date date2 = this.jDateChooser1.getDate();
         
         System.out.println("Anio mas 10: " + calendar.get(Calendar.YEAR));
         System.out.println("Mes mas 10: " + (calendar.get(Calendar.MONTH)+1));
         System.out.println("dia mas 10: " + (calendar.get(Calendar.DAY_OF_MONTH)));
+        
+        System.out.println(String.valueOf(this.jDateChooser1.getDate().compareTo(date2)));
         
     }//GEN-LAST:event_jButton2ActionPerformed
     
@@ -164,7 +168,7 @@ public class fChooseDateStore extends javax.swing.JFrame {
     
     public void setStore(String codeStore){
         this.jComboBox1.setSelectedItem(codeStore);
-    }
+    }        
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

@@ -9,6 +9,7 @@ import ObjectsDB.Client;
 import ObjectsDB.Employee;
 import ObjectsDB.Order;
 import ObjectsDB.Product;
+import ObjectsDB.Sale;
 import ObjectsDB.Store;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -154,7 +155,7 @@ public class ControlDB {
     
     public void insertOrder(String code, String dateOrder, double total , double advance, String clientNit, int codeShippingTime ,String storeEnter, String storeOut, boolean delivered){        
         try {
-            ps = connection.prepareStatement("INSERT INTO ORDER_CLIENT VALUES (?,?,?,?,?,?,?,?,?)");
+            ps = connection.prepareStatement("INSERT INTO ORDER_CLIENT VALUES (?,?,?,?,?,?,?,?,?,?,?)");
             ps.setString(1, code);
             ps.setString(2, dateOrder);
             ps.setDouble(3, total);
@@ -163,7 +164,10 @@ public class ControlDB {
             ps.setInt(6, codeShippingTime);
             ps.setString(7, storeEnter);
             ps.setString(8, storeOut);
-            ps.setBoolean(9, delivered); 
+            ps.setBoolean(9, delivered);
+            ps.setBoolean(10, delivered);
+            ps.setBoolean(11, delivered);
+            
                        
             ps.executeUpdate();//action done
             
@@ -764,5 +768,323 @@ public class ControlDB {
             System.out.println("Error: " + e.getMessage());
         }
         return credit;
+    }
+    
+    public ArrayList<Order> setOrders(){
+        ArrayList<Order> orders = new ArrayList<Order>();
+        
+        String query = "SELECT * FROM ORDER_CLIENT";
+        
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {                        
+            
+            ResultSet result = preSt.executeQuery();            
+            while(result.next()){
+                Order order = new Order();
+                order.setCode(result.getString(1));                
+                order.setTotal(Double.parseDouble(result.getString(3)));
+                order.setAdvance(Double.parseDouble(result.getString(4)));                
+                order.setClientNIT(result.getString(5));
+                order.setShippingTime(searchDaysShipping(result.getString(6)));
+                order.setDateStr(result.getString(2));
+                order.setCodeOrderOut(result.getString(7));
+                order.setCodeOrderEnter(result.getString(8));
+                order.setDelivered(Boolean.getBoolean(result.getString(9)));
+                orders.add(order);
+            }                
+            result.close();
+            preSt.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        
+        return orders;
+    }
+    
+    public ArrayList<Product> setReport9(String codeStore){
+        ArrayList<Product> products = new ArrayList<Product>();
+        
+        String query = "SELECT * FROM PRODUCT JOIN STORE_PRODUCT AS SP ON PRODUCT.code = SP.PRODUCT_code AND SP.STORE_code = ? WHERE(SELECT COUNT(*) FROM SALE_PRODUCT WHERE SALE_PRODUCT.PRODUCT_code = PRODUCT.code) = 0"; 
+        
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {            
+            preSt.setString(1, codeStore);
+            
+            ResultSet result = preSt.executeQuery();            
+            while(result.next()){
+                Product product = new Product();
+                product.setCode(result.getString(1));
+                product.setName(result.getString(2));
+                product.setMaker(result.getString(3));
+                product.setPrice(Double.parseDouble(result.getString(4)));
+                product.setDescription(result.getString(5));
+                product.setGuarantee(Integer.parseInt(result.getString(6)));
+                product.setQuantity(Integer.parseInt(result.getString(9)));
+                products.add(product);
+            }
+                
+            result.close();
+            preSt.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        
+        return products;
+    }
+    
+    public ArrayList<Product> getProductsByCode(String codeProduct){
+        ArrayList<Product> products = new ArrayList<Product>();
+        
+        String query = "SELECT * FROM PRODUCT WHERE code = ?"; 
+        
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {            
+            preSt.setString(1, codeProduct);
+            
+            ResultSet result = preSt.executeQuery();            
+            while(result.next()){
+                Product product = new Product();
+                product.setCode(result.getString(1));
+                product.setName(result.getString(2));
+                product.setMaker(result.getString(3));
+                product.setPrice(Double.parseDouble(result.getString(4)));
+                product.setDescription(result.getString(5));
+                product.setGuarantee(Integer.parseInt(result.getString(6)));
+                product.setQuantity(Integer.parseInt(result.getString(9)));
+                products.add(product);
+            }
+                
+            result.close();
+            preSt.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        
+        return products;
+    }
+    
+    public ArrayList<String> codesReport8(String date1, String date2, String codeStore){
+        ArrayList<String> codeProducts = new ArrayList<String>();
+        
+        String query = "SELECT P.code,COUNT(*) AS numberTimes FROM PRODUCT AS P JOIN STORE_PRODUCT AS SP ON P.code = SP.PRODUCT_code JOIN SALE_PRODUCT AS SA ON P.code = SA.PRODUCT_code JOIN SALE AS S ON S.code = SA.SALE_code AND SP.STORE_code = ? AND dateSale BETWEEN ? AND ? GROUP BY code ORDER BY numberTimes DESC;"; 
+        
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {            
+            preSt.setString(1, codeStore);
+            preSt.setString(2, date1);
+            preSt.setString(3, date2);
+            
+            
+            ResultSet result = preSt.executeQuery();            
+            while(result.next()){              
+                String code = result.getString(1);
+                codeProducts.add(code);
+            }
+                
+            result.close();
+            preSt.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        
+        return codeProducts;
+    }
+    
+    public ArrayList<String> codesReport7(String date1, String date2){
+        ArrayList<String> codeProducts = new ArrayList<String>();
+        
+        String query = "SELECT P.code,COUNT(*) AS numberTimes FROM PRODUCT AS P JOIN SALE_PRODUCT AS SA ON P.code = SA.PRODUCT_code JOIN SALE AS S ON S.code = SA.SALE_code AND dateSale BETWEEN ? AND ? GROUP BY code ORDER BY numberTimes DESC;"; 
+        
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {                        
+            preSt.setString(1, date1);
+            preSt.setString(2, date2);
+            
+            
+            ResultSet result = preSt.executeQuery();            
+            while(result.next()){              
+                String code = result.getString(1);
+                codeProducts.add(code);
+            }
+                
+            result.close();
+            preSt.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }        
+        return codeProducts;
+    }
+    
+    public ArrayList<Order> setReport6(String codeClient){
+        ArrayList<Order> orders = new ArrayList<Order>();
+        
+        String query = "SELECT * FROM ORDER_CLIENT WHERE CLIENT_NIT = ? AND delivered = 0 AND registeredOrder = 0";
+        
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {                        
+            preSt.setString(1, codeClient);            
+            
+            ResultSet result = preSt.executeQuery();            
+            while(result.next()){
+                Order order = new Order();
+                order.setCode(result.getString(1));                
+                order.setTotal(Double.parseDouble(result.getString(3)));
+                order.setAdvance(Double.parseDouble(result.getString(4)));                
+                order.setClientNIT(result.getString(5));
+                order.setShippingTime(searchDaysShipping(result.getString(6)));
+                order.setDateStr(result.getString(2));
+                order.setCodeOrderOut(result.getString(7));
+                order.setCodeOrderEnter(result.getString(8));
+                order.setDelivered(Boolean.getBoolean(result.getString(9)));
+                orders.add(order);
+            }                
+            result.close();
+            preSt.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        
+        return orders;
+    }
+    
+    public ArrayList<Sale> setReport5(String clientNIT){
+        ArrayList<Sale> sales = new ArrayList<Sale>();
+        
+        String query = "SELECT * FROM SALE WHERE CLIENT_NIT = ?"; 
+        
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {                        
+            preSt.setString(1, clientNIT);
+            
+            
+            ResultSet result = preSt.executeQuery();            
+            while(result.next()){              
+                Sale sale = new Sale();
+                sale.setCode(result.getString(1));
+                sale.setDateSale(result.getString(2));
+                sale.setClientNIT(result.getString(3));
+                sale.setTotal(result.getString(4));               
+                sales.add(sale);
+            }
+                
+            result.close();
+            preSt.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }        
+        return sales;
+    }
+    
+    public ArrayList<Order> setReport4(){
+        ArrayList<Order> orders = new ArrayList<Order>();
+        
+        String query = "SELECT * FROM ORDER_CLIENT WHERE delivered = 0 AND registeredOrder = 0";
+        
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {                                   
+            
+            ResultSet result = preSt.executeQuery();            
+            while(result.next()){
+                Order order = new Order();
+                order.setCode(result.getString(1));                
+                order.setTotal(Double.parseDouble(result.getString(3)));
+                order.setAdvance(Double.parseDouble(result.getString(4)));                
+                order.setClientNIT(result.getString(5));
+                order.setShippingTime(searchDaysShipping(result.getString(6)));
+                order.setDateStr(result.getString(2));
+                order.setCodeOrderOut(result.getString(7));
+                order.setCodeOrderEnter(result.getString(8));
+                order.setDelivered(Boolean.getBoolean(result.getString(9)));
+                orders.add(order);
+            }                
+            result.close();
+            preSt.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        
+        return orders;
+    }
+    
+    public ArrayList<Order> setReport3(){
+        ArrayList<Order> orders = new ArrayList<Order>();
+        
+        String query = "SELECT * FROM ORDER_CLIENT WHERE delivered = 0 AND registeredOrder = 0 AND delayedOrder = 1";
+        
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {                                   
+            
+            ResultSet result = preSt.executeQuery();            
+            while(result.next()){
+                Order order = new Order();
+                order.setCode(result.getString(1));                
+                order.setTotal(Double.parseDouble(result.getString(3)));
+                order.setAdvance(Double.parseDouble(result.getString(4)));                
+                order.setClientNIT(result.getString(5));
+                order.setShippingTime(searchDaysShipping(result.getString(6)));
+                order.setDateStr(result.getString(2));
+                order.setCodeOrderOut(result.getString(7));
+                order.setCodeOrderEnter(result.getString(8));
+                order.setDelivered(Boolean.getBoolean(result.getString(9)));
+                orders.add(order);
+            }                
+            result.close();
+            preSt.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        
+        return orders;
+    }
+    
+    public ArrayList<Order> setReport2(){
+        ArrayList<Order> orders = new ArrayList<Order>();
+        
+        String query = "SELECT * FROM ORDER_CLIENT WHERE delivered = 0 AND registeredOrder = 0 AND delayedOrder = 0";
+        
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {                                   
+            
+            ResultSet result = preSt.executeQuery();            
+            while(result.next()){
+                Order order = new Order();
+                order.setCode(result.getString(1));                
+                order.setTotal(Double.parseDouble(result.getString(3)));
+                order.setAdvance(Double.parseDouble(result.getString(4)));                
+                order.setClientNIT(result.getString(5));
+                order.setShippingTime(searchDaysShipping(result.getString(6)));
+                order.setDateStr(result.getString(2));
+                order.setCodeOrderOut(result.getString(7));
+                order.setCodeOrderEnter(result.getString(8));
+                order.setDelivered(Boolean.getBoolean(result.getString(9)));
+                orders.add(order);
+            }                
+            result.close();
+            preSt.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        
+        return orders;
+    }
+    
+    public ArrayList<Order> setReport1(){
+        ArrayList<Order> orders = new ArrayList<Order>();
+        
+        String query = "SELECT * FROM ORDER_CLIENT WHERE delivered = 0 AND registeredOrder = 0";
+        
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {                                   
+            
+            ResultSet result = preSt.executeQuery();            
+            while(result.next()){
+                Order order = new Order();
+                order.setCode(result.getString(1));                
+                order.setTotal(Double.parseDouble(result.getString(3)));
+                order.setAdvance(Double.parseDouble(result.getString(4)));                
+                order.setClientNIT(result.getString(5));
+                order.setShippingTime(searchDaysShipping(result.getString(6)));
+                order.setDateStr(result.getString(2));
+                order.setCodeOrderOut(result.getString(7));
+                order.setCodeOrderEnter(result.getString(8));
+                order.setDelivered(Boolean.getBoolean(result.getString(9)));
+                orders.add(order);
+            }                
+            result.close();
+            preSt.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        
+        return orders;
     }
 }

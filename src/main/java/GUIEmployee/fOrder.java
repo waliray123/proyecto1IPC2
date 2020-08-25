@@ -854,6 +854,9 @@ public class fOrder extends javax.swing.JFrame {
         if (this.TextFieldCodeOrder.getText().equals("")) {
             isReadyToPay = false;
         }
+        if (this.CheckBoxCash.isSelected()==false && this.CheckBoxCredit.isSelected() ==false) {
+            isReadyToPay = false;
+        }
         if (isReadyToPay) {
             if (this.CheckBoxCredit.isSelected())
                 isCredit = true;
