@@ -302,27 +302,11 @@
                   <Font name="SansSerif" size="15" style="0"/>
                 </Property>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="4" rowCount="3">
-                    <Column editable="true" title="Nombre" type="java.lang.Object">
-                      <Data value="Juan"/>
-                      <Data value="MAria"/>
-                      <Data value="Pedro"/>
-                    </Column>
-                    <Column editable="true" title="NIT" type="java.lang.Object">
-                      <Data value="11111"/>
-                      <Data value="22222"/>
-                      <Data value="3333"/>
-                    </Column>
-                    <Column editable="true" title="DPI" type="java.lang.Object">
-                      <Data value="0101"/>
-                      <Data value="9817"/>
-                      <Data value="7871"/>
-                    </Column>
-                    <Column editable="true" title="Credito" type="java.lang.Object">
-                      <Data value="800"/>
-                      <Data value="0"/>
-                      <Data value="1000"/>
-                    </Column>
+                  <Table columnCount="4" rowCount="0">
+                    <Column editable="true" title="Nombre" type="java.lang.Object"/>
+                    <Column editable="true" title="NIT" type="java.lang.Object"/>
+                    <Column editable="true" title="DPI" type="java.lang.Object"/>
+                    <Column editable="true" title="Credito" type="java.lang.Object"/>
                   </Table>
                 </Property>
               </Properties>
@@ -396,6 +380,18 @@
                           <EmptySpace max="32767" attributes="0"/>
                           <Component id="TextFieldFilter" min="-2" pref="194" max="-2" attributes="0"/>
                       </Group>
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jScrollPane1" alignment="1" min="-2" pref="470" max="-2" attributes="0"/>
+                              <Component id="jScrollPane3" alignment="1" min="-2" pref="470" max="-2" attributes="0"/>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="TextFieldTotal" min="-2" pref="144" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                      </Group>
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
@@ -408,9 +404,8 @@
                                       <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Component id="TextFieldQuantity" alignment="0" min="-2" pref="142" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="ButtonAdd" min="-2" pref="119" max="-2" attributes="0"/>
                               </Group>
+                              <Component id="jLabel14" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                       <Group type="102" attributes="0">
@@ -424,24 +419,13 @@
                                   </Group>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
-                                      <Component id="TextFieldTotal" min="-2" pref="142" max="-2" attributes="0"/>
+                                      <Component id="TextFieldTotalPay" min="-2" pref="142" max="-2" attributes="0"/>
                                   </Group>
-                              </Group>
-                              <Component id="jLabel14" alignment="0" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jScrollPane1" alignment="1" min="-2" pref="470" max="-2" attributes="0"/>
-                              <Component id="jScrollPane3" alignment="1" min="-2" pref="470" max="-2" attributes="0"/>
-                              <Group type="102" alignment="1" attributes="0">
-                                  <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="jTextField1" min="-2" pref="144" max="-2" attributes="0"/>
+                                  <Component id="ButtonAdd" min="-2" pref="119" max="-2" attributes="0"/>
                               </Group>
                           </Group>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -462,29 +446,29 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jScrollPane1" min="-2" pref="100" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="TextFieldQuantity" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="TextFieldNameProduct" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" attributes="0">
                       <Group type="102" attributes="0">
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="TextFieldQuantity" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="TextFieldNameProduct" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="TextFieldTotalPay" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="TextFieldCodeProduct" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
-                      <Component id="ButtonAdd" alignment="0" min="-2" pref="73" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="TextFieldTotal" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="TextFieldCodeProduct" min="-2" max="-2" attributes="0"/>
+                      <Component id="ButtonAdd" min="-2" pref="49" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="jLabel14" min="-2" max="-2" attributes="0"/>
@@ -493,9 +477,9 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextField1" min="-2" max="-2" attributes="0"/>
+                      <Component id="TextFieldTotal" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="27" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -532,49 +516,13 @@
                   <Font name="SansSerif" size="15" style="0"/>
                 </Property>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="6" rowCount="5">
-                    <Column editable="false" title="Codigo" type="java.lang.Object">
-                      <Data value="1234"/>
-                      <Data value="5478"/>
-                      <Data value="2343234"/>
-                      <Data value="46456"/>
-                      <Data value="34534"/>
-                    </Column>
-                    <Column editable="false" title="Nombre" type="java.lang.Object">
-                      <Data value="papas"/>
-                      <Data value="dulces"/>
-                      <Data value="afeas"/>
-                      <Data value="ryrrt"/>
-                      <Data value="dsfgs"/>
-                    </Column>
-                    <Column editable="false" title="Fabricante" type="java.lang.Object">
-                      <Data value="fritoLAy"/>
-                      <Data value="candy"/>
-                      <Data value="hdtrh"/>
-                      <Data value="jtyj"/>
-                      <Data value="sdfg"/>
-                    </Column>
-                    <Column editable="false" title="Existencia" type="java.lang.Object">
-                      <Data value="89"/>
-                      <Data value="100"/>
-                      <Data value="34"/>
-                      <Data value="76"/>
-                      <Data value="98"/>
-                    </Column>
-                    <Column editable="false" title="Precio" type="java.lang.Object">
-                      <Data value="1"/>
-                      <Data value="0.5"/>
-                      <Data value="5"/>
-                      <Data value="6"/>
-                      <Data value="8"/>
-                    </Column>
-                    <Column editable="false" title="Garantia" type="java.lang.Object">
-                      <Data value="0"/>
-                      <Data value="7"/>
-                      <Data value="8"/>
-                      <Data value="8"/>
-                      <Data value="9"/>
-                    </Column>
+                  <Table columnCount="6" rowCount="0">
+                    <Column editable="false" title="Codigo" type="java.lang.Object"/>
+                    <Column editable="false" title="Nombre" type="java.lang.Object"/>
+                    <Column editable="false" title="Fabricante" type="java.lang.Object"/>
+                    <Column editable="false" title="Existencia" type="java.lang.Object"/>
+                    <Column editable="false" title="Precio" type="java.lang.Object"/>
+                    <Column editable="false" title="Garantia" type="java.lang.Object"/>
                   </Table>
                 </Property>
               </Properties>
@@ -649,7 +597,7 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="TextFieldTotal">
+        <Component class="javax.swing.JTextField" name="TextFieldTotalPay">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="SansSerif" size="15" style="0"/>
@@ -676,13 +624,14 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTable" name="TableProduct1">
+            <Component class="javax.swing.JTable" name="TableProductSell">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="SansSerif" size="15" style="0"/>
                 </Property>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="4" rowCount="0">
+                  <Table columnCount="5" rowCount="0">
+                    <Column editable="false" title="Codigo" type="java.lang.Object"/>
                     <Column editable="false" title="Nombre" type="java.lang.Object"/>
                     <Column editable="false" title="Cantidad" type="java.lang.Object"/>
                     <Column editable="false" title="Precio" type="java.lang.Object"/>
@@ -698,7 +647,7 @@
             <Property name="text" type="java.lang.String" value="Total a Pagar"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextField1">
+        <Component class="javax.swing.JTextField" name="TextFieldTotal">
         </Component>
       </SubComponents>
     </Container>

@@ -5,8 +5,15 @@
  */
 package GUIEmployee;
 
+import ConnectionDB.ControlDB;
+import ObjectsDB.Client;
+import ObjectsDB.Product;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -22,7 +29,10 @@ public class fOrder extends javax.swing.JFrame {
     
     private DefaultTableModel dtmProduct;
     private DefaultTableModel dtmClient;
+    private DefaultTableModel dtmProductSell;
     
+    private ArrayList<Product> products;
+    private ArrayList<Client> clients;
     private String IDProduct;
     private String IDClient;
     private double priceProduct;
@@ -30,15 +40,23 @@ public class fOrder extends javax.swing.JFrame {
     private double totalToPay;
     private double creditClient;
     private double costPrepaid;
-    
+    private String codeStoreEnter;
+    private ControlDB control;
+    private Date dateActual;
+    private String codeStoreOut;
+    private String codeOrder;
     /**
      * Creates new form fOrder
      */
-    public fOrder() {
+    public fOrder(ControlDB control1,String codeStoreEnter, Date dateActual) {
         initComponents();
+        this.control = control1;
+        this.codeStoreEnter = codeStoreEnter;
+        this.dateActual = dateActual;
         
         dtmProduct = (DefaultTableModel) this.TableProduct.getModel();                
         dtmClient = (DefaultTableModel) this.TableClient.getModel();
+        dtmProductSell = (DefaultTableModel) this.TableProductSell.getModel();
         
         this.priceProduct = 0;
         this.existence = 0;
@@ -46,10 +64,25 @@ public class fOrder extends javax.swing.JFrame {
         this.IDClient = "";
         this.IDProduct = "";
         this.costPrepaid = 0;
+        this.codeStoreOut = String.valueOf(this.jComboBox1.getSelectedItem());
+        
+        this.control.setCodeStoreCombobox(this.jComboBox1);
+        this.codeStoreOut = String.valueOf(this.jComboBox1.getSelectedItem());
+        this.products = this.control.setProductsByStore(this.codeStoreOut);
+        this.clients = this.control.setClients();
+        setProductsTable();
+        setClients();
+        
+        
+        
         
         setTextfieldNotEditables();
         verifySelectedCheckBox();
-        
+        reviewStoresComboBox();
+        this.products = this.control.setProductsByStore(this.codeStoreOut);
+        this.clients = this.control.setClients();
+        setProductsTable();
+        setClients();
     }
 
     /**
@@ -80,19 +113,23 @@ public class fOrder extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         TextFieldNameProduct = new javax.swing.JTextField();
+        TextFieldTotalPay = new javax.swing.JTextField();
+        jLabel17 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        TableProductSell = new javax.swing.JTable();
+        jLabel18 = new javax.swing.JLabel();
         TextFieldTotal = new javax.swing.JTextField();
-        jLabel16 = new javax.swing.JLabel();
-        TextFieldPrepaid = new javax.swing.JTextField();
+        ButtonAdd = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        TableClient = new javax.swing.JTable();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         TextFieldClientName = new javax.swing.JTextField();
         TextFieldClientCredit = new javax.swing.JTextField();
         TextFieldFilterClient = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        TableClient = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
         CheckBoxCash = new javax.swing.JCheckBox();
@@ -100,6 +137,10 @@ public class fOrder extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         TextFieldPayCash = new javax.swing.JTextField();
         TextFieldPayCredit = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
+        TextFieldPrepaid = new javax.swing.JTextField();
+        jLabel19 = new javax.swing.JLabel();
+        TextFieldCodeOrder = new javax.swing.JTextField();
 
         jLabel1.setText("jLabel1");
 
@@ -111,6 +152,11 @@ public class fOrder extends javax.swing.JFrame {
         jLabel2.setText("Tienda Origen");
 
         jComboBox1.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -163,11 +209,7 @@ public class fOrder extends javax.swing.JFrame {
         TableProduct.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
         TableProduct.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"1234", "papas", "fritoLAy", "89", "1", "0"},
-                {"5478", "dulces", "candy", "100", "0.5", "7"},
-                {"2343234", "afeas", "hdtrh", "34", "5", "8"},
-                {"46456", "ryrrt", "jtyj", "76", "6", "8"},
-                {"34534", "dsfgs", "sdfg", "98", "8", "9"}
+
             },
             new String [] {
                 "Codigo", "Nombre", "Fabricante", "Existencia", "Precio", "Garantia"
@@ -215,12 +257,37 @@ public class fOrder extends javax.swing.JFrame {
 
         TextFieldNameProduct.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
 
-        TextFieldTotal.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        TextFieldTotalPay.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
 
-        jLabel16.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
-        jLabel16.setText("Pago anticipado");
+        jLabel17.setText("Productos Agregados");
 
-        TextFieldPrepaid.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        TableProductSell.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        TableProductSell.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Codigo", "Nombre", "Cantidad", "Precio", "Total"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(TableProductSell);
+
+        jLabel18.setText("Total a Pagar");
+
+        ButtonAdd.setText("Agregar");
+        ButtonAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonAddActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -237,7 +304,9 @@ public class fOrder extends javax.swing.JFrame {
                         .addComponent(TextFieldFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -246,19 +315,19 @@ public class fOrder extends javax.swing.JFrame {
                             .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(26, 26, 26)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(TextFieldTotalPay, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(TextFieldQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel7)
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(jLabel8)
-                                        .addGap(57, 57, 57)
-                                        .addComponent(jLabel16)))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(TextFieldTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(TextFieldPrepaid)))))
+                                    .addComponent(TextFieldQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(12, 12, 12)
+                                .addComponent(ButtonAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addComponent(jLabel17)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(TextFieldTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -272,24 +341,35 @@ public class fOrder extends javax.swing.JFrame {
                     .addComponent(TextFieldFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel7))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel7))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(TextFieldQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(TextFieldNameProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(ButtonAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(TextFieldQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TextFieldNameProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel16))
+                    .addComponent(jLabel8))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(TextFieldCodeProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TextFieldTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TextFieldPrepaid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(TextFieldTotalPay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel17)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel18)
+                    .addComponent(TextFieldTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -300,24 +380,6 @@ public class fOrder extends javax.swing.JFrame {
 
         jLabel10.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
         jLabel10.setText("Filtrar");
-
-        TableClient.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
-        TableClient.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {"Juan", "11111", "0101", "800"},
-                {"MAria", "22222", "9817", "0"},
-                {"Pedro", "3333", "7871", "1000"}
-            },
-            new String [] {
-                "Nombre", "NIT", "DPI", "Credito"
-            }
-        ));
-        TableClient.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                TableClientMouseClicked(evt);
-            }
-        });
-        jScrollPane2.setViewportView(TableClient);
 
         jLabel12.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
         jLabel12.setText("Nombre del Cliente");
@@ -336,6 +398,22 @@ public class fOrder extends javax.swing.JFrame {
             }
         });
 
+        TableClient.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        TableClient.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nombre", "NIT", "DPI", "Credito"
+            }
+        ));
+        TableClient.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TableClientMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(TableClient);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -344,21 +422,21 @@ public class fOrder extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel9)
-                                .addGap(199, 199, 199)
-                                .addComponent(jLabel10)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(TextFieldFilterClient))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel9)
+                        .addGap(199, 199, 199)
+                        .addComponent(jLabel10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(TextFieldFilterClient, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(36, 36, 36)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel13)
                             .addComponent(jLabel12)
                             .addComponent(TextFieldClientName, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(TextFieldClientCredit, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(TextFieldClientCredit, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -371,7 +449,7 @@ public class fOrder extends javax.swing.JFrame {
                     .addComponent(TextFieldFilterClient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(12, 12, 12)
                 .addComponent(jLabel12)
                 .addGap(5, 5, 5)
                 .addComponent(TextFieldClientName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -444,31 +522,42 @@ public class fOrder extends javax.swing.JFrame {
             }
         });
 
+        jLabel16.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        jLabel16.setText("Pago minimo anticipado");
+
+        TextFieldPrepaid.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+
+        jLabel19.setText("Codigo del Pedido");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(18, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(TextFieldPayCredit, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel15)
-                                    .addComponent(TextFieldPayCash, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel11))
-                                .addGap(28, 28, 28)
-                                .addComponent(ButtonPay, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel15)
+                            .addComponent(jLabel11)
+                            .addComponent(TextFieldPayCash)
+                            .addComponent(TextFieldPayCredit, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel19)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(TextFieldCodeOrder, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
+                            .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(TextFieldPrepaid, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addGap(18, 18, 18)
+                        .addComponent(ButtonPay, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(29, 29, 29))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -477,27 +566,35 @@ public class fOrder extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel19)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(TextFieldCodeOrder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel16)
+                                .addGap(5, 5, 5)
+                                .addComponent(TextFieldPrepaid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(ButtonPay, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(ButtonPay, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jLabel15)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(TextFieldPayCash, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(jLabel15)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(TextFieldPayCash, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(15, 15, 15))
                                     .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(TextFieldPayCredit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(TextFieldPayCredit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(15, 15, 15))
         );
 
         pack();
@@ -510,8 +607,7 @@ public class fOrder extends javax.swing.JFrame {
     private void TextFieldQuantityFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_TextFieldQuantityFocusLost
         validateTextFieldQuantity();
         if (this.TextFieldQuantity.getText().equals("")) {
-            this.TextFieldTotal.setText("");
-            this.totalToPay = 0;
+            this.TextFieldTotalPay.setText("");
         }else{
             obtainTotalToPay();
         }
@@ -551,18 +647,6 @@ public class fOrder extends javax.swing.JFrame {
 
     }//GEN-LAST:event_TextFieldFilterKeyTyped
 
-    private void TableClientMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableClientMouseClicked
-        int select = this.TableClient.rowAtPoint(evt.getPoint());
-        this.TextFieldClientName.setText(String.valueOf(this.TableClient.getValueAt(select,0)));
-        this.TextFieldClientCredit.setText(String.valueOf(this.TableClient.getValueAt(select,3)));
-        this.IDClient = String.valueOf(this.TableClient.getValueAt(select,2));
-        try{
-            this.creditClient = Integer.parseInt(this.TextFieldClientCredit.getText());
-        }catch(NumberFormatException e){
-            System.out.println("El credito no tiene formato double");
-        }
-    }//GEN-LAST:event_TableClientMouseClicked
-
     private void TextFieldFilterClientKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextFieldFilterClientKeyTyped
         /*This is the filter of the rows of the table that
         *contains the Client, you can filter the column 0and 1
@@ -593,6 +677,39 @@ public class fOrder extends javax.swing.JFrame {
     private void TextFieldPayCreditKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextFieldPayCreditKeyTyped
         validateOnlyNumbers(evt);
     }//GEN-LAST:event_TextFieldPayCreditKeyTyped
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        this.codeStoreOut = String.valueOf(this.jComboBox1.getSelectedItem());
+        this.products = this.control.setProductsByStore(this.codeStoreOut);
+        setProductsTable();
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void ButtonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonAddActionPerformed
+        addProduct();
+    }//GEN-LAST:event_ButtonAddActionPerformed
+
+    private void TableClientMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableClientMouseClicked
+        int select = this.TableClient.rowAtPoint(evt.getPoint());
+        this.TextFieldClientName.setText(String.valueOf(this.TableClient.getValueAt(select,0)));
+        this.TextFieldClientCredit.setText(String.valueOf(this.TableClient.getValueAt(select,3)));
+        this.IDClient = String.valueOf(this.TableClient.getValueAt(select,1));
+        try{
+            this.creditClient = Double.parseDouble(this.TextFieldClientCredit.getText());
+        }catch(NumberFormatException e){
+
+        }
+    }//GEN-LAST:event_TableClientMouseClicked
+    
+    private void reviewStoresComboBox(){
+        int countStores = this.jComboBox1.getItemCount();
+        for (int i = 0; i <  countStores; i++) {
+            if (this.codeStoreEnter.equals(String.valueOf(this.jComboBox1.getItemAt(i)))) {
+                this.jComboBox1.removeItemAt(i);
+                i = 0;
+                countStores = this.jComboBox1.getItemCount();
+            }            
+        }
+    }
     
     /**
      * This method is used by textfields so that the user does 
@@ -610,7 +727,7 @@ public class fOrder extends javax.swing.JFrame {
     private void setTextfieldNotEditables(){
         this.TextFieldNameProduct.setEditable(false);
         this.TextFieldCodeProduct.setEditable(false);
-        this.TextFieldTotal.setEditable(false);
+        this.TextFieldTotalPay.setEditable(false);
         this.TextFieldClientCredit.setEditable(false);
         this.TextFieldClientName.setEditable(false);
         this.TextFieldPrepaid.setEditable(false);
@@ -658,9 +775,9 @@ public class fOrder extends javax.swing.JFrame {
             String quantityStr = (this.TextFieldQuantity.getText());
             int quantity = Integer.parseInt(quantityStr);
             double totalToPay = this.priceProduct * quantity;
-            this.TextFieldTotal.setText(String.valueOf(totalToPay));
-            this.totalToPay = totalToPay;
-            this.costPrepaid = totalToPay *25/100;
+            this.TextFieldTotalPay.setText(String.valueOf(totalToPay));
+            //this.totalToPay = totalToPay;
+            this.costPrepaid = this.totalToPay *25/100;
             this.TextFieldPrepaid.setText(String.valueOf(this.costPrepaid));            
         }catch(NumberFormatException e){
             
@@ -702,7 +819,7 @@ public class fOrder extends javax.swing.JFrame {
     
     private void resetTextFieldsAndCheckbox(){
         this.TextFieldQuantity.setText("");
-        this.TextFieldTotal.setText("");
+        this.TextFieldTotalPay.setText("");
         this.TextFieldPayCash.setText("");
         this.TextFieldPayCredit.setText("");
         this.CheckBoxCash.setSelected(false);
@@ -711,6 +828,7 @@ public class fOrder extends javax.swing.JFrame {
     
     public void validatePay(){
         boolean isReadyToPay = false;
+        boolean isCredit = false;
         if (this.CheckBoxCash.isSelected() && this.CheckBoxCredit.isSelected()) {
             int quantityCash = 0;
             int quantityCredit = 0;
@@ -729,12 +847,19 @@ public class fOrder extends javax.swing.JFrame {
                 if ((quantityCash+quantityCredit) == this.totalToPay) {
                     isReadyToPay = true;
                 }
-            }            
+            }
         }else{
             isReadyToPay = validateParameters();
         }
-        
+        if (this.TextFieldCodeOrder.getText().equals("")) {
+            isReadyToPay = false;
+        }
         if (isReadyToPay) {
+            if (this.CheckBoxCredit.isSelected())
+                isCredit = true;
+            
+            this.codeOrder = this.TextFieldCodeOrder.getText();
+            orderProducts(isCredit);
             System.out.println("Se puede pagar");
             System.out.println("El Id del producto es: " + this.IDProduct);
             System.out.println("El Id del Cliente es: " + this.IDClient);
@@ -755,16 +880,123 @@ public class fOrder extends javax.swing.JFrame {
         return isReadyToPay;
     }
     
+    public void setProductsTable(){
+        cleanTableProducts();
+        String code = "";
+        String name = "";
+        String maker = "";
+        int quantity = 0;
+        double price = 0;
+        int guarantee = 0;
+        
+        int sizeProducts = this.products.size();
+        for (int i = 0; i < sizeProducts; i++) {
+            code = this.products.get(i).getCode();
+            name = this.products.get(i).getName();
+            maker = this.products.get(i).getMaker();
+            quantity = this.products.get(i).getQuantity();
+            price = this.products.get(i).getPrice();
+            guarantee = this.products.get(i).getGuarantee();
+                       
+            this.dtmProduct.addRow(new Object[]{code, name, maker,quantity,price,guarantee});
+        }                
+        
+        this.TableProduct.setModel(dtmProduct);
+    }
     
+    public void cleanTableProducts(){
+        int filas=this.TableProduct.getRowCount();
+        for (int i = 0;filas>i; i++) {
+            this.dtmProduct.removeRow(0);
+        }
+    }
+    
+    public void setClients(){
+        cleanTableClient();
+        String NIT = "";
+        String name = "";
+        String phone = "";
+        String DPI = "";
+        double credit = 0;
+        String email = "";
+        String address = "";
+        
+        int sizeClients = this.clients.size();
+        for (int i = 0; i < sizeClients; i++) {
+            NIT = this.clients.get(i).getNIT();
+            name = this.clients.get(i).getName();
+            phone = this.clients.get(i).getPhone();
+            DPI = this.clients.get(i).getDPI();
+            credit = this.clients.get(i).getCredit();
+            email = this.clients.get(i).getEmail();
+            address = this.clients.get(i).getAddress();
+                       
+            this.dtmClient.addRow(new Object[]{name, NIT, DPI, credit, phone , email, address});
+        }                
+        
+        this.TableClient.setModel(dtmClient);
+    }
+    
+    public void cleanTableClient(){
+        int filas=this.TableClient.getRowCount();
+        for (int i = 0;filas>i; i++) {
+            this.dtmClient.removeRow(0);
+        }
+    }
+    
+    public void addProduct(){
+        String code = this.TextFieldCodeProduct.getText();
+        String name = this.TextFieldNameProduct.getText();
+        String quantity = this.TextFieldQuantity.getText();
+        double price = this.priceProduct;
+        double total;
+        total = Double.parseDouble(this.TextFieldTotalPay.getText());
+        this.totalToPay += total;
+        this.dtmProductSell.addRow(new Object[]{code,name,quantity,price,total});
+        this.TextFieldTotal.setText(String.valueOf(this.totalToPay));
+        this.costPrepaid = this.totalToPay *25/100;
+        this.TextFieldPrepaid.setText(String.valueOf(this.costPrepaid));  
+    }
+    
+    public void orderProducts(boolean isCredit){
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String dateStr = sdf.format(this.dateActual);
+        //String code, String dateOrder, double total , double advance, String clientNit, int codeShippingTime ,String storeEnter, String storeOut, boolean delivered
+        //this.control.insertOrder(dateStr, IDClient, totalToPay);
+        int codeShippingStore = this.control.existRelationShippingTime(this.codeStoreOut,this.codeStoreEnter);
+        this.control.insertOrder(this.codeOrder, dateStr, totalToPay, this.costPrepaid, IDClient, codeShippingStore, codeStoreOut, codeStoreEnter, false);
+        
+        String codeProduct = "";
+            int quantity = 0;
+            for (int i = 0; i < this.TableProductSell.getRowCount(); i++) {
+                codeProduct = String.valueOf(this.TableProductSell.getValueAt(i,0));
+                quantity = Integer.parseInt(String.valueOf(this.TableProductSell.getValueAt(i,2)));
+                this.control.quitQuantityProduct(this.codeStoreOut, codeProduct, quantity);
+                this.control.insertOrderProduct(quantity,this.codeOrder, codeProduct);
+            }                        
+        JOptionPane.showMessageDialog(null,"Se realizo correctamente el pedido");
+        if (isCredit) {
+            quitCredit();
+        }
+    }
+    
+    public void quitCredit(){
+        double creditQuit = Double.parseDouble(this.TextFieldPayCredit.getText());
+        this.control.quitCreditClient(IDClient, creditQuit);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton ButtonAdd;
     private javax.swing.JButton ButtonPay;
     private javax.swing.JCheckBox CheckBoxCash;
     private javax.swing.JCheckBox CheckBoxCredit;
     private javax.swing.JTable TableClient;
     private javax.swing.JTable TableProduct;
+    private javax.swing.JTable TableProductSell;
     private javax.swing.JTextField TextFieldClientCredit;
     private javax.swing.JTextField TextFieldClientName;
+    private javax.swing.JTextField TextFieldCodeOrder;
     private javax.swing.JTextField TextFieldCodeProduct;
     private javax.swing.JTextField TextFieldFilter;
     private javax.swing.JTextField TextFieldFilterClient;
@@ -774,6 +1006,7 @@ public class fOrder extends javax.swing.JFrame {
     private javax.swing.JTextField TextFieldPrepaid;
     private javax.swing.JTextField TextFieldQuantity;
     private javax.swing.JTextField TextFieldTotal;
+    private javax.swing.JTextField TextFieldTotalPay;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -783,6 +1016,9 @@ public class fOrder extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -797,5 +1033,6 @@ public class fOrder extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     // End of variables declaration//GEN-END:variables
 }

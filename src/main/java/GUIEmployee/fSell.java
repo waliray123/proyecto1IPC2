@@ -5,8 +5,15 @@
  */
 package GUIEmployee;
 
+import ConnectionDB.ControlDB;
+import ObjectsDB.Client;
+import ObjectsDB.Product;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import static javax.swing.RowFilter.regexFilter;
 import javax.swing.table.DefaultTableModel;
@@ -23,6 +30,8 @@ public class fSell extends javax.swing.JFrame {
     
     private DefaultTableModel dtmProduct;
     private DefaultTableModel dtmClient;
+    private DefaultTableModel dtmProductSell;
+    
     
     private String IDProduct;
     private String IDClient;
@@ -30,15 +39,22 @@ public class fSell extends javax.swing.JFrame {
     private int existence;
     private double totalToPay;
     private double creditClient;
+    
+    private ArrayList<Product> products;
+    private ControlDB control;
+    private String codeStore;
+    private ArrayList<Client> clients;
+    private Date dateActual;
      
     /**
      * Creates new form fSell
      */
-    public fSell() {
+    public fSell(ControlDB control1, String codeStore, Date dateActual) {
         initComponents();
-        
+        this.dateActual = dateActual;
         dtmProduct = (DefaultTableModel) this.TableProduct.getModel();                
         dtmClient = (DefaultTableModel) this.TableClient.getModel();
+        dtmProductSell = (DefaultTableModel) this.TableProductSell.getModel();
         
         this.priceProduct = 0;
         this.existence = 0;
@@ -48,6 +64,14 @@ public class fSell extends javax.swing.JFrame {
         
         setTextfieldNotEditables();
         verifySelectedCheckBox();
+        
+        this.codeStore = codeStore;
+        this.control = control1;
+        
+        this.products = this.control.setProductsByStore(this.codeStore);
+        this.clients = this.control.setClients();
+        setProductsTable();
+        setClients();
     }
         
     /**
@@ -91,13 +115,13 @@ public class fSell extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         TextFieldNameProduct = new javax.swing.JTextField();
-        TextFieldTotal = new javax.swing.JTextField();
+        TextFieldTotalPay = new javax.swing.JTextField();
         ButtonAdd = new javax.swing.JButton();
         jLabel14 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        TableProduct1 = new javax.swing.JTable();
+        TableProductSell = new javax.swing.JTable();
         jLabel15 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        TextFieldTotal = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -186,9 +210,7 @@ public class fSell extends javax.swing.JFrame {
         TableClient.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
         TableClient.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"Juan", "11111", "0101", "800"},
-                {"MAria", "22222", "9817", "0"},
-                {"Pedro", "3333", "7871", "1000"}
+
             },
             new String [] {
                 "Nombre", "NIT", "DPI", "Credito"
@@ -283,11 +305,7 @@ public class fSell extends javax.swing.JFrame {
         TableProduct.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
         TableProduct.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"1234", "papas", "fritoLAy", "89", "1", "0"},
-                {"5478", "dulces", "candy", "100", "0.5", "7"},
-                {"2343234", "afeas", "hdtrh", "34", "5", "8"},
-                {"46456", "ryrrt", "jtyj", "76", "6", "8"},
-                {"34534", "dsfgs", "sdfg", "98", "8", "9"}
+
             },
             new String [] {
                 "Codigo", "Nombre", "Fabricante", "Existencia", "Precio", "Garantia"
@@ -335,7 +353,7 @@ public class fSell extends javax.swing.JFrame {
 
         TextFieldNameProduct.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
 
-        TextFieldTotal.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        TextFieldTotalPay.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
 
         ButtonAdd.setText("Agregar");
         ButtonAdd.addActionListener(new java.awt.event.ActionListener() {
@@ -346,24 +364,24 @@ public class fSell extends javax.swing.JFrame {
 
         jLabel14.setText("Productos Agregados");
 
-        TableProduct1.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
-        TableProduct1.setModel(new javax.swing.table.DefaultTableModel(
+        TableProductSell.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        TableProductSell.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Nombre", "Cantidad", "Precio", "Total"
+                "Codigo", "Nombre", "Cantidad", "Precio", "Total"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane3.setViewportView(TableProduct1);
+        jScrollPane3.setViewportView(TableProductSell);
 
         jLabel15.setText("Total a Pagar");
 
@@ -380,6 +398,15 @@ public class fSell extends javax.swing.JFrame {
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(TextFieldFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel15)
+                                .addGap(18, 18, 18)
+                                .addComponent(TextFieldTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
@@ -389,9 +416,8 @@ public class fSell extends javax.swing.JFrame {
                                 .addGap(26, 26, 26)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel5)
-                                    .addComponent(TextFieldQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(ButtonAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(TextFieldQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel14)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -402,18 +428,10 @@ public class fSell extends javax.swing.JFrame {
                                         .addGap(26, 26, 26)))
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel8)
-                                    .addComponent(TextFieldTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jLabel14))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel15)
+                                    .addComponent(TextFieldTotalPay, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(ButtonAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -428,24 +446,24 @@ public class fSell extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(TextFieldQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TextFieldNameProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel5))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(TextFieldQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(TextFieldNameProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
-                            .addComponent(jLabel8)))
-                    .addComponent(ButtonAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(TextFieldTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TextFieldCodeProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel8))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(TextFieldTotalPay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(TextFieldCodeProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(ButtonAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel14)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -453,8 +471,8 @@ public class fSell extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel15)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(TextFieldTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -557,7 +575,7 @@ public class fSell extends javax.swing.JFrame {
     private void TextFieldQuantityFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_TextFieldQuantityFocusLost
         validateTextFieldQuantity();
         if (this.TextFieldQuantity.getText().equals("")) {
-            this.TextFieldTotal.setText("");
+            this.TextFieldTotalPay.setText("");
             this.totalToPay = 0;
         }else{
             obtainTotalToPay();            
@@ -583,11 +601,11 @@ public class fSell extends javax.swing.JFrame {
         int select = this.TableClient.rowAtPoint(evt.getPoint());
         this.TextFieldClientName.setText(String.valueOf(this.TableClient.getValueAt(select,0)));
         this.TextFieldClientCredit.setText(String.valueOf(this.TableClient.getValueAt(select,3)));
-        this.IDClient = String.valueOf(this.TableClient.getValueAt(select,2));
+        this.IDClient = String.valueOf(this.TableClient.getValueAt(select,1));
         try{
-            this.creditClient = Integer.parseInt(this.TextFieldClientCredit.getText()); 
+            this.creditClient = Double.parseDouble(this.TextFieldClientCredit.getText()); 
         }catch(NumberFormatException e){
-            System.out.println("El credito no tiene formato double");
+            
         }        
     }//GEN-LAST:event_TableClientMouseClicked
 
@@ -604,7 +622,7 @@ public class fSell extends javax.swing.JFrame {
     }//GEN-LAST:event_TextFieldPayCreditKeyTyped
 
     private void ButtonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonAddActionPerformed
-        
+        addProduct();
     }//GEN-LAST:event_ButtonAddActionPerformed
 
     /**
@@ -620,12 +638,25 @@ public class fSell extends javax.swing.JFrame {
         }        
     }
     
+    public void addProduct(){
+        String code = this.TextFieldCodeProduct.getText();
+        String name = this.TextFieldNameProduct.getText();
+        String quantity = this.TextFieldQuantity.getText();
+        double price = this.priceProduct;
+        double total;
+        total = Double.parseDouble(this.TextFieldTotalPay.getText());
+        this.totalToPay += total;
+        this.dtmProductSell.addRow(new Object[]{code,name,quantity,price,total});
+        this.TextFieldTotal.setText(String.valueOf(this.totalToPay));
+    }
+    
     private void setTextfieldNotEditables(){
         this.TextFieldNameProduct.setEditable(false);
         this.TextFieldCodeProduct.setEditable(false);
-        this.TextFieldTotal.setEditable(false);
+        this.TextFieldTotalPay.setEditable(false);
         this.TextFieldClientCredit.setEditable(false);
         this.TextFieldClientName.setEditable(false);
+        this.TextFieldTotal.setEditable(false);
     }        
             
     private void validateQuantity(java.awt.event.KeyEvent evt){
@@ -670,8 +701,7 @@ public class fSell extends javax.swing.JFrame {
             String quantityStr = (this.TextFieldQuantity.getText());
             int quantity = Integer.parseInt(quantityStr);
             double totalToPay = this.priceProduct * quantity;
-            this.TextFieldTotal.setText(String.valueOf(totalToPay));
-            this.totalToPay = totalToPay;
+            this.TextFieldTotalPay.setText(String.format("%.2f",totalToPay));
         }catch(NumberFormatException e){
             
         }
@@ -712,7 +742,7 @@ public class fSell extends javax.swing.JFrame {
     
     private void resetTextFieldsAndCheckbox(){
         this.TextFieldQuantity.setText("");
-        this.TextFieldTotal.setText("");
+        this.TextFieldTotalPay.setText("");
         this.TextFieldPayCash.setText("");
         this.TextFieldPayCredit.setText("");
         this.CheckBoxCash.setSelected(false);
@@ -721,6 +751,7 @@ public class fSell extends javax.swing.JFrame {
     
     public void validatePay(){
         boolean isReadyToPay = false;
+        boolean isCredit = false;
         if (this.CheckBoxCash.isSelected() && this.CheckBoxCredit.isSelected()) {
             int quantityCash = 0;
             int quantityCredit = 0;
@@ -732,8 +763,10 @@ public class fSell extends javax.swing.JFrame {
             
             if (this.TextFieldPayCredit.getText().length() == 0)
                 quantityCredit = 0;
-            else
-                quantityCredit = Integer.parseInt(this.TextFieldPayCredit.getText());                                    
+            else{
+                quantityCredit = Integer.parseInt(this.TextFieldPayCredit.getText());
+                isCredit = true;
+            }
             
             if (quantityCredit <= this.creditClient) {
                 if ((quantityCash+quantityCredit) == this.totalToPay) {
@@ -744,24 +777,110 @@ public class fSell extends javax.swing.JFrame {
             isReadyToPay = validateParameters();
         }
         if (isReadyToPay) {
-            System.out.println("Se puede pagar");
-            System.out.println("El Id del producto es: " + this.IDProduct);
-            System.out.println("El Id del Cliente es: " + this.IDClient);
-            System.out.println("Tiene que pagar: " + this.totalToPay);
-            //Envair a base pagar y descontartatatatata
-            //Enviar mensaje de se pago correctamente
-            //Reiniciar el frame
+            if (this.CheckBoxCredit.isSelected())
+                isCredit = true;
+            
+            sellProducts(isCredit);
+            this.dispose();
         }else{
-            System.out.println("No se puede pagar");
+            JOptionPane.showMessageDialog(null,"No se puede pagar, No ingreso todos los datos");
         }
     }
     
     private boolean validateParameters(){
         boolean isReadyToPay = true;
-        if (this.IDClient.equals("") || this.IDProduct.equals("") || this.totalToPay == 0) {
+        if (this.IDClient.equals("") || this.totalToPay == 0) {
             isReadyToPay = false;
         }        
         return isReadyToPay;
+    }
+    
+    public void setProductsTable(){
+        cleanTableProducts();
+        String code = "";
+        String name = "";
+        String maker = "";
+        int quantity = 0;
+        double price = 0;
+        int guarantee = 0;
+        
+        int sizeProducts = this.products.size();
+        for (int i = 0; i < sizeProducts; i++) {
+            code = this.products.get(i).getCode();
+            name = this.products.get(i).getName();
+            maker = this.products.get(i).getMaker();
+            quantity = this.products.get(i).getQuantity();
+            price = this.products.get(i).getPrice();
+            guarantee = this.products.get(i).getGuarantee();
+                       
+            this.dtmProduct.addRow(new Object[]{code, name, maker,quantity,price,guarantee});
+        }                
+        
+        this.TableProduct.setModel(dtmProduct);
+    }
+    
+    public void cleanTableProducts(){
+        int filas=this.TableProduct.getRowCount();
+        for (int i = 0;filas>i; i++) {
+            this.dtmProduct.removeRow(0);
+        }
+    }
+    
+    public void setClients(){
+        cleanTableClient();
+        String NIT = "";
+        String name = "";
+        String phone = "";
+        String DPI = "";
+        double credit = 0;
+        String email = "";
+        String address = "";
+        
+        int sizeClients = this.clients.size();
+        for (int i = 0; i < sizeClients; i++) {
+            NIT = this.clients.get(i).getNIT();
+            name = this.clients.get(i).getName();
+            phone = this.clients.get(i).getPhone();
+            DPI = this.clients.get(i).getDPI();
+            credit = this.clients.get(i).getCredit();
+            email = this.clients.get(i).getEmail();
+            address = this.clients.get(i).getAddress();
+                       
+            this.dtmClient.addRow(new Object[]{name, NIT, DPI, credit, phone , email, address});
+        }                
+        
+        this.TableClient.setModel(dtmClient);
+    }
+    
+    public void cleanTableClient(){
+        int filas=this.TableClient.getRowCount();
+        for (int i = 0;filas>i; i++) {
+            this.dtmClient.removeRow(0);
+        }
+    }
+    
+    public void sellProducts(boolean isCredit){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String dateStr = sdf.format(this.dateActual);
+        this.control.insertSell(dateStr, IDClient, totalToPay);
+        
+        String codeProduct = "";
+            int quantity = 0;
+            for (int i = 0; i < this.TableProductSell.getRowCount(); i++) {
+                codeProduct = String.valueOf(this.TableProductSell.getValueAt(i,0));
+                quantity = Integer.parseInt(String.valueOf(this.TableProductSell.getValueAt(i,2)));
+                this.control.quitQuantityProduct(this.codeStore, codeProduct, quantity);
+                this.control.insertSellProduct(codeProduct);
+            }                        
+        JOptionPane.showMessageDialog(null,"Se realizo correctamente la venta");
+        if (isCredit) {
+            quitCredit();
+        }
+    }
+    
+    public void quitCredit(){
+        double creditQuit = Double.parseDouble(this.TextFieldPayCredit.getText());
+        this.control.quitCreditClient(IDClient, creditQuit);
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -771,7 +890,7 @@ public class fSell extends javax.swing.JFrame {
     private javax.swing.JCheckBox CheckBoxCredit;
     private javax.swing.JTable TableClient;
     private javax.swing.JTable TableProduct;
-    private javax.swing.JTable TableProduct1;
+    private javax.swing.JTable TableProductSell;
     private javax.swing.JTextField TextFieldClientCredit;
     private javax.swing.JTextField TextFieldClientName;
     private javax.swing.JTextField TextFieldCodeProduct;
@@ -782,6 +901,7 @@ public class fSell extends javax.swing.JFrame {
     private javax.swing.JTextField TextFieldPayCredit;
     private javax.swing.JTextField TextFieldQuantity;
     private javax.swing.JTextField TextFieldTotal;
+    private javax.swing.JTextField TextFieldTotalPay;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -803,6 +923,5 @@ public class fSell extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

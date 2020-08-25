@@ -62,6 +62,11 @@ public class fEmployee extends javax.swing.JFrame {
 
         ButtonReports.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
         ButtonReports.setText("Reportes");
+        ButtonReports.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonReportsActionPerformed(evt);
+            }
+        });
 
         ButtonNew.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
         ButtonNew.setText("Ingresar y Modificar Datos");
@@ -118,12 +123,12 @@ public class fEmployee extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ButtonSellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonSellActionPerformed
-        fSell newSell = new fSell();
+        fSell newSell = new fSell(this.control,this.codeStore, this.actualDate);
         newSell.setVisible(true);
     }//GEN-LAST:event_ButtonSellActionPerformed
 
     private void ButtonOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonOrderActionPerformed
-        fOrder newOrder = new fOrder();
+        fOrder newOrder = new fOrder(this.control,this.codeStore,this.actualDate);
         newOrder.setVisible(true);
     }//GEN-LAST:event_ButtonOrderActionPerformed
 
@@ -138,6 +143,10 @@ public class fEmployee extends javax.swing.JFrame {
         chooseDate.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_ButtonChangeDateActionPerformed
+
+    private void ButtonReportsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonReportsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ButtonReportsActionPerformed
 
   
 

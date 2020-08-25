@@ -681,5 +681,88 @@ public class ControlDB {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }
-   
+    
+    public void insertSell(String date ,String clientNIT, double total){        
+        try {
+            ps = connection.prepareStatement("INSERT INTO SALE (dateSale,CLIENT_NIT,total) VALUES (?,?,?)");
+            ps.setString(1, date);
+            ps.setString(2, clientNIT);
+            ps.setDouble(3, total);
+            
+            ps.executeUpdate();//action done
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        
+    }        
+    
+    public void insertSellProduct(String productCode){
+        int codeSale = takeLastSell();
+        try {
+            ps = connection.prepareStatement("INSERT INTO SALE_PRODUCT (SALE_code,PRODUCT_code) VALUES (?,?)");
+            ps.setInt(1, codeSale);
+            ps.setString(2, productCode);            
+            
+            ps.executeUpdate();//action done
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        } 
+    }
+    
+    public int takeLastSell(){
+        int codeSale = 0;
+        String query = "SELECT * FROM SALE"; 
+        
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {                        
+            
+            ResultSet result = preSt.executeQuery();            
+            if (result.last())
+                codeSale=result.getInt(1);
+                
+            result.close();
+            preSt.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return codeSale;
+    }
+    
+    public void quitCreditClient(String codeClient, double quantityToQuit){
+        double credit = takeCreditClient(codeClient)-quantityToQuit;
+        
+        try {
+            ps = connection.prepareStatement("UPDATE CLIENT SET credit = ? WHERE NIT = ? ");
+            ps.setDouble(1, credit);
+            ps.setString(2, codeClient);
+            
+            ps.executeUpdate();//action done
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        
+    }
+    
+    public double takeCreditClient(String codeClient){
+        double credit = 0;
+        String query = "SELECT credit FROM CLIENT WHERE NIT = ?"; 
+        
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {
+            preSt.setString(1, codeClient);
+            
+            ResultSet result = preSt.executeQuery();                        
+            
+            
+            if (result.next())
+                credit = result.getDouble(1);
+                
+            result.close();
+            preSt.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return credit;
+    }
 }
