@@ -55,11 +55,11 @@ public class Report9 extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Codigo", "Nombre", "Fabricante", "Existencia", "Precio", "Garantia"
+                "Codigo", "Nombre", "Fabricante", "Precio", "Garantia"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {

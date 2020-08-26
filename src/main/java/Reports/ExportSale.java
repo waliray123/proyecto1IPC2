@@ -77,7 +77,6 @@ public class ExportSale {
     
     public void exportReport(String title){
         String path = takePath();
-        System.out.println(path);
         FileWriter fichero = null;
         PrintWriter pw = null;
         try
