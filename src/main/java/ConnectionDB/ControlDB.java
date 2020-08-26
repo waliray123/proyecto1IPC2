@@ -10,6 +10,7 @@ import ObjectsDB.Employee;
 import ObjectsDB.Order;
 import ObjectsDB.Product;
 import ObjectsDB.Sale;
+import ObjectsDB.ShippingTime;
 import ObjectsDB.Store;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -686,12 +687,13 @@ public class ControlDB {
         }
     }
     
-    public void insertSell(String date ,String clientNIT, double total){        
+    public void insertSell(String date ,String clientNIT, double total, String codeStore){        
         try {
-            ps = connection.prepareStatement("INSERT INTO SALE (dateSale,CLIENT_NIT,total) VALUES (?,?,?)");
+            ps = connection.prepareStatement("INSERT INTO SALE (dateSale,CLIENT_NIT,total,codeStore) VALUES (?,?,?,?)");
             ps.setString(1, date);
             ps.setString(2, clientNIT);
             ps.setDouble(3, total);
+            ps.setString(4, codeStore);
             
             ps.executeUpdate();//action done
             
@@ -789,6 +791,8 @@ public class ControlDB {
                 order.setCodeOrderOut(result.getString(7));
                 order.setCodeOrderEnter(result.getString(8));
                 order.setDelivered(Boolean.getBoolean(result.getString(9)));
+                order.setRegisteredOrder(Boolean.getBoolean(result.getString(10)));
+                order.setDelayedOrder(Boolean.getBoolean(result.getString(11)));
                 orders.add(order);
             }                
             result.close();
@@ -830,8 +834,7 @@ public class ControlDB {
         return products;
     }
     
-    public ArrayList<Product> getProductsByCode(String codeProduct){
-        ArrayList<Product> products = new ArrayList<Product>();
+    public ArrayList<Product> getProductsByCode(String codeProduct, ArrayList<Product> products){        
         
         String query = "SELECT * FROM PRODUCT WHERE code = ?"; 
         
@@ -847,7 +850,6 @@ public class ControlDB {
                 product.setPrice(Double.parseDouble(result.getString(4)));
                 product.setDescription(result.getString(5));
                 product.setGuarantee(Integer.parseInt(result.getString(6)));
-                product.setQuantity(Integer.parseInt(result.getString(9)));
                 products.add(product);
             }
                 
@@ -863,7 +865,7 @@ public class ControlDB {
     public ArrayList<String> codesReport8(String date1, String date2, String codeStore){
         ArrayList<String> codeProducts = new ArrayList<String>();
         
-        String query = "SELECT P.code,COUNT(*) AS numberTimes FROM PRODUCT AS P JOIN STORE_PRODUCT AS SP ON P.code = SP.PRODUCT_code JOIN SALE_PRODUCT AS SA ON P.code = SA.PRODUCT_code JOIN SALE AS S ON S.code = SA.SALE_code AND SP.STORE_code = ? AND dateSale BETWEEN ? AND ? GROUP BY code ORDER BY numberTimes DESC;"; 
+        String query = "SELECT P.code,COUNT(P.code) AS numberTimes FROM PRODUCT AS P JOIN SALE_PRODUCT AS SA ON P.code = SA.PRODUCT_code JOIN SALE AS S ON S.code = SA.SALE_code AND S.codeStore = ? AND dateSale BETWEEN ? AND ? GROUP BY code ORDER BY numberTimes DESC;"; 
         
         try (PreparedStatement preSt = connection.prepareStatement(query);) {            
             preSt.setString(1, codeStore);
@@ -889,7 +891,7 @@ public class ControlDB {
     public ArrayList<String> codesReport7(String date1, String date2){
         ArrayList<String> codeProducts = new ArrayList<String>();
         
-        String query = "SELECT P.code,COUNT(*) AS numberTimes FROM PRODUCT AS P JOIN SALE_PRODUCT AS SA ON P.code = SA.PRODUCT_code JOIN SALE AS S ON S.code = SA.SALE_code AND dateSale BETWEEN ? AND ? GROUP BY code ORDER BY numberTimes DESC;"; 
+        String query = "SELECT P.code,COUNT(*) AS numberTimes FROM PRODUCT AS P JOIN SALE_PRODUCT AS SA ON P.code = SA.PRODUCT_code JOIN SALE AS S ON S.code = SA.SALE_code AND dateSale BETWEEN ? AND ? GROUP BY code ORDER BY numberTimes DESC LIMIT 10"; 
         
         try (PreparedStatement preSt = connection.prepareStatement(query);) {                        
             preSt.setString(1, date1);
@@ -968,12 +970,73 @@ public class ControlDB {
         return sales;
     }
     
-    public ArrayList<Order> setReport4(){
+    public ArrayList<Order> setReport4(String codeStoreOut){
         ArrayList<Order> orders = new ArrayList<Order>();
         
-        String query = "SELECT * FROM ORDER_CLIENT WHERE delivered = 0 AND registeredOrder = 0";
+        String query = "SELECT * FROM ORDER_CLIENT WHERE delivered = 0 AND registeredOrder = 0 AND STORE_code_out = ?";
         
         try (PreparedStatement preSt = connection.prepareStatement(query);) {                                   
+            preSt.setString(1,codeStoreOut);
+            ResultSet result = preSt.executeQuery();            
+            while(result.next()){
+                Order order = new Order();
+                order.setCode(result.getString(1));                
+                order.setTotal(Double.parseDouble(result.getString(3)));
+                order.setAdvance(Double.parseDouble(result.getString(4)));                
+                order.setClientNIT(result.getString(5));
+                order.setShippingTime(searchDaysShipping(result.getString(6)));
+                order.setDateStr(result.getString(2));
+                order.setCodeOrderOut(result.getString(7));
+                order.setCodeOrderEnter(result.getString(8));
+                order.setDelivered(Boolean.getBoolean(result.getString(9)));
+                orders.add(order);
+            }                
+            result.close();
+            preSt.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        
+        return orders;
+    }
+    
+    public ArrayList<Order> setReport3(String codeStoreEnter){
+        ArrayList<Order> orders = new ArrayList<Order>();
+        
+        String query = "SELECT * FROM ORDER_CLIENT WHERE delivered = 0 AND registeredOrder = 0 AND delayedOrder = 1 AND STORE_code_enter = ?";
+        
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {                                   
+            preSt.setString(1, codeStoreEnter);
+            ResultSet result = preSt.executeQuery();            
+            while(result.next()){
+                Order order = new Order();
+                order.setCode(result.getString(1));                
+                order.setTotal(Double.parseDouble(result.getString(3)));
+                order.setAdvance(Double.parseDouble(result.getString(4)));                
+                order.setClientNIT(result.getString(5));
+                order.setShippingTime(searchDaysShipping(result.getString(6)));
+                order.setDateStr(result.getString(2));
+                order.setCodeOrderOut(result.getString(7));
+                order.setCodeOrderEnter(result.getString(8));
+                order.setDelivered(Boolean.getBoolean(result.getString(9)));
+                orders.add(order);
+            }                
+            result.close();
+            preSt.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        
+        return orders;
+    }
+    
+    public ArrayList<Order> setReport2(String codeStoreEnter){
+        ArrayList<Order> orders = new ArrayList<Order>();
+        
+        String query = "SELECT * FROM ORDER_CLIENT WHERE delivered = 0 AND registeredOrder = 0 AND delayedOrder = 0 AND STORE_code_enter = ?";
+        
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {                                   
+            preSt.setString(1, codeStoreEnter);
             
             ResultSet result = preSt.executeQuery();            
             while(result.next()){
@@ -998,12 +1061,13 @@ public class ControlDB {
         return orders;
     }
     
-    public ArrayList<Order> setReport3(){
+    public ArrayList<Order> setReport1(String codeStoreEnter){
         ArrayList<Order> orders = new ArrayList<Order>();
         
-        String query = "SELECT * FROM ORDER_CLIENT WHERE delivered = 0 AND registeredOrder = 0 AND delayedOrder = 1";
+        String query = "SELECT * FROM ORDER_CLIENT WHERE delivered = 0 AND registeredOrder = 0 AND STORE_code_enter = ?";
         
         try (PreparedStatement preSt = connection.prepareStatement(query);) {                                   
+            preSt.setString(1, codeStoreEnter);
             
             ResultSet result = preSt.executeQuery();            
             while(result.next()){
@@ -1028,26 +1092,21 @@ public class ControlDB {
         return orders;
     }
     
-    public ArrayList<Order> setReport2(){
-        ArrayList<Order> orders = new ArrayList<Order>();
+    public ArrayList<ShippingTime> getAllShippingTime(){
+        ArrayList<ShippingTime> shippingTimes = new ArrayList<ShippingTime>();
         
-        String query = "SELECT * FROM ORDER_CLIENT WHERE delivered = 0 AND registeredOrder = 0 AND delayedOrder = 0";
+        String query = "SELECT * FROM SHIPPINGTIME";
         
         try (PreparedStatement preSt = connection.prepareStatement(query);) {                                   
             
             ResultSet result = preSt.executeQuery();            
             while(result.next()){
-                Order order = new Order();
-                order.setCode(result.getString(1));                
-                order.setTotal(Double.parseDouble(result.getString(3)));
-                order.setAdvance(Double.parseDouble(result.getString(4)));                
-                order.setClientNIT(result.getString(5));
-                order.setShippingTime(searchDaysShipping(result.getString(6)));
-                order.setDateStr(result.getString(2));
-                order.setCodeOrderOut(result.getString(7));
-                order.setCodeOrderEnter(result.getString(8));
-                order.setDelivered(Boolean.getBoolean(result.getString(9)));
-                orders.add(order);
+                ShippingTime shippingTime = new ShippingTime();
+                shippingTime.setCode(result.getString(1));                
+                shippingTime.setStoreCodeOut(result.getString(2));
+                shippingTime.setStoreCodeEnter(result.getString(3));
+                shippingTime.setDaysTime(result.getString(4));
+                shippingTimes.add(shippingTime);
             }                
             result.close();
             preSt.close();
@@ -1055,36 +1114,156 @@ public class ControlDB {
             System.out.println("Error: " + e.getMessage());
         }
         
-        return orders;
+        return shippingTimes;
     }
     
-    public ArrayList<Order> setReport1(){
-        ArrayList<Order> orders = new ArrayList<Order>();
+    public String getNameStoreByCode(String codeStore){
+        String nameStore = "";
         
-        String query = "SELECT * FROM ORDER_CLIENT WHERE delivered = 0 AND registeredOrder = 0";
+        String query = "SELECT name FROM STORE WHERE code =?";
         
         try (PreparedStatement preSt = connection.prepareStatement(query);) {                                   
+            preSt.setString(1, codeStore);
             
             ResultSet result = preSt.executeQuery();            
-            while(result.next()){
-                Order order = new Order();
-                order.setCode(result.getString(1));                
-                order.setTotal(Double.parseDouble(result.getString(3)));
-                order.setAdvance(Double.parseDouble(result.getString(4)));                
-                order.setClientNIT(result.getString(5));
-                order.setShippingTime(searchDaysShipping(result.getString(6)));
-                order.setDateStr(result.getString(2));
-                order.setCodeOrderOut(result.getString(7));
-                order.setCodeOrderEnter(result.getString(8));
-                order.setDelivered(Boolean.getBoolean(result.getString(9)));
-                orders.add(order);
-            }                
+            if (result.next()) {
+                nameStore = result.getString(1);
+            }
+                
             result.close();
             preSt.close();
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
         }
         
-        return orders;
+        return nameStore;
+    }
+    
+    public ArrayList<String> allCodesStores(){
+        ArrayList<String> codes = new ArrayList<String>();
+        String query = "SELECT code FROM STORE"; 
+        
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {            
+            
+            ResultSet result = preSt.executeQuery();            
+            while(result.next())
+                codes.add(result.getString(1));
+                
+            result.close();
+            preSt.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }     
+        return codes;
+    }
+    
+    public ArrayList<String> allCodesEmployee(){
+        ArrayList<String> codes = new ArrayList<String>();
+        String query = "SELECT code FROM EMPLOYEE"; 
+        
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {            
+            
+            ResultSet result = preSt.executeQuery();            
+            while(result.next())
+                codes.add(result.getString(1));
+                
+            result.close();
+            preSt.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }     
+        return codes;
+    }
+    
+    public ArrayList<String> allCodesClients(){
+        ArrayList<String> codes = new ArrayList<String>();
+        String query = "SELECT NIT FROM CLIENT"; 
+        
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {            
+            
+            ResultSet result = preSt.executeQuery();            
+            while(result.next())
+                codes.add(result.getString(1));
+                
+            result.close();
+            preSt.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }     
+        return codes;
+    }
+    
+    public ArrayList<String> allCodesProducts(){
+        ArrayList<String> codes = new ArrayList<String>();
+        String query = "SELECT code FROM PRODUCT"; 
+        
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {            
+            
+            ResultSet result = preSt.executeQuery();            
+            while(result.next())
+                codes.add(result.getString(1));
+                
+            result.close();
+            preSt.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }     
+        return codes;
+    }
+    
+    public int getLastCodeOrder(){
+        int lastCode = 1000;
+        String query = "SELECT code FROM ORDER_CLIENT ORDER BY code DESC"; 
+        
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {            
+            
+            ResultSet result = preSt.executeQuery();            
+            if(result.next())
+                lastCode = result.getInt(1);
+                
+            result.close();
+            preSt.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }     
+        return lastCode;
+    }
+    
+    public void updateOrderByCode(String codeOrder, boolean delivered, boolean registeredOrder,boolean delayedOrder){
+        try {
+            ps = connection.prepareStatement("UPDATE ORDER_CLIENT SET delivered = ?,registeredOrder = ?,delayedOrder = ? WHERE code = ?");
+            ps.setBoolean(1, delivered);
+            ps.setBoolean(2, registeredOrder);
+            ps.setBoolean(3, delayedOrder);            
+            ps.setString(4, codeOrder);            
+            
+            ps.executeUpdate();//action done
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }
+    
+    public boolean existCodeOrderByCodeStore(String codeOrder, String codeStore){
+        boolean existRelation = false;
+        String query = "SELECT * FROM ORDER_CLIENT WHERE code = ? AND STORE_code_enter = ? AND delivered = ? AND registeredOrder = ?"; 
+        
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {            
+            preSt.setString(1, codeOrder);
+            preSt.setString(2, codeStore);
+            preSt.setBoolean(3, false);
+            preSt.setBoolean(4, true);
+            
+            ResultSet result = preSt.executeQuery();            
+            if (result.next())
+                existRelation = true;
+                
+            result.close();
+            preSt.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        
+        return existRelation;
     }
 }

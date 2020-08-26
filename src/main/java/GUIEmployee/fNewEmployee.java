@@ -9,6 +9,7 @@ import ConnectionDB.ControlDB;
 import ObjectsDB.Employee;
 import java.awt.Color;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -210,14 +211,18 @@ public class fNewEmployee extends javax.swing.JFrame {
             String DPI = this.TextFieldDpi.getText();
             String email = this.TextFieldEMail.getText();
             String address = this.TextFieldAddress.getText();
-            if (this.codeEmployee.equals("")) 
-                this.control.insertEmployee(code, name, phone, NIT, DPI, email, address);
-            else
+            if (this.codeEmployee.equals("")){
+                if(reviewExistCode()){
+                    this.control.insertEmployee(code, name, phone, NIT, DPI, email, address);
+                    clearTextBox();
+                }else
+                    JOptionPane.showMessageDialog(this,"No puedes insertar porque ya existe un empleado con ese codigo");
+            }else{
                 this.control.updateEmployee(this.codeEmployee, name, phone, NIT, DPI, email, address);
-            
+                clearTextBox();
+            }
             this.employees = this.control.setEmployee();
-            setEmployees();            
-            clearTextBox();
+            setEmployees();                        
         }
     }//GEN-LAST:event_ButtonSaveEmployeeActionPerformed
 
@@ -331,6 +336,17 @@ public class fNewEmployee extends javax.swing.JFrame {
         for (int i = 0;filas>i; i++) {
             this.dtmEmployee.removeRow(0);
         }
+    }
+    
+    private boolean reviewExistCode(){
+        ArrayList<String> codes = this.control.allCodesEmployee();
+        for (int i = 0; i < codes.size(); i++) {
+            String code = this.TextFieldCode.getText();
+            if (codes.get(i).equals(code)) {
+                return false;
+            }            
+        }
+        return true;
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -36,16 +36,20 @@ public class FileManager {
     private String[] components;
     private int countLine;
     private DefaultTableModel tableModel;
+    private DefaultTableModel tableModel2;
     private ControlCodes controlCodesClient = new ControlCodes();
     private ControlCodes controlCodesEmployee = new ControlCodes();
     private ControlCodes controlCodesProduct = new ControlCodes();
     private ControlCodes controlCodesStore = new ControlCodes();
     private ControlCodes controlCodesOrder = new ControlCodes();
     private ControlDB control;
+    private String contentLine;
     
-    public void loadControlData(String path , DefaultTableModel tableModel, ControlDB control1){
+    
+    public void loadControlData(String path , DefaultTableModel tableModel, ControlDB control1,DefaultTableModel tableModel2 ){
         this.countLine = 1;
         this.tableModel = tableModel;
+        this.tableModel2 = tableModel2;
         try {            
             FileReader fileReader = new FileReader(path);
             BufferedReader br = new BufferedReader(fileReader);
@@ -55,11 +59,10 @@ public class FileManager {
             
             
             while((line=br.readLine())!=null){
-                System.out.println(line);
+                this.contentLine = line;
                 verifyTable(line);
                 this.countLine++;
-            }
-            System.out.println("termino");            
+            }                        
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -194,16 +197,18 @@ public class FileManager {
         this.controlCodesStore.addCode(this.components[3]);
         //Insertar en base de datos
         this.control.insertStore(this.components[3], this.components[1],this.components[2],this.components[4], null, null,null);
+        this.tableModel2.addRow(new Object[]{this.countLine, this.contentLine});
     }
     
     public void insertTime(){        
         //Insertar en base de datos
         this.control.insertShippingTime(this.components[1], this.components[2],Integer.parseInt(this.components[3]));
+        this.tableModel2.addRow(new Object[]{this.countLine, this.contentLine});
     }
     
     public void insertProduct(){
         this.controlCodesProduct.addCode(this.components[3]);
-        this.control.insertProduct(this.components[3],this.components[1], this.components[2], Double.parseDouble(this.components[5]), null, 0);
+        this.control.insertProduct(this.components[3],this.components[1], this.components[2], Double.parseDouble(this.components[5]), null, 0);        
         insertRelationStoreProduct();
         //Insertar en base de datos
     }
@@ -211,18 +216,21 @@ public class FileManager {
     public void insertRelationStoreProduct(){
         //Inserta en la base de datos la relacion producto tienda
         this.control.insertRelationStoreProduct(this.components[6],this.components[3], Integer.parseInt(this.components[4]));
+        this.tableModel2.addRow(new Object[]{this.countLine, this.contentLine});
     }
     
     public void insertEmployee(){
         this.controlCodesEmployee.addCode(this.components[2]);
         //Insertar en base de datos
         this.control.insertEmployee(this.components[2], this.components[1],this.components[3],null,this.components[4], null,null);
+        this.tableModel2.addRow(new Object[]{this.countLine, this.contentLine});
     }
     
     public void insertClient(){
         this.controlCodesClient.addCode(this.components[2]);
         //Insertar en base de datos
         this.control.insertClient(this.components[2], this.components[1],this.components[3],null, this.components[4], null,null);
+        this.tableModel2.addRow(new Object[]{this.countLine, this.contentLine});
     }
     
     public void insertOrder(){
@@ -239,6 +247,7 @@ public class FileManager {
     public void insertOrderProduct(){
         this.control.insertOrderProduct(Integer.parseInt(this.components[7]), this.components[1], this.components[6]);
         this.control.quitQuantityProduct(this.components[2], this.components[6], Integer.parseInt(this.components[7]));
+        this.tableModel2.addRow(new Object[]{this.countLine, this.contentLine});
     }
     
     public void addTotalOrder(){

@@ -45,6 +45,8 @@ public class fOrder extends javax.swing.JFrame {
     private Date dateActual;
     private String codeStoreOut;
     private String codeOrder;
+    private double payCash;
+    private double payCredit;
     /**
      * Creates new form fOrder
      */
@@ -65,6 +67,8 @@ public class fOrder extends javax.swing.JFrame {
         this.IDProduct = "";
         this.costPrepaid = 0;
         this.codeStoreOut = String.valueOf(this.jComboBox1.getSelectedItem());
+        this.payCash = 0;
+        this.payCredit = 0;
         
         this.control.setCodeStoreCombobox(this.jComboBox1);
         this.codeStoreOut = String.valueOf(this.jComboBox1.getSelectedItem());
@@ -72,7 +76,7 @@ public class fOrder extends javax.swing.JFrame {
         this.clients = this.control.setClients();
         setProductsTable();
         setClients();
-        
+        setCodeOrder();
         
         
         
@@ -671,11 +675,11 @@ public class fOrder extends javax.swing.JFrame {
     }//GEN-LAST:event_CheckBoxCreditActionPerformed
 
     private void TextFieldPayCashKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextFieldPayCashKeyTyped
-        validateOnlyNumbers(evt);
+//        validateOnlyNumbers(evt);
     }//GEN-LAST:event_TextFieldPayCashKeyTyped
 
     private void TextFieldPayCreditKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextFieldPayCreditKeyTyped
-        validateOnlyNumbers(evt);
+//        validateOnlyNumbers(evt);
     }//GEN-LAST:event_TextFieldPayCreditKeyTyped
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
@@ -725,6 +729,7 @@ public class fOrder extends javax.swing.JFrame {
     }
     
     private void setTextfieldNotEditables(){
+        this.TextFieldCodeOrder.setEditable(false);
         this.TextFieldNameProduct.setEditable(false);
         this.TextFieldCodeProduct.setEditable(false);
         this.TextFieldTotalPay.setEditable(false);
@@ -770,6 +775,27 @@ public class fOrder extends javax.swing.JFrame {
         }  
     }
     
+    private boolean creditCashIsDouble(){
+        boolean isReady = true;
+        try{
+            if (this.CheckBoxCash.isSelected()){            
+                if (this.CheckBoxCredit.isSelected()){
+                    payCash = Double.parseDouble(this.TextFieldPayCash.getText());
+                    payCredit = Double.parseDouble(this.TextFieldPayCredit.getText());
+                }else{
+                    payCash = Double.parseDouble(this.TextFieldPayCash.getText());
+                }
+            }else{
+                if (this.CheckBoxCredit.isSelected()){
+                    payCredit = Double.parseDouble(this.TextFieldPayCredit.getText());
+                }
+            }
+        }catch(Exception e){
+            isReady = false;
+        }
+        return isReady;
+    }
+    
     private void obtainTotalToPay(){
         try{
             String quantityStr = (this.TextFieldQuantity.getText());
@@ -795,6 +821,7 @@ public class fOrder extends javax.swing.JFrame {
                 this.TextFieldPayCredit.setText("");
             }else{
                 this.TextFieldPayCash.setText(String.valueOf(this.totalToPay));
+                this.TextFieldPayCash.setEditable(true);
             }
         }else{
             if (this.CheckBoxCredit.isSelected()){
@@ -810,6 +837,7 @@ public class fOrder extends javax.swing.JFrame {
     
     private void validateIsCredit(){
         if (this.creditClient >= this.costPrepaid) {
+            this.TextFieldPayCredit.setEditable(true);
             this.TextFieldPayCredit.setText(String.valueOf(this.costPrepaid));
         }else{
             //Enviar mensaje que no tiene suficiente credito
@@ -830,32 +858,38 @@ public class fOrder extends javax.swing.JFrame {
         boolean isReadyToPay = false;
         boolean isCredit = false;
         if (this.CheckBoxCash.isSelected() && this.CheckBoxCredit.isSelected()) {
-            int quantityCash = 0;
-            int quantityCredit = 0;
-            
+            double quantityCash = 0;
+            double quantityCredit = 0;
+            try{
             if (this.TextFieldPayCash.getText().length() == 0)
                 quantityCash = 0;
             else
-                quantityCash = Integer.parseInt(this.TextFieldPayCash.getText());
+                quantityCash = Double.parseDouble(this.TextFieldPayCash.getText());
             
             if (this.TextFieldPayCredit.getText().length() == 0)
                 quantityCredit = 0;
             else
-                quantityCredit = Integer.parseInt(this.TextFieldPayCredit.getText());                                    
-            
+                quantityCredit = Double.parseDouble(this.TextFieldPayCredit.getText());                                                
             if (quantityCredit <= this.creditClient) {
                 if ((quantityCash+quantityCredit) == this.totalToPay) {
                     isReadyToPay = true;
                 }
             }
+            }catch(Exception e){
+                
+            }
         }else{
             isReadyToPay = validateParameters();
         }
-        if (this.TextFieldCodeOrder.getText().equals("")) {
-            isReadyToPay = false;
-        }
         if (this.CheckBoxCash.isSelected()==false && this.CheckBoxCredit.isSelected() ==false) {
             isReadyToPay = false;
+        }
+        isReadyToPay = creditCashIsDouble();
+        if (isReadyToPay) {
+            if (this.costPrepaid <= (this.payCash+this.payCredit)) {
+                isReadyToPay = true;
+            }else
+                isReadyToPay = false;
         }
         if (isReadyToPay) {
             if (this.CheckBoxCredit.isSelected())
@@ -863,15 +897,8 @@ public class fOrder extends javax.swing.JFrame {
             
             this.codeOrder = this.TextFieldCodeOrder.getText();
             orderProducts(isCredit);
-            System.out.println("Se puede pagar");
-            System.out.println("El Id del producto es: " + this.IDProduct);
-            System.out.println("El Id del Cliente es: " + this.IDClient);
-            System.out.println("Tiene que pagar: " + this.totalToPay);
-            //Envair a base pagar y descontartatatatata
-            //Enviar mensaje de se pago correctamente
-            //Reiniciar el frame
         }else{
-            System.out.println("No se puede pagar");
+            JOptionPane.showMessageDialog(null,"No se puede pagar");
         }
     }
     
@@ -965,10 +992,8 @@ public class fOrder extends javax.swing.JFrame {
         
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String dateStr = sdf.format(this.dateActual);
-        //String code, String dateOrder, double total , double advance, String clientNit, int codeShippingTime ,String storeEnter, String storeOut, boolean delivered
-        //this.control.insertOrder(dateStr, IDClient, totalToPay);
         int codeShippingStore = this.control.existRelationShippingTime(this.codeStoreOut,this.codeStoreEnter);
-        this.control.insertOrder(this.codeOrder, dateStr, totalToPay, this.costPrepaid, IDClient, codeShippingStore, codeStoreOut, codeStoreEnter, false);
+        this.control.insertOrder(this.codeOrder, dateStr, totalToPay, (this.payCash+this.payCredit), IDClient, codeShippingStore, codeStoreOut, codeStoreEnter, false);
         
         String codeProduct = "";
             int quantity = 0;
@@ -982,11 +1007,28 @@ public class fOrder extends javax.swing.JFrame {
         if (isCredit) {
             quitCredit();
         }
+        if (isDelayed()) {
+            this.control.updateOrderByCode(this.codeOrder, false, false, true);
+        }
+    }
+    
+    public boolean isDelayed(){
+        boolean isDelayed = false;
+        int numero = (int)(Math.random()*100+1);
+        if (numero <= 25) {
+            isDelayed = true;
+        }
+        return isDelayed;
     }
     
     public void quitCredit(){
         double creditQuit = Double.parseDouble(this.TextFieldPayCredit.getText());
         this.control.quitCreditClient(IDClient, creditQuit);
+    }
+    
+    public void setCodeOrder(){
+        int lastCode = this.control.getLastCodeOrder() + 1;
+        this.TextFieldCodeOrder.setText(String.valueOf(lastCode));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

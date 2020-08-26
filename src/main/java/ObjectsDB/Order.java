@@ -24,7 +24,27 @@ public class Order {
     private String codeOrderOut;
     private String codeOrderEnter;
     private boolean delivered;
+    private boolean registeredOrder;
+    private boolean delayedOrder;
 
+    public boolean isRegisteredOrder() {
+        return registeredOrder;
+    }
+
+    public void setRegisteredOrder(boolean registeredOrder) {
+        this.registeredOrder = registeredOrder;
+    }
+
+    public boolean isDelayedOrder() {
+        return delayedOrder;
+    }
+
+    public void setDelayedOrder(boolean delayedOrder) {
+        this.delayedOrder = delayedOrder;
+    }
+
+    
+    
     public boolean isDelivered() {
         return delivered;
     }

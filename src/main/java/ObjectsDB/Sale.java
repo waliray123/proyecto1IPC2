@@ -14,6 +14,16 @@ public class Sale {
     private String dateSale;
     private String ClientNIT;
     private String total;
+    private String codeStore;
+
+    public String getCodeStore() {
+        return codeStore;
+    }
+
+    public void setCodeStore(String codeStore) {
+        this.codeStore = codeStore;
+    }
+        
 
     public String getCode() {
         return code;

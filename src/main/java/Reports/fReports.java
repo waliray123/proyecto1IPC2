@@ -6,6 +6,10 @@
 package Reports;
 
 import ConnectionDB.ControlDB;
+import ObjectsDB.Client;
+import ObjectsDB.Store;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -13,12 +17,17 @@ import ConnectionDB.ControlDB;
  */
 public class fReports extends javax.swing.JFrame {
     private ControlDB control;
+    private ArrayList<Client> clients;
+    private String clientNIT;
+    private String codeStore;
     /**
      * Creates new form fReports
      */
-    public fReports(ControlDB control1) {
+    public fReports(ControlDB control1, String codeStore) {
         initComponents();
         this.control = control1;
+        this.clients = this.control.setClients();
+        this.codeStore = codeStore;
     }
 
     /**
@@ -32,6 +41,13 @@ public class fReports extends javax.swing.JFrame {
 
         ButtonSell = new javax.swing.JButton();
         ButtonSell1 = new javax.swing.JButton();
+        ButtonSell2 = new javax.swing.JButton();
+        ButtonSell3 = new javax.swing.JButton();
+        ButtonSell4 = new javax.swing.JButton();
+        ButtonSell5 = new javax.swing.JButton();
+        ButtonSell6 = new javax.swing.JButton();
+        ButtonSell7 = new javax.swing.JButton();
+        ButtonSell8 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -51,42 +67,200 @@ public class fReports extends javax.swing.JFrame {
             }
         });
 
+        ButtonSell2.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
+        ButtonSell2.setText("Reporte 3");
+        ButtonSell2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonSell2ActionPerformed(evt);
+            }
+        });
+
+        ButtonSell3.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
+        ButtonSell3.setText("Reporte 4");
+        ButtonSell3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonSell3ActionPerformed(evt);
+            }
+        });
+
+        ButtonSell4.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
+        ButtonSell4.setText("Reporte 5");
+        ButtonSell4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonSell4ActionPerformed(evt);
+            }
+        });
+
+        ButtonSell5.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
+        ButtonSell5.setText("Reporte 6");
+        ButtonSell5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonSell5ActionPerformed(evt);
+            }
+        });
+
+        ButtonSell6.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
+        ButtonSell6.setText("Reporte 7");
+        ButtonSell6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonSell6ActionPerformed(evt);
+            }
+        });
+
+        ButtonSell7.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
+        ButtonSell7.setText("Reporte 8");
+        ButtonSell7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonSell7ActionPerformed(evt);
+            }
+        });
+
+        ButtonSell8.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
+        ButtonSell8.setText("Reporte 9");
+        ButtonSell8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonSell8ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(ButtonSell4, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
+                    .addComponent(ButtonSell2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(ButtonSell1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(ButtonSell, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE))
-                .addGap(561, 561, 561))
+                    .addComponent(ButtonSell, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(ButtonSell3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ButtonSell5, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ButtonSell6, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ButtonSell7, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ButtonSell8, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(60, 60, 60)
-                .addComponent(ButtonSell, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ButtonSell, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ButtonSell5, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ButtonSell1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(251, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ButtonSell1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ButtonSell6, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ButtonSell2, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ButtonSell7, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ButtonSell3, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ButtonSell8, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ButtonSell4, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void ButtonSellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonSellActionPerformed
-        Report1 report1 = new Report1(this.control);
+        Report1 report1 = new Report1(this.control,this.codeStore);
         report1.setVisible(true);
     }//GEN-LAST:event_ButtonSellActionPerformed
 
     private void ButtonSell1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonSell1ActionPerformed
-        // TODO add your handling code here:
+        Report2 report2 = new Report2(this.control,this.codeStore);
+        report2.setVisible(true);
     }//GEN-LAST:event_ButtonSell1ActionPerformed
 
+    private void ButtonSell2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonSell2ActionPerformed
+        Report3 report3 = new Report3(this.control,this.codeStore);
+        report3.setVisible(true);
+    }//GEN-LAST:event_ButtonSell2ActionPerformed
+
+    private void ButtonSell3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonSell3ActionPerformed
+        Report4 report4 = new Report4(this.control,this.codeStore);
+        report4.setVisible(true);
+    }//GEN-LAST:event_ButtonSell3ActionPerformed
+
+    private void ButtonSell4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonSell4ActionPerformed
+        if (reviewNitClient() == true) {
+            Report5 report5 = new Report5(this.control, clientNIT);
+            report5.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(this,"El NIT del cliente no existe");
+        }
+    }//GEN-LAST:event_ButtonSell4ActionPerformed
+
+    private void ButtonSell5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonSell5ActionPerformed
+        if (reviewNitClient() == true) {
+            Report6 report6 = new Report6(this.control, clientNIT);
+            report6.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(this,"El NIT del cliente no existe");
+        }
+    }//GEN-LAST:event_ButtonSell5ActionPerformed
+
+    private void ButtonSell6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonSell6ActionPerformed
+        fInterval interval = new fInterval(true,this.control);
+        interval.setVisible(true);
+    }//GEN-LAST:event_ButtonSell6ActionPerformed
+
+    private void ButtonSell7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonSell7ActionPerformed
+        fInterval interval = new fInterval(false,this.control);
+        interval.setVisible(true);
+    }//GEN-LAST:event_ButtonSell7ActionPerformed
+
+    private void ButtonSell8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonSell8ActionPerformed
+        ArrayList<Store> stores = this.control.setStores(); 
+            if (reviewCodeStore(stores)) { 
+                Report9 report9 = new Report9(this.control, this.codeStore);
+                report9.setVisible(true);
+            }else  {
+                JOptionPane.showMessageDialog(null,"No existe esa tienda");
+            }
+    }//GEN-LAST:event_ButtonSell8ActionPerformed
+
+    public boolean reviewNitClient(){
+        this.clientNIT = JOptionPane.showInputDialog("Escribe el nit del cliente");
+        boolean exist = false;
+        for (int i = 0; i < this.clients.size(); i++) {
+            if (this.clients.get(i).getNIT().equals(clientNIT)) {
+                exist = true;
+                break;
+            }            
+        }        
+        return exist;
+    }
+    
+    public boolean reviewCodeStore(ArrayList<Store> stores){
+        codeStore = JOptionPane.showInputDialog("Escribe el codigo de la tienda");
+        boolean exist = false;
+        for (int i = 0; i < stores.size(); i++) {
+            if (stores.get(i).getCode().equals(codeStore)) {
+                exist = true;
+                break;
+            }            
+        }        
+        return exist;
+    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonSell;
     private javax.swing.JButton ButtonSell1;
+    private javax.swing.JButton ButtonSell2;
+    private javax.swing.JButton ButtonSell3;
+    private javax.swing.JButton ButtonSell4;
+    private javax.swing.JButton ButtonSell5;
+    private javax.swing.JButton ButtonSell6;
+    private javax.swing.JButton ButtonSell7;
+    private javax.swing.JButton ButtonSell8;
     // End of variables declaration//GEN-END:variables
 }

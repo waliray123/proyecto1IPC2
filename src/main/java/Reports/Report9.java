@@ -5,17 +5,30 @@
  */
 package Reports;
 
+import ConnectionDB.ControlDB;
+import ObjectsDB.Product;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author user-ubunto
  */
 public class Report9 extends javax.swing.JFrame {
-
+    
+    private ArrayList<Product> products;
+    private ControlDB control;
+    private DefaultTableModel dtmProduct;
+    
     /**
      * Creates new form Report9
      */
-    public Report9() {
+    public Report9(ControlDB control1, String codeStore) {
         initComponents();
+        this.control = control1;
+        this.dtmProduct = (DefaultTableModel)this.TableProduct.getModel();        
+        this.products = control1.setReport9(codeStore);                       
+        setProductsTable();
     }
 
     /**
@@ -30,8 +43,9 @@ public class Report9 extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TableProduct = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("Listado de los diez productos más vendidos en un intervalo de tiempo.");
 
@@ -59,6 +73,13 @@ public class Report9 extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(TableProduct);
 
+        jButton1.setText("Exportar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -69,7 +90,10 @@ public class Report9 extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(0, 377, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1))
+                    .addComponent(jScrollPane1)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -78,8 +102,10 @@ public class Report9 extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addContainerGap(39, Short.MAX_VALUE))
         );
 
         pack();
@@ -88,10 +114,45 @@ public class Report9 extends javax.swing.JFrame {
     private void TableProductMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableProductMouseClicked
 
     }//GEN-LAST:event_TableProductMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        ExportProduct products = new ExportProduct();
+        products.setProducts(this.products);
+        products.exportReport("Listado de los diez productos más vendidos en un intervalo de tiempo.");
+    }//GEN-LAST:event_jButton1ActionPerformed
     
+    public void setProductsTable(){
+        cleanTableProducts();
+        String code = "";
+        String name = "";
+        String maker = "";
+        double price = 0;
+        int guarantee = 0;
+        
+        int sizeProducts = this.products.size();
+        for (int i = 0; i < sizeProducts; i++) {
+            code = this.products.get(i).getCode();
+            name = this.products.get(i).getName();
+            maker = this.products.get(i).getMaker();
+            price = this.products.get(i).getPrice();
+            guarantee = this.products.get(i).getGuarantee();
+                       
+            this.dtmProduct.addRow(new Object[]{code, name, maker,price,guarantee});
+        }                
+        
+        this.TableProduct.setModel(dtmProduct);
+    }
+    
+    public void cleanTableProducts(){
+        int filas=this.TableProduct.getRowCount();
+        for (int i = 0;filas>i; i++) {
+            this.dtmProduct.removeRow(0);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable TableProduct;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables

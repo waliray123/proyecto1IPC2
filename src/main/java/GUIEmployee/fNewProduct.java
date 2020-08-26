@@ -11,6 +11,7 @@ import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -295,17 +296,19 @@ public class fNewProduct extends javax.swing.JFrame {
                 Description = this.TextAreaDescription.getText();
             
             if (this.IDProduct.equalsIgnoreCase("")) {
-                System.out.println("Guardar Producto");
-                this.control.insertProduct(code, name, maker, price, Description, guarantee);
-                this.control.insertRelationStoreProduct(codeStore, code, quantity);
+                if (reviewExistCode()) {
+                    this.control.insertProduct(code, name, maker, price, Description, guarantee);
+                    this.control.insertRelationStoreProduct(codeStore, code, quantity);
+                    cleanTextBox();
+                }else
+                    JOptionPane.showMessageDialog(this,"No puedes insertar porque ya existe una tienda con ese codigo");                
             }else{
                 this.control.updateProduct(this.IDProduct, name, maker, price, Description, guarantee);
                 this.control.updateRelationStoreProduct(this.codeStore, this.IDProduct, quantity);
-                System.out.println("Editar Producto");                
+                cleanTextBox();
             }
             this.products = this.control.setProductsByStore(this.codeStore);
-            setProductsTable();
-            cleanTextBox();
+            setProductsTable();            
         }
     }//GEN-LAST:event_jButtonSaveProductActionPerformed
 
@@ -441,6 +444,17 @@ public class fNewProduct extends javax.swing.JFrame {
         for (int i = 0;filas>i; i++) {
             this.dtmProduct.removeRow(0);
         }
+    }
+    
+    private boolean reviewExistCode(){
+        ArrayList<String> codes = this.control.allCodesProducts();
+        for (int i = 0; i < codes.size(); i++) {
+            String code = this.TextFieldCode.getText();
+            if (codes.get(i).equals(code)) {
+                return false;
+            }            
+        }
+        return true;
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

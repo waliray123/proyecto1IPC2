@@ -6,6 +6,9 @@
 package GUIEmployee;
 
 import ConnectionDB.ControlDB;
+import ObjectsDB.ShippingTime;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -21,7 +24,11 @@ public class fNewTime extends javax.swing.JFrame {
         this.control = control1;
         this.control.setCodeStoreCombobox(this.ComboBoxStore1);
         this.control.setCodeStoreCombobox(this.ComboBoxStore2); 
+        this.buttonGroup1.add(jRadioButton1);
+        this.buttonGroup1.add(jRadioButton2);
+        this.jRadioButton1.setSelected(true);
         setTime();
+        setInTableShippingTimeByName();
     }
 
     /**
@@ -33,6 +40,7 @@ public class fNewTime extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         ComboBoxStore1 = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
@@ -40,6 +48,10 @@ public class fNewTime extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         ButtonSaveTime = new javax.swing.JButton();
         TextFieldDays = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jRadioButton1 = new javax.swing.JRadioButton();
+        jRadioButton2 = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -68,11 +80,43 @@ public class fNewTime extends javax.swing.JFrame {
             }
         });
 
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Tienda 1", "Tienda 2", "Tiempo en dias"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
+
+        jRadioButton1.setText("Nombres");
+        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton1ActionPerformed(evt);
+            }
+        });
+
+        jRadioButton2.setText("Codigos");
+        jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
@@ -86,26 +130,40 @@ public class fNewTime extends javax.swing.JFrame {
                             .addComponent(jLabel3)
                             .addComponent(ButtonSaveTime, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
                             .addComponent(TextFieldDays))))
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jRadioButton1)
+                        .addGap(51, 51, 51)
+                        .addComponent(jRadioButton2)))
+                .addGap(29, 29, 29))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ComboBoxStore1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TextFieldDays, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ComboBoxStore2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ButtonSaveTime, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jRadioButton1)
+                    .addComponent(jRadioButton2))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(ComboBoxStore1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(TextFieldDays, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(ComboBoxStore2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ButtonSaveTime, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(23, 23, 23))
         );
 
         pack();
@@ -127,6 +185,7 @@ public class fNewTime extends javax.swing.JFrame {
             }
         }
         setTime();
+        setInTableShippingTimeByName();
     }//GEN-LAST:event_ButtonSaveTimeActionPerformed
 
     private void ComboBoxStore1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboBoxStore1ActionPerformed
@@ -136,6 +195,22 @@ public class fNewTime extends javax.swing.JFrame {
     private void ComboBoxStore2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboBoxStore2ActionPerformed
         setTime();
     }//GEN-LAST:event_ComboBoxStore2ActionPerformed
+
+    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+        verifyRadioButtons();
+    }//GEN-LAST:event_jRadioButton1ActionPerformed
+
+    private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
+        verifyRadioButtons();
+    }//GEN-LAST:event_jRadioButton2ActionPerformed
+    
+    private void verifyRadioButtons(){
+        if (this.jRadioButton1.isSelected()) {
+            setInTableShippingTimeByName();
+        }else if(this.jRadioButton2.isSelected()){
+            setInTableShippingTimeByCode();
+        }
+    }
     
     public boolean verifyStores(){
         boolean isReady = true;
@@ -159,14 +234,52 @@ public class fNewTime extends javax.swing.JFrame {
         }else
             this.TextFieldDays.setText("");
     }
+    
+    public void setInTableShippingTimeByName(){
+        clearTable();
+        DefaultTableModel dtmShippingTime = (DefaultTableModel) this.jTable1.getModel();
+        ArrayList<ShippingTime> shippingTimes = this.control.getAllShippingTime();
+        String nameStore1 = "";
+        String nameStore2 = "";
+        for (int i = 0; i < shippingTimes.size(); i++) {
+            nameStore1 = this.control.getNameStoreByCode(shippingTimes.get(i).getStoreCodeOut());
+            nameStore2 = this.control.getNameStoreByCode(shippingTimes.get(i).getStoreCodeEnter());
+            dtmShippingTime.addRow(new Object[]{nameStore1,nameStore2,shippingTimes.get(i).getDaysTime()});
+        }
+        this.jTable1.setModel(dtmShippingTime);
+    }
+    
+    public void setInTableShippingTimeByCode(){
+        clearTable();
+        DefaultTableModel dtmShippingTime = (DefaultTableModel) this.jTable1.getModel();
+        ArrayList<ShippingTime> shippingTimes = this.control.getAllShippingTime();
+        for (int i = 0; i < shippingTimes.size(); i++) {
+            dtmShippingTime.addRow(new Object[]{shippingTimes.get(i).getStoreCodeOut(),shippingTimes.get(i).getStoreCodeEnter(),shippingTimes.get(i).getDaysTime()});
+        }
+        this.jTable1.setModel(dtmShippingTime);
+    }
+    
+    public void clearTable(){
+        DefaultTableModel dtmShippingTime = (DefaultTableModel) this.jTable1.getModel();
+        int filas=this.jTable1.getRowCount();
+        for (int i = 0;filas>i; i++) {
+            dtmShippingTime.removeRow(0);
+        }
+        this.jTable1.setModel(dtmShippingTime);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonSaveTime;
     private javax.swing.JComboBox<String> ComboBoxStore1;
     private javax.swing.JComboBox<String> ComboBoxStore2;
     private javax.swing.JTextField TextFieldDays;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JRadioButton jRadioButton1;
+    private javax.swing.JRadioButton jRadioButton2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }

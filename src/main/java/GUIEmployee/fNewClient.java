@@ -11,6 +11,7 @@ import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -119,6 +120,11 @@ public class fNewClient extends javax.swing.JFrame {
 
         jLabel9.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
         jLabel9.setText("Filtrar");
+        jLabel9.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TextFieldFilterClientKeyTyped(evt);
+            }
+        });
 
         TableClient.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
         TableClient.setModel(new javax.swing.table.DefaultTableModel(
@@ -302,17 +308,17 @@ public class fNewClient extends javax.swing.JFrame {
                 address = this.TextFieldAddress.getText();
             
             if (this.NITClientChange.equals("")) {
-                //TODO Guardar Cliente
-                this.control.insertClient(NIT, name, phone, DPI, credit, email, address);
-                System.out.println("guardar cliente");
-            }else{
-                //TODO Editar cliente
-                this.control.updateClient(this.NITClientChange, name, phone, DPI, credit, email, address);
-                System.out.println("Editar cliente");
+                if (reviewExistCode()) {
+                    this.control.insertClient(NIT, name, phone, DPI, credit, email, address);
+                    cleanTextBox();
+                }else
+                    JOptionPane.showMessageDialog(this,"No puedes insertar porque ya existe un cliente con ese codigo");
+            }else{                
+                this.control.updateClient(this.NITClientChange, name, phone, DPI, credit, email, address);                
+                cleanTextBox();
             }
             this.clients = this.control.setClients();
-            setClients();            
-            cleanTextBox();
+            setClients();                        
         }
     }//GEN-LAST:event_ButtonSaveClientActionPerformed
 
@@ -434,6 +440,16 @@ public class fNewClient extends javax.swing.JFrame {
         }
     }
     
+    private boolean reviewExistCode(){
+        ArrayList<String> codes = this.control.allCodesClients();
+        for (int i = 0; i < codes.size(); i++) {
+            String code = this.TextFieldNit.getText();
+            if (codes.get(i).equals(code)) {
+                return false;
+            }            
+        }
+        return true;
+    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonDelete;

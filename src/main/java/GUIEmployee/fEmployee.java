@@ -9,6 +9,7 @@ import ConnectionDB.ControlDB;
 import GUIStart.fChooseDateStore;
 import Reports.fReports;
 import java.util.Date;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -42,6 +43,7 @@ public class fEmployee extends javax.swing.JFrame {
         ButtonReports = new javax.swing.JButton();
         ButtonNew = new javax.swing.JButton();
         ButtonChangeDate = new javax.swing.JButton();
+        ButtonSellOrder = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -85,6 +87,14 @@ public class fEmployee extends javax.swing.JFrame {
             }
         });
 
+        ButtonSellOrder.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
+        ButtonSellOrder.setText("Vender Pedido");
+        ButtonSellOrder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonSellOrderActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -98,7 +108,8 @@ public class fEmployee extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(ButtonChangeDate, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(ButtonNew, javax.swing.GroupLayout.Alignment.LEADING))
+                    .addComponent(ButtonNew, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ButtonSellOrder, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -116,7 +127,9 @@ public class fEmployee extends javax.swing.JFrame {
                                 .addComponent(ButtonOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(ButtonChangeDate, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(ButtonReports, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(ButtonReports, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(ButtonSellOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
 
@@ -146,9 +159,17 @@ public class fEmployee extends javax.swing.JFrame {
     }//GEN-LAST:event_ButtonChangeDateActionPerformed
 
     private void ButtonReportsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonReportsActionPerformed
-        fReports frameReports = new fReports(this.control);
+        fReports frameReports = new fReports(this.control,this.codeStore);
         frameReports.setVisible(true);
     }//GEN-LAST:event_ButtonReportsActionPerformed
+
+    private void ButtonSellOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonSellOrderActionPerformed
+        String codeOrder = JOptionPane.showInputDialog("Ingrese el codigo del pedido");
+        if (this.control.existCodeOrderByCodeStore(codeOrder,this.codeStore)) {
+            fSellOrder sellorder = new fSellOrder(this.control, codeOrder,this.actualDate,this.codeStore);
+            sellorder.setVisible(true);
+        }        
+    }//GEN-LAST:event_ButtonSellOrderActionPerformed
 
   
 
@@ -158,5 +179,6 @@ public class fEmployee extends javax.swing.JFrame {
     private javax.swing.JButton ButtonOrder;
     private javax.swing.JButton ButtonReports;
     private javax.swing.JButton ButtonSell;
+    private javax.swing.JButton ButtonSellOrder;
     // End of variables declaration//GEN-END:variables
 }

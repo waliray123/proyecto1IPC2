@@ -753,18 +753,18 @@ public class fSell extends javax.swing.JFrame {
         boolean isReadyToPay = false;
         boolean isCredit = false;
         if (this.CheckBoxCash.isSelected() && this.CheckBoxCredit.isSelected()) {
-            int quantityCash = 0;
-            int quantityCredit = 0;
+            double quantityCash = 0;
+            double quantityCredit = 0;
             
             if (this.TextFieldPayCash.getText().length() == 0)
                 quantityCash = 0;
             else
-                quantityCash = Integer.parseInt(this.TextFieldPayCash.getText());
+                quantityCash = Double.parseDouble(this.TextFieldPayCash.getText());
             
             if (this.TextFieldPayCredit.getText().length() == 0)
                 quantityCredit = 0;
             else{
-                quantityCredit = Integer.parseInt(this.TextFieldPayCredit.getText());
+                quantityCredit = Double.parseDouble(this.TextFieldPayCredit.getText());
                 isCredit = true;
             }
             
@@ -775,6 +775,9 @@ public class fSell extends javax.swing.JFrame {
             }            
         }else{
             isReadyToPay = validateParameters();
+        }
+        if (this.CheckBoxCash.isSelected()==false && this.CheckBoxCredit.isSelected() ==false) {
+            isReadyToPay = false;
         }
         if (isReadyToPay) {
             if (this.CheckBoxCredit.isSelected())
@@ -862,7 +865,7 @@ public class fSell extends javax.swing.JFrame {
     public void sellProducts(boolean isCredit){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String dateStr = sdf.format(this.dateActual);
-        this.control.insertSell(dateStr, IDClient, totalToPay);
+        this.control.insertSell(dateStr, IDClient, totalToPay,this.codeStore);
         
         String codeProduct = "";
             int quantity = 0;

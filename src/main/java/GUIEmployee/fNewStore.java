@@ -8,9 +8,13 @@ package GUIEmployee;
 import ConnectionDB.ControlDB;
 import ObjectsDB.Store;
 import java.awt.Color;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -21,6 +25,7 @@ public class fNewStore extends javax.swing.JFrame {
     private String codeStore;
     private DefaultTableModel dtmStore;
     private ArrayList<Store> stores;
+    private TableRowSorter tableRowSorterStore;
     
     /**
      * Creates new form fNewStore
@@ -64,6 +69,8 @@ public class fNewStore extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TableStore = new javax.swing.JTable();
+        TextFieldFilterClient = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -130,6 +137,21 @@ public class fNewStore extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(TableStore);
 
+        TextFieldFilterClient.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        TextFieldFilterClient.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TextFieldFilterClientActionPerformed(evt);
+            }
+        });
+        TextFieldFilterClient.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TextFieldFilterClientKeyTyped(evt);
+            }
+        });
+
+        jLabel10.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        jLabel10.setText("Filtrar");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -140,17 +162,24 @@ public class fNewStore extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 732, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel10)
+                        .addGap(18, 18, 18)
+                        .addComponent(TextFieldFilterClient, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(TextFieldFilterClient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel10)))
+                .addGap(20, 20, 20)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(27, 27, 27))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -194,9 +223,9 @@ public class fNewStore extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jLabel1)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
                         .addGap(30, 30, 30)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -227,15 +256,16 @@ public class fNewStore extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(TextFieldShedule, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(LabelEMail)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(TextFieldEMail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(ButtonSave))
+                            .addComponent(ButtonSave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(21, 21, 21))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                 .addComponent(jLabel9)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -265,12 +295,16 @@ public class fNewStore extends javax.swing.JFrame {
                     shedule = this.TextFieldShedule.getText();
                 else
                     shedule = null;
-            if (this.codeStore.equals(""))                                                                                                 
-                this.control.insertStore(code, name, address, phone1, phone2, email, shedule);                                
-            else                                
-                this.control.updateStore(this.codeStore, name, address, phone1, phone2, email, shedule);                
-            
-            clearTextBox();
+            if (this.codeStore.equals(""))
+                if (reviewExistCode() == true){
+                    this.control.insertStore(code, name, address, phone1, phone2, email, shedule);
+                    clearTextBox();
+                }else
+                    JOptionPane.showMessageDialog(this,"No puedes insertar porque ya existe una tienda con ese codigo");
+            else{                               
+                this.control.updateStore(this.codeStore, name, address, phone1, phone2, email, shedule);
+                clearTextBox();                
+            }            
             stores =  this.control.setStores();
             setStores();
         }            
@@ -297,6 +331,25 @@ public class fNewStore extends javax.swing.JFrame {
 
         this.codeStore = this.TextFieldCode.getText();
     }//GEN-LAST:event_TableStoreMouseClicked
+
+    private void TextFieldFilterClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextFieldFilterClientActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TextFieldFilterClientActionPerformed
+
+    private void TextFieldFilterClientKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextFieldFilterClientKeyTyped
+        /*This is the filter of the rows of the table that
+        *contains the Client, you can filter the column 0and 1
+        */
+        this.TextFieldFilterClient.addKeyListener(new KeyAdapter(){
+            @Override
+            public void keyReleased(KeyEvent ke){
+                tableRowSorterStore.setRowFilter(RowFilter.regexFilter("(?i)"+TextFieldFilterClient.getText(), 0,1,2));
+            }
+        });
+
+        tableRowSorterStore = new TableRowSorter(dtmStore);
+        this.TableStore.setRowSorter(tableRowSorterStore);
+    }//GEN-LAST:event_TextFieldFilterClientKeyTyped
       
     private boolean reviewRequiredFields(){
         this.setColorsLabels();
@@ -316,9 +369,20 @@ public class fNewStore extends javax.swing.JFrame {
         if (this.TextFieldPhone1.getText().isEmpty() == true) {
             isReady= false;
             this.LabelPhone1.setForeground(Color.red);
-        }
+        }        
         return isReady;
-    }        
+    }
+    
+    private boolean reviewExistCode(){
+        ArrayList<String> codes = this.control.allCodesStores();
+        for (int i = 0; i < codes.size(); i++) {
+            String code = this.TextFieldCode.getText();
+            if (codes.get(i).equals(code)) {
+                return false;
+            }            
+        }
+        return true;
+    }
     
     private void setColorsLabels(){
         this.LabelCode.setForeground(Color.black);
@@ -397,11 +461,13 @@ public class fNewStore extends javax.swing.JFrame {
     private javax.swing.JTextField TextFieldAddress;
     private javax.swing.JTextField TextFieldCode;
     private javax.swing.JTextField TextFieldEMail;
+    private javax.swing.JTextField TextFieldFilterClient;
     private javax.swing.JTextField TextFieldName;
     private javax.swing.JTextField TextFieldPhone1;
     private javax.swing.JTextField TextFieldPhone2;
     private javax.swing.JTextField TextFieldShedule;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;

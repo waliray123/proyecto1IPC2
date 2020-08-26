@@ -32,7 +32,6 @@ public class fCatalogClient extends javax.swing.JFrame {
         this.control = control1;
         
         this.dtmProduct = (DefaultTableModel) this.TableProduct.getModel();        
-        setRadioButtonsInGroup();
         this.control.setCodeStoreCombobox(this.jComboBox1);
         tableRowSorter = new TableRowSorter(dtmProduct);
         this.TableProduct.setRowSorter(tableRowSorter);
@@ -58,17 +57,6 @@ public class fCatalogClient extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         TextFieldFilter = new javax.swing.JTextField();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        RadioButtonName = new javax.swing.JRadioButton();
-        RadioButtonCode = new javax.swing.JRadioButton();
-        RadioButtonMaker = new javax.swing.JRadioButton();
-        RadioButtonQuantity = new javax.swing.JRadioButton();
-        RadioButtonPrice = new javax.swing.JRadioButton();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        RadioButtonUpward = new javax.swing.JRadioButton();
-        RadioButtonFall = new javax.swing.JRadioButton();
         jPanel4 = new javax.swing.JPanel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
@@ -114,97 +102,6 @@ public class fCatalogClient extends javax.swing.JFrame {
             }
         });
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        jLabel3.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
-        jLabel3.setText("Ordenar por");
-
-        RadioButtonName.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
-        RadioButtonName.setText("Nombre");
-
-        RadioButtonCode.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
-        RadioButtonCode.setText("Codigo");
-
-        RadioButtonMaker.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
-        RadioButtonMaker.setText("Fabricante");
-
-        RadioButtonQuantity.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
-        RadioButtonQuantity.setText("Cantidad");
-
-        RadioButtonPrice.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
-        RadioButtonPrice.setText("Precio");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(RadioButtonName)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(RadioButtonCode)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(RadioButtonMaker)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(RadioButtonQuantity)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(RadioButtonPrice)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(RadioButtonName)
-                    .addComponent(RadioButtonCode)
-                    .addComponent(RadioButtonMaker)
-                    .addComponent(RadioButtonQuantity)
-                    .addComponent(RadioButtonPrice))
-                .addGap(0, 9, Short.MAX_VALUE))
-        );
-
-        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        jLabel4.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
-        jLabel4.setText("De manera");
-
-        RadioButtonUpward.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
-        RadioButtonUpward.setText("Ascendente");
-
-        RadioButtonFall.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
-        RadioButtonFall.setText("Descendente");
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel4)
-                .addGap(28, 28, 28)
-                .addComponent(RadioButtonUpward)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
-                .addComponent(RadioButtonFall)
-                .addGap(53, 53, 53))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jLabel4)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(RadioButtonUpward)
-                    .addComponent(RadioButtonFall))
-                .addContainerGap())
-        );
-
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jComboBox1.addItemListener(new java.awt.event.ItemListener() {
@@ -225,7 +122,7 @@ public class fCatalogClient extends javax.swing.JFrame {
                     .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel5)
-                        .addGap(0, 84, Short.MAX_VALUE)))
+                        .addGap(0, 577, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -246,34 +143,25 @@ public class fCatalogClient extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 658, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(TextFieldFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(TextFieldFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 81, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -330,19 +218,6 @@ public class fCatalogClient extends javax.swing.JFrame {
         setProducts();
     }//GEN-LAST:event_jComboBox1ItemStateChanged
 
-    public void setRadioButtonsInGroup(){
-        this.buttonGroupSortBy.add(RadioButtonCode);
-        this.buttonGroupSortBy.add(RadioButtonName);
-        this.buttonGroupSortBy.add(RadioButtonMaker);
-        this.buttonGroupSortBy.add(RadioButtonQuantity);
-        this.buttonGroupSortBy.add(RadioButtonPrice);        
-        
-        this.buttonGroupWay.add(RadioButtonUpward);
-        this.buttonGroupWay.add(RadioButtonFall);
-        
-        this.RadioButtonCode.setSelected(true);
-        this.RadioButtonUpward.setSelected(true);
-    }
     
     public void setProducts(){
         cleanTable();
@@ -374,19 +249,8 @@ public class fCatalogClient extends javax.swing.JFrame {
         }
     }
     
-    public void sortBy(){
-        
-        
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JRadioButton RadioButtonCode;
-    private javax.swing.JRadioButton RadioButtonFall;
-    private javax.swing.JRadioButton RadioButtonMaker;
-    private javax.swing.JRadioButton RadioButtonName;
-    private javax.swing.JRadioButton RadioButtonPrice;
-    private javax.swing.JRadioButton RadioButtonQuantity;
-    private javax.swing.JRadioButton RadioButtonUpward;
     private javax.swing.JTable TableProduct;
     private javax.swing.JTextField TextFieldFilter;
     private javax.swing.ButtonGroup buttonGroupSortBy;
@@ -394,11 +258,7 @@ public class fCatalogClient extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;

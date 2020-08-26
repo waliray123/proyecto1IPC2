@@ -5,17 +5,32 @@
  */
 package Reports;
 
+import ConnectionDB.ControlDB;
+import ObjectsDB.Order;
+import ObjectsDB.Sale;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author user-ubunto
  */
 public class Report5 extends javax.swing.JFrame {
 
+    private ArrayList<Sale> sales;
+    private ControlDB control;
+    private DefaultTableModel dtmSale;
+    
     /**
      * Creates new form Report5
      */
-    public Report5() {
+    public Report5(ControlDB control1, String clientNIT) {
         initComponents();
+        this.control = control1;
+        this.dtmSale = (DefaultTableModel)this.jTable1.getModel();
+        this.sales = control1.setReport5(clientNIT);
+        setProductsTable();
     }
 
     /**
@@ -30,8 +45,9 @@ public class Report5 extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("Listado de todas las compras realizadas por un cliente.");
 
@@ -40,7 +56,7 @@ public class Report5 extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nombre del Cliente", "Fecha de Venta", "Total", "Codigo Venta"
+                "Codigo de Cliente", "Fecha de Venta", "Total", "Codigo Venta"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -53,6 +69,13 @@ public class Report5 extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTable1);
 
+        jButton1.setText("Exportar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -63,6 +86,10 @@ public class Report5 extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 876, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -71,14 +98,50 @@ public class Report5 extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        ExportSale export = new ExportSale();
+        export.setSales(this.sales);
+        export.exportReport("Listado de todas las compras realizadas por un cliente.");
+    }//GEN-LAST:event_jButton1ActionPerformed
     
+    public void setProductsTable(){
+        cleanTableProducts();
+        String code = "";
+        String dateSale = "";
+        String total = "";
+        String codeSale = "";
+
+        
+        int sizeSales = this.sales.size();
+        for (int i = 0; i < sizeSales; i++) {
+            code = this.sales.get(i).getClientNIT();
+            dateSale = this.sales.get(i).getDateSale();
+            total = this.sales.get(i).getTotal();
+            codeSale = this.sales.get(i).getCode();
+            
+            this.dtmSale.addRow(new Object[]{code,dateSale,total,codeSale});
+        }                
+        
+        this.jTable1.setModel(dtmSale);
+    }
+    
+    public void cleanTableProducts(){
+        int filas=this.jTable1.getRowCount();
+        for (int i = 0;filas>i; i++) {
+            this.dtmSale.removeRow(0);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
